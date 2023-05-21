@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "70549837073",
+    "firebase_url": "https://pet-for-you-8001f-default-rtdb.firebaseio.com",
+    "project_id": "pet-for-you-8001f",
+    "storage_bucket": "pet-for-you-8001f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70549837073:android:b1e490cea0d11f2d22a8b0",
+        "android_client_info": {
+          "package_name": "com.petforyou"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70549837073-1ae6p4425cji37g7dgplnlsmj7ecrohd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAabXkRQ9QXcjLwQahdBdr1cx2j2vbBwu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70549837073-1ae6p4425cji37g7dgplnlsmj7ecrohd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
