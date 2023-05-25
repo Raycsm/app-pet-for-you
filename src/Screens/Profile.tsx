@@ -1,12 +1,11 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Alert} from 'react-native';
-import {StyleSheet} from 'react-native';
-import UserAvatar from 'react-native-user-avatar';
+import {SafeAreaView, StyleSheet, View, Alert} from 'react-native';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {
   Center,
@@ -14,52 +13,85 @@ import {
   KeyboardAvoidingView,
   Pressable,
   VStack,
+  Button,
+  Text,
 } from 'native-base';
 import * as React from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Platform, ScrollView} from 'react-native';
 import {IFormValue} from '../Config/dto/IFormValue';
-import signUpSchema from '../Config/schema/signUpSchema';
-import {ROUTES} from '../Constants';
-import {OutlineButtonOrange} from '../components/Buttons/OutlineButton';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
 import Logo from '../components/Logo';
-import PetsImage from '../components/PetsImage';
-import {Title} from '../components/Title';
-import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  doc,
-  deleteDoc,
-  getDocs,
-  QuerySnapshot,
-} from "firebase/firestore";
+import updateSchema from '../Config/schema/updateSchema';
+import BackAction from '../components/BackAction';
+import { UserProps } from '../Config/dto/userProps';
+import auth from '@react-native-firebase/auth';
 
-export default function Profile({navigation}: any) {
+export default function Profile({navigation, route}: any) {
   const [show, setShow] = React.useState(false);
+  const [user, setUser] = React.useState<UserProps[]>([]);
 
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm<IFormValue>({
-    resolver: yupResolver(signUpSchema),
+    resolver: yupResolver(updateSchema),
   });
+
+  const updateProfile = (data: any, uid: string) => {
+
+    auth().currentUser.updateProfile({
+            nome: data.name,
+            nomeUsuario: data.userName,
+            email: data.email,
+            senha: data.password,
+            confirmarSenha: data.passwordConfirm,
+            telefone: data.phone,
+            endereço: data.address,
+            bairro: data.bairro,
+            cidade: data.city,
+            uf: data.uf,
+          })
+          .then(()=> Alert.alert('Atualizado com sucesso!'))
+          .catch((error) => console.log(error));
+  }
+
+  function UpdateUser() {
+    React.useEffect(() => {
+      const subscriber = firestore()
+        .collection('usuarios')
+        .onSnapshot(querySnapshot => {
+          const data = querySnapshot.docs.map( doc =>{
+            return {
+              id:doc.id,
+              ...doc.data(),
+            };
+          }) as UserProps[];
+
+          setUser(data);
+        });
+
+      // Stop listening for updates when no longer required
+      return () => subscriber();
+    }, []);
+  }
 
 
   return (
     <VStack flex={1}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <SafeAreaView>
+              <BackAction title="Meu perfil" onPress={navigation.goBack} />
+          </SafeAreaView>
         <ScrollView>
           <Center px={10}>
-
-          <UserAvatar size={130} name="Rayane Assis" bgColor="#DB652F" style={style.avatar} />
-
+            <View style={{marginBottom:20}}>
+              <Logo/>
+            </View>
             <Controller
               name="name"
               control={control}
@@ -258,14 +290,9 @@ export default function Profile({navigation}: any) {
 
             <SolidButton
               mt={3}
-              title="Salvar"
-              onPress={handleSubmit}
-            />
-            <OutlineButtonOrange
-              mt={8}
-              mb={8}
-              title="Login"
-              onPress={() => navigation.navigate(ROUTES.LOGIN)}
+              mb={16}
+              title="Atualizar"
+              onPress={handleSubmit(updateProfile)}
             />
 
           </Center>
@@ -283,7 +310,7 @@ const style = StyleSheet.create({
     marginTop: 30,
     fontSize: 20,
     textAlign: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
   },
   logo_home: {
     width: 100,

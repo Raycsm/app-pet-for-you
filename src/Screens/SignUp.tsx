@@ -1,11 +1,10 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Alert} from 'react-native';
-
 import {yupResolver} from '@hookform/resolvers/yup';
 import {
   Center,
@@ -31,7 +30,6 @@ import firestore from '@react-native-firebase/firestore';
 
 export default function SignUp({navigation}: any) {
   const [show, setShow] = React.useState(false);
-  const [isLoading, setIsloading] = React.useState(false);
 
   const {
     control,
@@ -42,7 +40,6 @@ export default function SignUp({navigation}: any) {
   });
 
    function signUpAuth (data: any) {
-      setIsloading(true);
       auth()
         .createUserWithEmailAndPassword(data.email, data.password)
         .then((res) => {
@@ -61,12 +58,11 @@ export default function SignUp({navigation}: any) {
               cidade: data.city,
               uf: data.uf,
             })
-            .then(()=> Alert.alert('conta criada com sucesso!'))
-            .catch((error) => console.log(error))
-            .finally(() => setIsloading(false));
+            .then(()=> Alert.alert('conta criada com sucesso!'));
+            navigation.navigate( ROUTES.LOGIN)
+            .catch((error:any) => console.log(error));
          });
   }
-
 
   return (
     <VStack flex={1}>
@@ -76,7 +72,7 @@ export default function SignUp({navigation}: any) {
           <Center px={10}>
             <Logo />
 
-            <Title style={{marginBottom: 40, marginTop: 10}}>Criar Conta</Title>
+            <Title style={{marginBottom: 30, marginTop: 10}}>Criar Conta</Title>
 
             <Controller
               name="name"

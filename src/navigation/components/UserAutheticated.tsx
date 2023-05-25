@@ -8,10 +8,24 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import React from 'react';
 import {Text} from 'react-native-paper';
 import {ROUTES} from '../../Constants';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {Home, Favorites, Adoption, Profile, AboutUs} from '../../Screens';
+import {Home, Favorites, Adoption, Profile, AboutUs, MyPets, CreatePet, MyApplications} from '../../Screens';
 
 const Tab = createBottomTabNavigator();
+
+const Stack = createNativeStackNavigator();
+
+function AdoptionNavigation(){
+  return (
+    <Stack.Navigator screenOptions={{headerShown:false}}>
+      <Stack.Screen name={ROUTES.ADOPTION} component={Adoption} />
+      <Stack.Screen name={ROUTES.MY_PETS} component={MyPets} />
+      <Stack.Screen name={ROUTES.CREATE_PET} component={CreatePet} />
+      <Stack.Screen name={ROUTES.MY_APPLICATIONS} component={MyApplications} />
+    </Stack.Navigator>
+  );
+}
 
 export default function UserAutheticated() {
 
@@ -72,8 +86,8 @@ export default function UserAutheticated() {
         }}
       />
       <Tab.Screen
-        name={ROUTES.ADOPTION}
-        component={Adoption}
+        name="AdoptionNavigation"
+        component={AdoptionNavigation}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({focused, size}) => (

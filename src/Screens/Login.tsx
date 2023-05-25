@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
@@ -17,31 +16,28 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import Logo from '../components/Logo';
 import PetsImage from '../components/PetsImage';
 import ROUTES from '../Constants/routes';
-import signUpSchema from '../Config/schema/signUpSchema';
+import signInSchema from '../Config/schema/signInSchema';
 import {IFormValue} from '../Config/dto/IFormValue';
 import auth from '@react-native-firebase/auth';
 
 export default function Login({navigation}: any) {
   const [show, setShow] = React.useState(false);
-  const [isLoading, setIsloading] = React.useState(false);
-
-
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm<IFormValue>({
-    resolver: yupResolver(signUpSchema),
+    resolver: yupResolver(signInSchema),
   });
 
   function signInAuth (data:any) {
-    setIsloading(true);
       auth()
         .signInWithEmailAndPassword(data.email, data.password)
         .then(()=> Alert.alert('Logado com sucesso!'))
-        .catch((error) => console.log(error))
-        .finally(() => setIsloading(false));
-  };
+        .catch((error) =>  Alert.alert('Senha ou e-mail errados!', error));
+  }
+
+  
   
   return (
     <VStack flex={1} px={10}>
@@ -117,29 +113,17 @@ export default function Login({navigation}: any) {
 
         <SolidButton
           mt={4}
+          mb={2}
           title="Entrar"
           onPress={handleSubmit(signInAuth)}
         />
 
         <OutlineButtonOrange
           mt={8}
-          mb={8}
+          mb={16}
           title="Criar Conta"
           onPress={() => navigation.navigate(ROUTES.SIGNUP)}
         />
-
-        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.HOME)}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              color: '#DB652F',
-              alignSelf: 'center',
-              marginBottom: 26,
-              textDecorationLine: 'underline',
-            }}>
-            Entrar sem login
-          </Text>
-        </TouchableOpacity>
 
         <PetsImage />
       </Center>

@@ -10,4 +10,4 @@ export {default as Profile} from './Profile';
 export {default as PetProfile} from './PetProfile';
 export {default as MyPets} from './MyPets';
 export {default as CreatePet} from './CreatePet';
-export {default as MyApplications} from './PetApplications';
+export {default as MyApplications} from './MyApplications';

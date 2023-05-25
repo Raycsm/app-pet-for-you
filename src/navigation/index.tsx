@@ -14,7 +14,7 @@ export default function Navigation() {
     return subscriber;
   }, []);
   return (
-    <NavigationContainer>
+    <NavigationContainer independent={true}>
       {user ? <UserAutheticated/> : <AuthNavigation />}
     </NavigationContainer>
   );

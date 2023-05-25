@@ -8,9 +8,6 @@ import {
   AboutUs,
   Adoption,
   Favorites,
-  MyPets,
-  CreatePet,
-  MyApplications,
 } from '../../Screens';
 
 const Stack = createNativeStackNavigator();
@@ -23,9 +20,6 @@ export function MyStack() {
       <Stack.Screen name={ROUTES.ABOUTUS} component={AboutUs} />
       <Stack.Screen name={ROUTES.FAVORITES} component={Favorites} />
       <Stack.Screen name={ROUTES.ADOPTION} component={Adoption} />
-      <Stack.Screen name={ROUTES.MY_PETS} component={MyPets} />
-      <Stack.Screen name={ROUTES.CREATE_PET} component={CreatePet} />
-      <Stack.Screen name={ROUTES.MY_APPLICATIONS} component={MyApplications} />
     </Stack.Navigator>
   );
 }

@@ -3,22 +3,27 @@
 /* eslint-disable react-native/no-inline-styles */
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconMaterialCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Center, Heading, Image, ScrollView, View } from 'native-base';
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import {Center, Image, ScrollView, View} from 'native-base';
+import React, {useRef} from 'react';
+import {StyleSheet} from 'react-native';
 import BackAction from '../components/BackAction';
-import { TextGrey } from '../components/TextGrey';
+import {TextGrey} from '../components/TextGrey';
+import {Title} from '../components/Title';
 
-export default function AboutUs({ navigation }: any) {
+export default function AboutUs({navigation}: any) {
+  const githubB = useRef(null);
+  // https://github.com/Bamarcheti
+  // https://github.com/PhelipeMelo
+  // https://www.linkedin.com/in/rayassismagalhaes/
+  // https://github.com/Raycsm
+  // https://www.linkedin.com/in/raylla-do-sol-dias-858164231
+
   return (
     <ScrollView flex={1}>
-      <BackAction title="" onPress={navigation.goBack} />
+      <BackAction title="Sobre nós" onPress={navigation.goBack} />
       <Center px={6} marginBottom={20}>
         <View style={styles.container} alignItems="center">
           <View alignItems="center" justifyContent="center" textAlign="center">
-            <Heading marginTop={30} fontSize={40} bold>
-              Sobre nós
-            </Heading>
             <TextGrey
               style={{
                 marginX: 30,
@@ -27,18 +32,30 @@ export default function AboutUs({ navigation }: any) {
               }}>
               Somos acadêmicos do cursos de análise e desenvolvimento de
               sistemas da faculdade Insted.
-              <br />
+            </TextGrey>
+            <TextGrey
+              style={{
+                marginX: 30,
+                fontSize: 18,
+                marginTop: 30,
+              }}>
               Como projeto integrador, idealizamos o desenvolvimento de um
               aplicativo de adoção de animais que funcionará como um
               intermediador entre o doador e adotante, facilitando a busca por
               um animalzinho.
             </TextGrey>
           </View>
-          <View style={styles.container}>
-            <Heading marginTop={30} fontSize={40} bold>
-              Integrantes
-            </Heading>
-          </View>
+          {/* <View style={styles.container}> */}
+          <Title
+            style={{
+              marginTop: 30,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              fontSize: 40,
+            }}>
+            Integrantes
+          </Title>
+          {/* </View> */}
           <View justifyContent="center" alignContent="center">
             <View
               flexDirection="column"
@@ -69,17 +86,17 @@ export default function AboutUs({ navigation }: any) {
                     }}
                   > */}
 
-                    <IconAntDesign
-                      name="linkedin-square"
-                      size={24}
-                      color="blue"
-                    />
+                  <IconAntDesign
+                    name="linkedin-square"
+                    size={24}
+                    color="blue"
+                  />
                   {/* </Image> */}
                   <IconAntDesign
                     name="github"
                     size={24}
                     color="black"
-                    ref="https://github.com/Bamarcheti"
+                    ref={githubB}
                   />
                 </View>
               </View>
@@ -112,13 +129,13 @@ export default function AboutUs({ navigation }: any) {
                     name="linkedin-square"
                     size={24}
                     color="blue"
-                    ref="https://www.linkedin.com/in/phelipe-gomes-de-melo-806015190"
+                    ref={githubB}
                   />
                   <IconAntDesign
                     name="github"
                     size={24}
                     color="black"
-                    ref="https://github.com/PhelipeMelo"
+                    ref={githubB}
                   />
                 </View>
               </View>
@@ -151,13 +168,14 @@ export default function AboutUs({ navigation }: any) {
                     name="linkedin-square"
                     size={24}
                     color="blue"
-                    ref="https://www.linkedin.com/in/rayassismagalhaes/"
+                    ref={githubB}
                   />
+
                   <IconAntDesign
                     name="github"
                     size={24}
                     color="black"
-                    ref="https://github.com/Raycsm"
+                    ref={githubB}
                   />
                 </View>
               </View>
@@ -190,13 +208,7 @@ export default function AboutUs({ navigation }: any) {
                     name="linkedin-square"
                     size={24}
                     color="blue"
-                    ref="https://www.linkedin.com/in/raylla-do-sol-dias-858164231"
-                  />
-                  <IconAntDesign
-                    name="github"
-                    size={24}
-                    color="black"
-                    ref="https://github.com/Bamarcheti"
+                    ref={githubB}
                   />
                 </View>
               </View>
@@ -206,7 +218,7 @@ export default function AboutUs({ navigation }: any) {
               justifyContent="center"
               alignItems="center"
               textAlign="center">
-              <TextGrey style={{ marginTop: 30, fontSize: 20 }}>
+              <TextGrey style={{marginTop: 30, fontSize: 20}}>
                 Para mais informações entre em contato.
               </TextGrey>
               <View flexDirection="row" justifyContent="center" marginTop={30}>
@@ -214,9 +226,9 @@ export default function AboutUs({ navigation }: any) {
                   name="gmail"
                   size={24}
                   color="red"
-                  ref="https://github.com/Bamarcheti"
+                  ref={githubB}
                 />
-                <TextGrey style={{ fontSize: 18 }}>
+                <TextGrey style={{fontSize: 18}}>
                   petForYou@outlook.com
                 </TextGrey>
               </View>

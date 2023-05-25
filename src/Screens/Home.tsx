@@ -1,35 +1,33 @@
-/* eslint-disable eslint-comments/no-unused-disable */
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import Foundations from 'react-native-vector-icons/Foundation';
-import { Button, Icon } from 'native-base';
-import  Ionicons  from 'react-native-vector-icons/Ionicons';
+import {Button, Icon} from 'native-base';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Carrousel from '../components/Carrousel/carrousel';
 import {TextGrey} from '../components/TextGrey';
 import auth from '@react-native-firebase/auth';
+import ROUTES from '../Constants/routes';
 
 const images = [
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_cat.jpg?alt=media&token=efac84f3-96b7-44c8-8cea-b5003f7546a5',
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_dog.jpg?alt=media&token=2a579fc8-c108-41b8-8e41-92eb678495f2',
 ];
 
-export default function Home() {
+export default function Home(navigation) {
 
-  function signOutAuth() {
-    auth().signOut();
-  }
-  
+  const signOutAuth = () => {
+    auth().signOut(). then(() => {
+      navigation.navigate(ROUTES.LOGIN);
+    });
+  };
+
   return (
     <View>
       <View style={style.containerHeader}>
 
         <Button
           style={style.filter}
-          onPress={signOutAuth}
           backgroundColor={'#DB652F'}
           rightIcon={<Icon as={Foundations} name="filter" size="xl" />}
         />
@@ -43,7 +41,7 @@ export default function Home() {
 
         <Button
           style={style.exit}
-          onPress={() => signOutAuth}
+          onPress={() => signOutAuth()}
           backgroundColor={'#DB652F'}
           leftIcon={<Icon as={Ionicons} name="ios-exit" size="xl" />}
         />
@@ -67,7 +65,7 @@ const style = StyleSheet.create({
     marginTop: 30,
     fontSize: 20,
     textAlign: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
   },
   logo_home: {
     width: 100,
