@@ -6,8 +6,6 @@ export interface petInterface {
   age: string;
   weight: string;
   porte: string;
-  vacinado: boolean;
-  castrado: boolean;
   type:string;
   description:string;
   phone:number;

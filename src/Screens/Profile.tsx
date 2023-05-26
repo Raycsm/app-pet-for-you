@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
@@ -26,12 +27,12 @@ import Logo from '../components/Logo';
 import firestore from '@react-native-firebase/firestore';
 import updateSchema from '../Config/schema/updateSchema';
 import BackAction from '../components/BackAction';
-import { UserProps } from '../Config/dto/userProps';
 import auth from '@react-native-firebase/auth';
 
 export default function Profile({navigation, route}: any) {
   const [show, setShow] = React.useState(false);
-  const [user, setUser] = React.useState<UserProps[]>([]);
+  const [user, setUser] = React.useState(null);
+
 
   const {
     control,
@@ -41,44 +42,48 @@ export default function Profile({navigation, route}: any) {
     resolver: yupResolver(updateSchema),
   });
 
-  const updateProfile = (data: any, uid: string) => {
+  const userAuth = auth().currentUser;
 
-    auth().currentUser.updateProfile({
-            nome: data.name,
-            nomeUsuario: data.userName,
-            email: data.email,
-            senha: data.password,
-            confirmarSenha: data.passwordConfirm,
-            telefone: data.phone,
-            endereço: data.address,
-            bairro: data.bairro,
-            cidade: data.city,
-            uf: data.uf,
-          })
-          .then(()=> Alert.alert('Atualizado com sucesso!'))
-          .catch((error) => console.log(error));
-  }
+    let uid:any;
 
-  function UpdateUser() {
+    if (userAuth != null) {
+      uid = userAuth.uid;
+
+  const updateUser = (data: any | undefined) => {
+    const userAuth = auth().currentUser;
+
+    let uid:any;
+
+    if (userAuth != null) {
+      uid = userAuth.uid;
+
+      firestore()
+      .collection('usuario').doc(uid).update({
+        senha: data.password,
+        telefone: data.phone,
+        endereço: data.address,
+        bairro: data.bairro,
+        cidade: data.city,
+        uf: data.uf,
+      }).then(()=> Alert.alert('Atualizado com sucesso!'))
+      .catch((error) => {
+        console.log('Erro ao atualizar:', error);
+      });
+    }
+  };
+
+  function getUser({ userId }) {
     React.useEffect(() => {
       const subscriber = firestore()
-        .collection('usuarios')
-        .onSnapshot(querySnapshot => {
-          const data = querySnapshot.docs.map( doc =>{
-            return {
-              id:doc.id,
-              ...doc.data(),
-            };
-          }) as UserProps[];
-
-          setUser(data);
+        .collection('usuario')
+        .doc(userId)
+        .onSnapshot(documentSnapshot => {
+          console.log('User data: ', documentSnapshot.data());
         });
-
-      // Stop listening for updates when no longer required
+  
       return () => subscriber();
-    }, []);
+    }, [userId]);
   }
-
 
   return (
     <VStack flex={1}>
@@ -149,6 +154,7 @@ export default function Profile({navigation, route}: any) {
                   placeholder="E-mail"
                   onChangeText={onChange}
                   errorMessage={errors.email?.message}
+                 
                 />
               )}
             />
@@ -292,7 +298,7 @@ export default function Profile({navigation, route}: any) {
               mt={3}
               mb={16}
               title="Atualizar"
-              onPress={handleSubmit(updateProfile)}
+              onPress={handleSubmit(updateUser)}
             />
 
           </Center>

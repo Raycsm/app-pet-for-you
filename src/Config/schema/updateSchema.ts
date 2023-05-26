@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import * as yup from 'yup';
 
+
 const updateSchema = yup.object({
 
   name: yup
