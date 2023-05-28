@@ -9,6 +9,9 @@ import React from 'react';
 import {Text} from 'react-native-paper';
 import {ROUTES} from '../../Constants';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import  auth  from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+
 
 import {Home, Favorites, Adoption, Profile, AboutUs, MyPets, CreatePet, MyApplications} from '../../Screens';
 
@@ -28,6 +31,8 @@ function AdoptionNavigation(){
 }
 
 export default function UserAutheticated() {
+
+  const [userData, setUserData] = React.useState<any>(null);
 
   return (
     <Tab.Navigator
@@ -145,8 +150,10 @@ export default function UserAutheticated() {
             </>
           ),
         }}
+        initialParams={{ userData }}
       />
     </Tab.Navigator>
   );
-}
+};
+
 

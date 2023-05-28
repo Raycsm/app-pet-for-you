@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 export interface petInterface {
+  petImg:string;
   namePet: string;
   sexPet: string;
   race: string;

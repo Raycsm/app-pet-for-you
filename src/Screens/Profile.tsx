@@ -1,3 +1,6 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
@@ -32,6 +35,8 @@ import auth from '@react-native-firebase/auth';
 export default function Profile({navigation, route}: any) {
   const [show, setShow] = React.useState(false);
   const [user, setUser] = React.useState(null);
+  const { userData, defaultValue } = route.params;
+  const [defaultValues, setDefaultValues] = React.useState<any>({});
 
 
   const {
@@ -50,25 +55,51 @@ export default function Profile({navigation, route}: any) {
       uid = userAuth.uid;
 
   const updateUser = (data: any | undefined) => {
-    const userAuth = auth().currentUser;
-
-    let uid:any;
 
     if (userAuth != null) {
-      uid = userAuth.uid;
+      const uid = userAuth.uid;
+
+      React.useEffect(() => {
+        setDefaultValues({
+          ...defaultValues,
+          phone: userData.telefone,
+        });
+      }, [defaultValue]);
+
+      const updateData: any = {};
+
+      if (data.password) {
+        updateData.senha = data.password;
+      }
+
+      if (data.phone) {
+        updateData.telefone = data.phone;
+      }
+
+      if (data.address) {
+        updateData.endereço = data.address;
+      }
+
+      if (data.bairro) {
+        updateData.bairro = data.bairro;
+      }
+
+      if (data.city) {
+        updateData.cidade = data.city;
+      }
+
+      if (data.uf) {
+        updateData.uf = data.uf;
+      }
 
       firestore()
-      .collection('usuario').doc(uid).update({
-        senha: data.password,
-        telefone: data.phone,
-        endereço: data.address,
-        bairro: data.bairro,
-        cidade: data.city,
-        uf: data.uf,
-      }).then(()=> Alert.alert('Atualizado com sucesso!'))
-      .catch((error) => {
-        console.log('Erro ao atualizar:', error);
-      });
+        .collection('usuario')
+        .doc(uid)
+        .update(updateData)
+        .then(() => Alert.alert('Atualizado com sucesso!'))
+        .catch((error) => {
+          console.log('Erro ao atualizar:', error);
+        });
     }
   };
 
@@ -78,12 +109,16 @@ export default function Profile({navigation, route}: any) {
         .collection('usuario')
         .doc(userId)
         .onSnapshot(documentSnapshot => {
-          console.log('User data: ', documentSnapshot.data());
+          if (documentSnapshot.exists) {
+            const data = documentSnapshot.data();
+            setDefaultValues(data);
+          }
         });
-  
+
       return () => subscriber();
-    }, [userId]);
+    }, []);
   }
+
 
   return (
     <VStack flex={1}>
@@ -154,7 +189,6 @@ export default function Profile({navigation, route}: any) {
                   placeholder="E-mail"
                   onChangeText={onChange}
                   errorMessage={errors.email?.message}
-                 
                 />
               )}
             />
@@ -209,6 +243,7 @@ export default function Profile({navigation, route}: any) {
                   }
                   placeholder="Telefone"
                   onChangeText={onChange}
+                  defaultValue={defaultValues.phone}
                   errorMessage={errors.phone?.message}
                 />
               )}
@@ -307,37 +342,5 @@ export default function Profile({navigation, route}: any) {
     </VStack>
   );
 }
-
-const style = StyleSheet.create({
-  containerHeader: {
-    flexDirection: 'row',
-  },
-  text: {
-    marginTop: 30,
-    fontSize: 20,
-    textAlign: 'center',
-    alignContent: 'center',
-  },
-  logo_home: {
-    width: 100,
-    height: 60,
-    marginLeft: 90,
-    marginTop: 50,
-  },
-  exit: {
-    width: 40,
-    height: 40,
-    marginLeft: 60,
-    marginTop: 60,
-    backgroundColor:'#DB652F',
-    borderRadius:5,
-  },
-  filter: {
-    marginLeft: 30,
-    marginTop: 60,
-    width: 40,
-    height: 40,
-    borderRadius:5,
-  },
-});
+};
 

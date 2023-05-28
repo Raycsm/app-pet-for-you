@@ -1,20 +1,36 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/jsx-no-duplicate-props */
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Foundations from 'react-native-vector-icons/Foundation';
-import {Button, Icon} from 'native-base';
+import {Button, Text, Icon, ScrollView} from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Carrousel from '../components/Carrousel/carrousel';
 import {TextGrey} from '../components/TextGrey';
 import auth from '@react-native-firebase/auth';
 import ROUTES from '../Constants/routes';
+import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+import PetInfo from '../components/PetInfo';
 
 const images = [
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_cat.jpg?alt=media&token=efac84f3-96b7-44c8-8cea-b5003f7546a5',
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_dog.jpg?alt=media&token=2a579fc8-c108-41b8-8e41-92eb678495f2',
 ];
 
+const petsCategories = [
+  {name: 'Gatos', icon: 'cat'},
+  {name: 'Cachorros', icon: 'dog'},
+  {name: 'Pássaros', icon: 'bird'},
+  {name: 'Roedores', icon: 'rodent'},
+  {name: 'Outros', icon: 'rabbit'},
+];
+
+
 export default function Home(navigation) {
+
+  const [selectcategory, setselectCategory] = React.useState(0);
 
   const signOutAuth = () => {
     auth().signOut(). then(() => {
@@ -24,6 +40,7 @@ export default function Home(navigation) {
 
   return (
     <View>
+      <ScrollView>
       <View style={style.containerHeader}>
 
         <Button
@@ -46,13 +63,30 @@ export default function Home(navigation) {
           leftIcon={<Icon as={Ionicons} name="ios-exit" size="xl" />}
         />
       </View>
-
+      
       <Carrousel images={images} />
+
+      <View style={style.categoryPet}>
+          {petsCategories.map((item, index) => (
+            <View key={'pets' + index} style={{alignItems:'center'}}>
+            <TouchableOpacity
+              onPress={()=> {setselectCategory(index);}}
+              style={[style.buttonCategories,{
+              backgroundColor: selectcategory === index ? '#DB652F' : '#a1a1a1',
+            }]}>
+              <Icons name ={item.icon} color={'white'} size={30}/>
+            </TouchableOpacity>
+              <Text style={style.categoryName}>{item.name}</Text>
+            </View>
+          ))}
+      </View>
 
         <TextGrey style={style.text}>
           Pets perto de você
         </TextGrey>
 
+        <PetInfo/>
+        </ScrollView>
     </View>
   );
 }
@@ -88,4 +122,24 @@ const style = StyleSheet.create({
     height: 40,
     borderRadius:5,
   },
+  categoryPet:{
+    flexDirection:'row',
+    marginLeft:5,
+    justifyContent: 'space-around',
+    marginTop:20,
+  },
+  buttonCategories:{
+    height:45,
+    width:45,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    backgroundColor: '#DB652F',
+  },
+  categoryName:{
+    color: 'black',
+    fontSize:12,
+    marginTop:5,
+    fontWeight:'bold',
+  }
 });

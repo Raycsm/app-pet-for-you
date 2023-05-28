@@ -20,7 +20,7 @@ import {
   WarningOutlineIcon,
   Box,
   TextArea,
-  Button,
+  Image,
 } from 'native-base';
 import  React, {useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
@@ -37,67 +37,37 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
-import ImageCropPicker from 'react-native-image-crop-picker';
 
 
 
 export default function CreatePet({navigation}: any) {
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string>();
 
     const choosePhoto = () =>{
       ImagePicker.openPicker({
         width:500,
         height:500,
         cropping:true,
-        includeBase64:true,
       }).then((photo) => {
-        console.log(photo);
-
-        const imageUri = {uri:result.uri};
-        setImage(imageUri);
-
+        if ('path' in photo){
+          console.log(photo.path);
+          setImage(photo.path);
+        }
       }).catch(err => console.log(err));
     };
 
-    const uploadImage = async () => {
-      
-      const { imageUri } = image;
-      const filename = uri.substring(uri.lastIndexOf('/') + 1);
-      const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-  
-      // Add timestamp to File Name
-      const extension = filename.split('.').pop(); 
-      const name = filename.split('.').slice(0, -1).join('.');
-      filename = name + Date.now() + '.' + extension;
-  
-      setUploading(true);
-      setTransferred(0);
-  
-      const storageRef = storage().ref(`photos/${filename}`);
-      const task = storageRef.putFile(uploadUri);
-  
-      try {
-        await task;
 
-        const url = await storageRef.getDownloadURL();
-  
-        setImage(null);
+  const addPet = async (data: any) => {
 
-        return url;
-  
-      } catch (e) {
-        console.log(e);
-        return null;
-      }
-  
-    };
-
-  function addPet (data: any) {
+    const imagePetUrl = await uploadImage();
+    console.log('Image Url: ', imagePetUrl);
 
       firestore()
       .collection('animal')
       .add({
+        petImg: imagePetUrl,
+        IdUser: data.uid,
         nomePet: data.namePet,
         tipoPet: data.type,
         sexoPet: data.sexPet,
@@ -116,6 +86,21 @@ export default function CreatePet({navigation}: any) {
       navigation.navigate( ROUTES.MY_PETS)
       .catch((error:any) => console.log(error));
   }
+
+  const uploadImage = async () => {
+    if ( image == null ) {
+      return null;
+    }
+
+    const reference = storage().ref(`PetPhoto/${image}`);
+    await reference.putFile(image);
+    const url = await storage().ref(`PetPhoto/${image}`).getDownloadURL();
+
+    return url;
+
+
+  };
+
 
   const {
     control,
@@ -137,6 +122,8 @@ export default function CreatePet({navigation}: any) {
           <Center px={10}>
 
             <View style={{marginBottom:25}} />
+
+            {image != null ? <Image style={style.photoPet} source={{uri: image}} alt="petPhoto" /> : null}
             
             <SolidButton
               mt={3}
@@ -443,6 +430,12 @@ const style = StyleSheet.create({
   select:{
     marginRight:10,
   },
+  photoPet:{
+    marginBottom: 15,
+    width:'100%',
+    height:250,
+    borderRadius:50
+  }
 });
 
 

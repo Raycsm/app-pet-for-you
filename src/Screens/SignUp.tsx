@@ -58,7 +58,7 @@ export default function SignUp({navigation}: any) {
               cidade: data.city,
               uf: data.uf,
             })
-            .then(()=> Alert.alert('conta criada com sucesso!'));
+            .then(()=> Alert.alert('Conta criada com sucesso!'));
             navigation.navigate( ROUTES.LOGIN)
             .catch((error:any) => console.log(error));
          });
