@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {Box, Image, ScrollView, Text, VStack} from 'native-base';
 import React from 'react';
 import PessoaCard from '../components/Candidates';

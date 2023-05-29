@@ -1,139 +1,67 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {SafeAreaView,View, Alert} from 'react-native';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {
-  Center,
-  Icon,
-  KeyboardAvoidingView,
-  Pressable,
-  VStack,
-} from 'native-base';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import {Center, Icon, KeyboardAvoidingView, Pressable, VStack} from 'native-base';
 import * as React from 'react';
 import {Controller, useForm} from 'react-hook-form';
-import {Platform, ScrollView} from 'react-native';
+import {Alert, Platform, ScrollView} from 'react-native';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {OutlineButtonOrange} from '../components/Buttons/OutlineButton';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
 import Logo from '../components/Logo';
-import firestore from '@react-native-firebase/firestore';
-import updateSchema from '../Config/schema/updateSchema';
-import BackAction from '../components/BackAction';
-import auth from '@react-native-firebase/auth';
+import PetsImage from '../components/PetsImage';
+import {Title} from '../components/Title';
+import signUpSchema from '../config/schema/signUpSchema';
+import {ROUTES} from '../constants';
 
-export default function Profile({navigation, route}) {
+export default function SignUp({navigation, getUsers}) {
   const [show, setShow] = React.useState(false);
-  const { userData, defaultValue } = route.params;
-  const [defaultValues, setDefaultValues] = React.useState({});
-
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: {errors}
   } = useForm({
-    resolver: yupResolver(updateSchema),
+    resolver: yupResolver(signUpSchema)
   });
 
-  const userAuth = auth().currentUser;
-
-    let id;
-
-    if (userAuth != null) {
-      id = userAuth.uid;
-
-  const updateUser = (data) => {
-
-    if (userAuth != null) {
-      const uid = userAuth.uid;
-
-      React.useEffect(() => {
-        setDefaultValues({
-          ...defaultValues,
-          phone: userData.telefone,
-        });
-      }, [defaultValue]);
-
-      const updateData = {};
-
-      if (data.password) {
-        updateData.senha = data.password;
-      }
-
-      if (data.phone) {
-        updateData.telefone = data.phone;
-      }
-
-      if (data.address) {
-        updateData.endereço = data.address;
-      }
-
-      if (data.bairro) {
-        updateData.bairro = data.bairro;
-      }
-
-      if (data.city) {
-        updateData.cidade = data.city;
-      }
-
-      if (data.uf) {
-        updateData.uf = data.uf;
-      }
-
-      firestore()
-        .collection('usuario')
-        .doc(uid)
-        .update(updateData)
-        .then(() => Alert.alert('Atualizado com sucesso!'))
-        .catch((error) => {
-          console.log('Erro ao atualizar:', error);
-        });
-    }
-  };
-
-  function getUser({ userId }) {
-    React.useEffect(() => {
-      const subscriber = firestore()
-        .collection('usuario')
-        .doc(userId)
-        .onSnapshot(documentSnapshot => {
-          if (documentSnapshot.exists) {
-            const data = documentSnapshot.data();
-            setDefaultValues(data);
-          }
-        });
-
-      return () => subscriber();
-    }, []);
+  function signUpAuth(data) {
+    auth()
+      .createUserWithEmailAndPassword(data.email, data.password)
+      .then(res => {
+        firestore()
+          .collection('usuario')
+          .doc(res.user.uid)
+          .set({
+            nome: data.name,
+            email: data.email,
+            senha: data.password,
+            confirmarSenha: data.passwordConfirm,
+            bairro: data.bairro,
+            cidade: data.city,
+            uf: data.uf
+          })
+          .then(() => Alert.alert('Conta criada com sucesso!'));
+        navigation.navigate(ROUTES.LOGIN).catch(error => console.log(error));
+      });
   }
-
 
   return (
     <VStack flex={1}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <SafeAreaView>
-              <BackAction title="Meu perfil" onPress={navigation.goBack} />
-          </SafeAreaView>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView>
           <Center px={10}>
-            <View style={{marginBottom:20}}>
-              <Logo/>
-            </View>
+            <Logo />
+
+            <Title style={{marginBottom: 30, marginTop: 10}}>Criar Conta</Title>
+
             <Controller
               name="name"
               control={control}
               render={({field: {onChange}}) => (
                 <Input
-                  isDisabled
                   InputLeftElement={
                     <Icon
                       as={<IconmaterialIcons name="person" />}
@@ -153,14 +81,8 @@ export default function Profile({navigation, route}) {
               control={control}
               render={({field: {onChange}}) => (
                 <Input
-                  isDisabled
                   InputLeftElement={
-                    <Icon
-                      as={<IconAntDesign name="idcard" />}
-                      size={5}
-                      ml="3"
-                      color="muted.400"
-                    />
+                    <Icon as={<IconAntDesign name="idcard" />} size={5} ml="3" color="muted.400" />
                   }
                   placeholder="Nome de Usuário"
                   onChangeText={onChange}
@@ -173,7 +95,6 @@ export default function Profile({navigation, route}) {
               control={control}
               render={({field: {onChange}}) => (
                 <Input
-                  isDisabled
                   InputLeftElement={
                     <Icon
                       as={<IconmaterialIcons name="email" />}
@@ -206,11 +127,7 @@ export default function Profile({navigation, route}) {
                   InputRightElement={
                     <Pressable onPress={() => setShow(!show)}>
                       <Icon
-                        as={
-                          <IconmaterialIcons
-                            name={show ? 'visibility' : 'visibility-off'}
-                          />
-                        }
+                        as={<IconmaterialIcons name={show ? 'visibility' : 'visibility-off'} />}
                         size={5}
                         mr="5"
                         color="muted.400"
@@ -220,6 +137,37 @@ export default function Profile({navigation, route}) {
                   placeholder="Senha"
                   onChangeText={onChange}
                   errorMessage={errors.password?.message}
+                />
+              )}
+            />
+
+            <Controller
+              name="passwordConfirm"
+              control={control}
+              render={({field: {onChange}}) => (
+                <Input
+                  type={show ? 'text' : 'password'}
+                  InputLeftElement={
+                    <Icon
+                      as={<IconmaterialIcons name="lock" />}
+                      size={5}
+                      ml="3"
+                      color="muted.400"
+                    />
+                  }
+                  InputRightElement={
+                    <Pressable onPress={() => setShow(!show)}>
+                      <Icon
+                        as={<IconmaterialIcons name={show ? 'visibility' : 'visibility-off'} />}
+                        size={5}
+                        mr="5"
+                        color="muted.400"
+                      />
+                    </Pressable>
+                  }
+                  placeholder="Confirme a senha"
+                  onChangeText={onChange}
+                  errorMessage={errors.passwordConfirm?.message}
                 />
               )}
             />
@@ -239,7 +187,6 @@ export default function Profile({navigation, route}) {
                   }
                   placeholder="Telefone"
                   onChangeText={onChange}
-                  defaultValue={defaultValues.phone}
                   errorMessage={errors.phone?.message}
                 />
               )}
@@ -325,18 +272,17 @@ export default function Profile({navigation, route}) {
               )}
             />
 
-            <SolidButton
-              mt={3}
-              mb={16}
-              title="Atualizar"
-              onPress={handleSubmit(updateUser)}
+            <SolidButton mt={3} title="Criar Conta" onPress={handleSubmit(signUpAuth)} />
+            <OutlineButtonOrange
+              mt={8}
+              mb={8}
+              title="Login"
+              onPress={() => navigation.navigate(ROUTES.LOGIN)}
             />
-
+            <PetsImage />
           </Center>
         </ScrollView>
       </KeyboardAvoidingView>
     </VStack>
   );
 }
-};
-
