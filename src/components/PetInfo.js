@@ -12,22 +12,14 @@ import React, {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 import ContextMenu from './ContextMenu';
 
-interface PetInfoProps {
-  imageUrl?: string;
-  nome?: string;
-  idade?: number;
-  sexo?: string;
-  porte?: string;
-  tempo?: string;
-}
 
-const PetInfo: React.FC<PetInfoProps> = ({
-  imageUrl = 'https://via.placeholder.com/',
-  nome = 'Nome do Pet',
-  idade = 0,
-  sexo = 'Desconhecido',
-  porte = 'Desconhecido',
-  tempo = 'Desconhecido',
+const PetInfo = ({
+  imageUrl = 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/cat.jpg?alt=media&token=9a3182f1-4f48-450d-a12c-875ac2db5e7a',
+  nome = 'Lila',
+  idade = 10,
+  sexo = 'Macho',
+  porte = 'Médio',
+  raca = 'Vira-lata',
 }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const menuOptions = [
@@ -45,7 +37,7 @@ const PetInfo: React.FC<PetInfoProps> = ({
     setMenuVisible(false);
   };
 
-  const handleOptionSelect = (option: string) => {
+  const handleOptionSelect = (option) => {
     console.log(option);
     setMenuVisible(false);
   };
@@ -54,8 +46,10 @@ const PetInfo: React.FC<PetInfoProps> = ({
     <Box alignItems="center">
       <TouchableOpacity onPress={handleMenuClick}>
         <Box
-          maxW="80"
-          w="full"
+          width={300}
+          height={300}
+          mb={16}
+          mt={8}
           rounded="lg"
           overflow="hidden"
           borderColor="coolGray.200"
@@ -72,8 +66,11 @@ const PetInfo: React.FC<PetInfoProps> = ({
             backgroundColor: 'gray.50',
           }}>
           <Box>
-            <AspectRatio w="200%" ratio={16 / 9}>
-              <Image source={{uri: imageUrl}} alt="image" />
+            <AspectRatio w="120%" ratio={16 / 9}>
+            <Image
+              source={{uri:imageUrl}}
+              alt="imagePet"
+            />
             </AspectRatio>
           </Box>
           <Stack p="4" space={3}>
@@ -82,44 +79,20 @@ const PetInfo: React.FC<PetInfoProps> = ({
                 {nome}
               </Heading>
               <HStack space={15} justifyContent="space-between">
-                <Text
-                  fontSize="base"
-                  fontWeight="500"
-                  _light={{color: 'orange.600'}}
-                  _dark={{color: 'orange.500'}}>
+              <Text>
+                  {raca}
+                </Text>
+                <Text>
                   {idade} anos
                 </Text>
-                <Text
-                  fontSize="base"
-                  fontWeight="500"
-                  _light={{color: 'orange.600'}}
-                  _dark={{color: 'orange.500'}}>
+                <Text>
                   {sexo}
                 </Text>
-                <Text
-                  fontSize="base"
-                  fontWeight="500"
-                  _light={{color: 'orange.600'}}
-                  _dark={{color: 'orange.500'}}>
+                <Text>
                   {porte}
                 </Text>
               </HStack>
             </Stack>
-            <HStack
-              alignItems="center"
-              space={4}
-              justifyContent="space-between">
-              <HStack alignItems="center">
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: 'warmGray.200',
-                  }}
-                  fontWeight="400">
-                  {tempo}
-                </Text>
-              </HStack>
-            </HStack>
           </Stack>
         </Box>
       </TouchableOpacity>

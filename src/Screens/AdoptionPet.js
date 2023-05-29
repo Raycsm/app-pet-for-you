@@ -7,7 +7,7 @@ import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommun
 import BackAction from '../components/BackAction';
 import {ROUTES} from '../Constants';
 
-export default function AdoptionButtons({navigation}: any) {
+export default function AdoptionButtons({navigation}) {
   return (
     <View>
       <BackAction title="Adoção" onPress={navigation.goBack} />

@@ -4,13 +4,8 @@ import {Box, HStack, Icon, Image, Spacer, Text, VStack} from 'native-base';
 import React from 'react';
 import {Dimensions} from 'react-native';
 
-interface PessoaCardProps {
-  imageUrl?: string;
-  nome: string;
-  endereco: string;
-}
 
-const PessoaCard: React.FC<PessoaCardProps> = ({imageUrl, nome, endereco}) => {
+const PessoaCard = ({imageUrl, nome, endereco}) => {
   const screenWidth = Dimensions.get('window').width;
 
   return (

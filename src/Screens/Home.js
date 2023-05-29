@@ -1,6 +1,7 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react/jsx-no-duplicate-props */
-/* eslint-disable react/jsx-no-undef */
+
+
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
@@ -63,7 +64,7 @@ export default function Home(navigation) {
           leftIcon={<Icon as={Ionicons} name="ios-exit" size="xl" />}
         />
       </View>
-      
+
       <Carrousel images={images} />
 
       <View style={style.categoryPet}>
@@ -84,8 +85,10 @@ export default function Home(navigation) {
         <TextGrey style={style.text}>
           Pets perto de você
         </TextGrey>
+        <View>
+          <PetInfo/>
+        </View>
 
-        <PetInfo/>
         </ScrollView>
     </View>
   );
@@ -141,5 +144,5 @@ const style = StyleSheet.create({
     fontSize:12,
     marginTop:5,
     fontWeight:'bold',
-  }
+  },
 });

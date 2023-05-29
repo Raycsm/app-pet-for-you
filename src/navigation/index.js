@@ -1,14 +1,15 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable prettier/prettier */
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import AuthNavigation from './components/AuthNavigation';
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import UserAutheticated from './components/UserAutheticated';
 import firestore from '@react-native-firebase/firestore';
 
 export default function Navigation() {
-  const [user, setUser] = React.useState<FirebaseAuthTypes.User | null>(null);
+  const [user, setUser] = React.useState(null);
 
   function getUser({ userId }) {
 

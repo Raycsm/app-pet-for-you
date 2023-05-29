@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -9,8 +11,6 @@ import React from 'react';
 import {Text} from 'react-native-paper';
 import {ROUTES} from '../../Constants';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import  auth  from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 
 
 import {Home, Favorites, Adoption, Profile, AboutUs, MyPets, CreatePet, MyApplications} from '../../Screens';
@@ -32,7 +32,7 @@ function AdoptionNavigation(){
 
 export default function UserAutheticated() {
 
-  const [userData, setUserData] = React.useState<any>(null);
+  const [userData, setUserData] = React.useState(null);
 
   return (
     <Tab.Navigator
@@ -154,6 +154,6 @@ export default function UserAutheticated() {
       />
     </Tab.Navigator>
   );
-};
+}
 
 

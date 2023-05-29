@@ -3,11 +3,8 @@ import React, {useRef, useState} from 'react';
 import {Animated, Image, StyleSheet, View} from 'react-native';
 import useInterval from './useInterval';
 
-type Props = {
-  images: string[];
-};
 
-const Carousel: React.FC<Props> = ({images}) => {
+const Carousel = ({images}) => {
   const animation = useRef(new Animated.Value(0));
   const [currentImage, setCurrentImage] = useState(0);
   useInterval(() => handleAnimation(), 5000);

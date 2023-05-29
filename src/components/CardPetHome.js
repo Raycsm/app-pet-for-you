@@ -1,31 +1,8 @@
-/* eslint-disable react/jsx-no-undef */
+/* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 import {Box, AspectRatio, Stack, Heading, HStack, Image, Text, View} from 'native-base';
 import React from 'react';
-import StyleSheets from 'react-native';
-import AuthNavigation from './components/AuthNavigation';
 import { SolidButton } from './Buttons/SolidButton';
-
-type PetsProps = {
-  petImg: string;
-  namePet: string;
-  sexPet: string;
-  race: string;
-  age: string;
-  weight: string;
-  porte: string;
-  type: string;
-  description: string;
-  phone: number;
-  email: string;
-  bairro: string;
-  city: string;
-  uf: string;
-};
-
-type Props = {
-  data: PetsProps;
-};
 
 export function CardPetHome() {
   return (
@@ -81,7 +58,6 @@ export function CardPetHome() {
             </Stack>
           <HStack alignItems="center">
             <HStack alignItems="center">
-              
             <SolidButton
               title="Detalhes"
               width={140}

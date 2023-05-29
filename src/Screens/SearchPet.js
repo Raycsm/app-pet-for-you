@@ -3,10 +3,10 @@ import React from 'react';
 import {SafeAreaView} from 'react-native';
 import BackAction from '../components/BackAction';
 
-export default function PetApplications({navigation}: any) {
+export default function SearchPet({navigation}) {
   return (
     <SafeAreaView>
-      <BackAction title="PetApplications" onPress={navigation.goBack} />
+      <BackAction title="SearchPet" onPress={navigation.goBack} />
     </SafeAreaView>
   );
 }

@@ -1,12 +1,9 @@
 /* eslint-disable prettier/prettier */
-import {Button, IButtonProps, Text} from 'native-base';
+import {Button, Text} from 'native-base';
 import React from 'react';
 
-type Props = IButtonProps & {
-  title: string;
-};
 
-export function SolidButton({title, ...rest}: Props) {
+export function SolidButton({title, ...rest}) {
   return (
     <Button
       w="full"

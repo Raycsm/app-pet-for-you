@@ -24,12 +24,7 @@ const petSchema = yup.object({
   porte: yup
     .string()
     .required('Digite o porte do pet'),
-
-  email: yup
-    .string()
-    .email('Digite um e-mail válido'),
-  phone: yup
-    .string(),
+    
   bairro: yup.string().required('Digite o seu bairro'),
   city: yup.string().required('Digite sua cidade'),
   uf: yup

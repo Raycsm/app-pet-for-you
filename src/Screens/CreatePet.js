@@ -1,19 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {StyleSheet, View, SafeAreaView, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, SafeAreaView} from 'react-native';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {
   Center,
   KeyboardAvoidingView,
   VStack,
-  Radio,
-  Switch,
-  Text,
   Select,
   FormControl,
   CheckIcon,
@@ -28,21 +22,17 @@ import {Platform, ScrollView, Alert} from 'react-native';
 import petSchema from '../Config/schema/petSchema';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
-import Logo from '../components/Logo';
 import { ROUTES } from '../Constants';
 import BackAction from '../components/BackAction';
 import 'firebase/storage';
-import { petInterface } from '../Config/dto/petInterface';
-import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
 
 
+export default function CreatePet({navigation}) {
 
-export default function CreatePet({navigation}: any) {
-
-  const [image, setImage] = useState<string>();
+  const [image, setImage] = useState();
 
     const choosePhoto = () =>{
       ImagePicker.openPicker({
@@ -58,15 +48,13 @@ export default function CreatePet({navigation}: any) {
     };
 
 
-  const addPet = async (data: any) => {
-
+  const addPet = async (data) => {
     const imagePetUrl = await uploadImage();
     console.log('Image Url: ', imagePetUrl);
 
       firestore()
       .collection('animal')
       .add({
-        petImg: imagePetUrl,
         IdUser: data.uid,
         nomePet: data.namePet,
         tipoPet: data.type,
@@ -81,11 +69,13 @@ export default function CreatePet({navigation}: any) {
         bairro: data.bairro,
         cidade: data.city,
         uf: data.uf,
+        petImg: imagePetUrl,
       })
       .then(()=> Alert.alert('Pet criado com sucesso!'));
       navigation.navigate( ROUTES.MY_PETS)
-      .catch((error:any) => console.log(error));
-  }
+      .catch((error) => console.log(error));
+
+  };
 
   const uploadImage = async () => {
     if ( image == null ) {
@@ -106,7 +96,7 @@ export default function CreatePet({navigation}: any) {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<petInterface>({
+  } = useForm({
     resolver: yupResolver(petSchema),
   });
 
@@ -124,7 +114,7 @@ export default function CreatePet({navigation}: any) {
             <View style={{marginBottom:25}} />
 
             {image != null ? <Image style={style.photoPet} source={{uri: image}} alt="petPhoto" /> : null}
-            
+
             <SolidButton
               mt={3}
               mb={6}
@@ -155,7 +145,7 @@ export default function CreatePet({navigation}: any) {
                               fontSize="md"
                               mb={6}
                               selectedValue={value}
-                              onValueChange={(itemValue: string) => {
+                              onValueChange={(itemValue) => {
                                 onChange(itemValue);
                               }}
                               style={style.select}
@@ -184,7 +174,7 @@ export default function CreatePet({navigation}: any) {
                   <FormControl  isRequired >
                       <Select width={310}
                               selectedValue={value}
-                              onValueChange={(itemValue: string) => {
+                              onValueChange={(itemValue) => {
                                 onChange(itemValue);
                               }}
                               bg={'#dfdfdf'}
@@ -223,7 +213,7 @@ export default function CreatePet({navigation}: any) {
                               fontSize="md"
                               mb={6}
                               selectedValue={value}
-                              onValueChange={(itemValue: string) => {
+                              onValueChange={(itemValue) => {
                                 onChange(itemValue);
                               }}
                               style={style.select}
@@ -434,8 +424,8 @@ const style = StyleSheet.create({
     marginBottom: 15,
     width:'100%',
     height:250,
-    borderRadius:50
-  }
+    borderRadius:50,
+  },
 });
 
 

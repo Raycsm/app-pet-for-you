@@ -17,24 +17,23 @@ import Logo from '../components/Logo';
 import PetsImage from '../components/PetsImage';
 import ROUTES from '../Constants/routes';
 import signInSchema from '../Config/schema/signInSchema';
-import {IFormValue} from '../Config/dto/IFormValue';
 import auth from '@react-native-firebase/auth';
 
-export default function Login({navigation}: any) {
+export default function Login({navigation}) {
   const [show, setShow] = React.useState(false);
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<IFormValue>({
+  } = useForm({
     resolver: yupResolver(signInSchema),
   });
 
-  function signInAuth (data:any) {
+  function signInAuth (data) {
       auth()
         .signInWithEmailAndPassword(data.email, data.password)
         .then(()=> Alert.alert('Logado com sucesso!'))
-        .catch((error) =>  Alert.alert('Senha ou e-mail errados!', error));
+        .catch((error) =>  Alert.alert('Senha ou e-mail errados!', error.message));
   }
 
   

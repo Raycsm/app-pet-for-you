@@ -16,7 +16,6 @@ import {
 import * as React from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Platform, ScrollView} from 'react-native';
-import {IFormValue} from '../Config/dto/IFormValue';
 import signUpSchema from '../Config/schema/signUpSchema';
 import {ROUTES} from '../Constants';
 import {OutlineButtonOrange} from '../components/Buttons/OutlineButton';
@@ -28,18 +27,19 @@ import {Title} from '../components/Title';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-export default function SignUp({navigation}: any) {
+
+export default function SignUp({navigation, getUsers}) {
   const [show, setShow] = React.useState(false);
 
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<IFormValue>({
+  } = useForm({
     resolver: yupResolver(signUpSchema),
   });
 
-   function signUpAuth (data: any) {
+   function signUpAuth (data) {
       auth()
         .createUserWithEmailAndPassword(data.email, data.password)
         .then((res) => {
@@ -48,19 +48,16 @@ export default function SignUp({navigation}: any) {
             .doc(res.user.uid)
             .set({
               nome: data.name,
-              nomeUsuario: data.userName,
               email: data.email,
               senha: data.password,
               confirmarSenha: data.passwordConfirm,
-              telefone: data.phone,
-              endereço: data.address,
               bairro: data.bairro,
               cidade: data.city,
               uf: data.uf,
             })
             .then(()=> Alert.alert('Conta criada com sucesso!'));
             navigation.navigate( ROUTES.LOGIN)
-            .catch((error:any) => console.log(error));
+            .catch((error) => console.log(error));
          });
   }
 

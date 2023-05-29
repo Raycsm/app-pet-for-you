@@ -12,24 +12,23 @@ import {Title} from '../components/Title';
 import auth from '@react-native-firebase/auth';
 import { Alert } from 'react-native';
 import signUpSchema from '../Config/schema/signUpSchema';
-import {IFormValue} from '../Config/dto/IFormValue';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 
-export default function ForgotPassword({navigation}: any) {
+export default function ForgotPassword({navigation}) {
 
-  const forgotPasswordAuth = (data:any) => {
+  const forgotPasswordAuth = (data) => {
     auth()
       .sendPasswordResetEmail(data.email)
       .then(()=>console.log(data))
-      .catch((error:any) =>Alert.alert('E-mail não enviado,', error));
+      .catch((error) =>Alert.alert('E-mail não enviado,', error));
   };
 
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<IFormValue>({
+  } = useForm({
     resolver: yupResolver(signUpSchema),
   });
 

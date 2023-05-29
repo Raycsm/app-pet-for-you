@@ -9,7 +9,7 @@
 /* eslint-disable prettier/prettier */
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {SafeAreaView, StyleSheet, View, Alert} from 'react-native';
+import {SafeAreaView,View, Alert} from 'react-native';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {
   Center,
@@ -17,13 +17,10 @@ import {
   KeyboardAvoidingView,
   Pressable,
   VStack,
-  Button,
-  Text,
 } from 'native-base';
 import * as React from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Platform, ScrollView} from 'react-native';
-import {IFormValue} from '../Config/dto/IFormValue';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
 import Logo from '../components/Logo';
@@ -32,29 +29,28 @@ import updateSchema from '../Config/schema/updateSchema';
 import BackAction from '../components/BackAction';
 import auth from '@react-native-firebase/auth';
 
-export default function Profile({navigation, route}: any) {
+export default function Profile({navigation, route}) {
   const [show, setShow] = React.useState(false);
-  const [user, setUser] = React.useState(null);
   const { userData, defaultValue } = route.params;
-  const [defaultValues, setDefaultValues] = React.useState<any>({});
+  const [defaultValues, setDefaultValues] = React.useState({});
 
 
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<IFormValue>({
+  } = useForm({
     resolver: yupResolver(updateSchema),
   });
 
   const userAuth = auth().currentUser;
 
-    let uid:any;
+    let id;
 
     if (userAuth != null) {
-      uid = userAuth.uid;
+      id = userAuth.uid;
 
-  const updateUser = (data: any | undefined) => {
+  const updateUser = (data) => {
 
     if (userAuth != null) {
       const uid = userAuth.uid;
@@ -66,7 +62,7 @@ export default function Profile({navigation, route}: any) {
         });
       }, [defaultValue]);
 
-      const updateData: any = {};
+      const updateData = {};
 
       if (data.password) {
         updateData.senha = data.password;
