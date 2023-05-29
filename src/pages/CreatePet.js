@@ -2,34 +2,33 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
-import {StyleSheet, View, SafeAreaView} from 'react-native';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {
-  Center,
-  KeyboardAvoidingView,
-  VStack,
-  Select,
-  FormControl,
-  CheckIcon,
-  WarningOutlineIcon,
-  Box,
-  TextArea,
-  Image
-} from 'native-base';
-import React, {useState} from 'react';
-import {Controller, useForm} from 'react-hook-form';
-import {Platform, ScrollView, Alert} from 'react-native';
-import petSchema from '../Config/schema/petSchema';
-import {SolidButton} from '../components/Buttons/SolidButton';
-import {Input} from '../components/Input';
-import {ROUTES} from '../Constants';
-import BackAction from '../components/BackAction';
-import 'firebase/storage';
+import { yupResolver } from '@hookform/resolvers/yup';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
+import 'firebase/storage';
+import {
+  Box,
+  Center,
+  CheckIcon,
+  FormControl,
+  Image,
+  KeyboardAvoidingView,
+  Select,
+  TextArea,
+  VStack,
+  WarningOutlineIcon
+} from 'native-base';
+import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Alert, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import petSchema from '../Config/schema/petSchema';
+import BackAction from '../components/BackAction';
+import { SolidButton } from '../components/Buttons/SolidButton';
+import { Input } from '../components/Input';
+import { ROUTES } from '../constants';
 
-export default function CreatePet({navigation}) {
+export default function CreatePet({ navigation }) {
   const [image, setImage] = useState();
 
   const choosePhoto = () => {
@@ -89,7 +88,7 @@ export default function CreatePet({navigation}) {
   const {
     control,
     handleSubmit,
-    formState: {errors}
+    formState: { errors }
   } = useForm({
     resolver: yupResolver(petSchema)
   });
@@ -102,10 +101,10 @@ export default function CreatePet({navigation}) {
         </SafeAreaView>
         <ScrollView>
           <Center px={10}>
-            <View style={{marginBottom: 25}} />
+            <View style={{ marginBottom: 25 }} />
 
             {image != null ? (
-              <Image style={style.photoPet} source={{uri: image}} alt="petPhoto" />
+              <Image style={style.photoPet} source={{ uri: image }} alt="petPhoto" />
             ) : null}
 
             <SolidButton mt={3} mb={6} title="Selecionar foto" width={180} onPress={choosePhoto} />
@@ -113,7 +112,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="namePet"
               control={control}
-              render={({field: {onChange}}) => (
+              render={({ field: { onChange } }) => (
                 <Input
                   placeholder="Nome do pet"
                   onChangeText={onChange}
@@ -124,7 +123,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="porte"
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <FormControl isRequired>
                   <Select
                     width={310}
@@ -158,7 +157,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="type"
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <FormControl isRequired>
                   <Select
                     width={310}
@@ -195,7 +194,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="sexPet"
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <FormControl isRequired>
                   <Select
                     width={310}
@@ -228,7 +227,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="age"
               control={control}
-              render={({field: {onChange}}) => (
+              render={({ field: { onChange } }) => (
                 <Input
                   placeholder="Idade do pet"
                   onChangeText={onChange}
@@ -240,7 +239,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="race"
               control={control}
-              render={({field: {onChange}}) => (
+              render={({ field: { onChange } }) => (
                 <Input
                   placeholder="Raça"
                   onChangeText={onChange}
@@ -252,7 +251,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="weight"
               control={control}
-              render={({field: {onChange}}) => (
+              render={({ field: { onChange } }) => (
                 <Input
                   placeholder="Peso"
                   onChangeText={onChange}
@@ -264,7 +263,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="email"
               control={control}
-              render={({field: {onChange}}) => (
+              render={({ field: { onChange } }) => (
                 <Input
                   placeholder="E-mail"
                   onChangeText={onChange}
@@ -276,7 +275,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="phone"
               control={control}
-              render={({field: {onChange}}) => (
+              render={({ field: { onChange } }) => (
                 <Input
                   placeholder="Telefone"
                   onChangeText={onChange}
@@ -288,7 +287,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="bairro"
               control={control}
-              render={({field: {onChange}}) => (
+              render={({ field: { onChange } }) => (
                 <Input
                   placeholder="Bairro"
                   onChangeText={onChange}
@@ -300,7 +299,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="city"
               control={control}
-              render={({field: {onChange}}) => (
+              render={({ field: { onChange } }) => (
                 <Input
                   placeholder="Cidade"
                   onChangeText={onChange}
@@ -312,7 +311,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="uf"
               control={control}
-              render={({field: {onChange}}) => (
+              render={({ field: { onChange } }) => (
                 <Input placeholder="UF" onChangeText={onChange} errorMessage={errors.uf?.message} />
               )}
             />
@@ -320,7 +319,7 @@ export default function CreatePet({navigation}) {
             <Controller
               name="description"
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <Box alignItems="center" w="100%">
                   <TextArea
                     h={20}

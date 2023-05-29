@@ -9,8 +9,8 @@ import React from 'react';
 import { Text } from 'react-native-paper';
 import IconFeather from 'react-native-vector-icons/Feather';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
-import { ROUTES } from '../../Constants';
 import { MoreButton } from '../../components/Buttons/MoreButton';
+import { ROUTES } from '../../constants';
 
 import {
   AboutUs,

@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { ROUTES } from '../../Constants';
+import { ROUTES } from '../../constants';
 import { AboutUs, Adoption, Favorites, Home, Profile } from '../../pages';
 /;
 
