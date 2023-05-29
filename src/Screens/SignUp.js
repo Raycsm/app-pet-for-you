@@ -4,15 +4,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Alert} from 'react-native';
+import {Alert} from 'react-native';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {
-  Center,
-  Icon,
-  KeyboardAvoidingView,
-  Pressable,
-  VStack,
-} from 'native-base';
+import {Center, Icon, KeyboardAvoidingView, Pressable, VStack} from 'native-base';
 import * as React from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Platform, ScrollView} from 'react-native';
@@ -27,44 +21,41 @@ import {Title} from '../components/Title';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-
 export default function SignUp({navigation, getUsers}) {
   const [show, setShow] = React.useState(false);
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: {errors}
   } = useForm({
-    resolver: yupResolver(signUpSchema),
+    resolver: yupResolver(signUpSchema)
   });
 
-   function signUpAuth (data) {
-      auth()
-        .createUserWithEmailAndPassword(data.email, data.password)
-        .then((res) => {
-            firestore()
-            .collection('usuario')
-            .doc(res.user.uid)
-            .set({
-              nome: data.name,
-              email: data.email,
-              senha: data.password,
-              confirmarSenha: data.passwordConfirm,
-              bairro: data.bairro,
-              cidade: data.city,
-              uf: data.uf,
-            })
-            .then(()=> Alert.alert('Conta criada com sucesso!'));
-            navigation.navigate( ROUTES.LOGIN)
-            .catch((error) => console.log(error));
-         });
+  function signUpAuth(data) {
+    auth()
+      .createUserWithEmailAndPassword(data.email, data.password)
+      .then(res => {
+        firestore()
+          .collection('usuario')
+          .doc(res.user.uid)
+          .set({
+            nome: data.name,
+            email: data.email,
+            senha: data.password,
+            confirmarSenha: data.passwordConfirm,
+            bairro: data.bairro,
+            cidade: data.city,
+            uf: data.uf
+          })
+          .then(() => Alert.alert('Conta criada com sucesso!'));
+        navigation.navigate(ROUTES.LOGIN).catch(error => console.log(error));
+      });
   }
 
   return (
     <VStack flex={1}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView>
           <Center px={10}>
             <Logo />
@@ -96,12 +87,7 @@ export default function SignUp({navigation, getUsers}) {
               render={({field: {onChange}}) => (
                 <Input
                   InputLeftElement={
-                    <Icon
-                      as={<IconAntDesign name="idcard" />}
-                      size={5}
-                      ml="3"
-                      color="muted.400"
-                    />
+                    <Icon as={<IconAntDesign name="idcard" />} size={5} ml="3" color="muted.400" />
                   }
                   placeholder="Nome de Usuário"
                   onChangeText={onChange}
@@ -146,11 +132,7 @@ export default function SignUp({navigation, getUsers}) {
                   InputRightElement={
                     <Pressable onPress={() => setShow(!show)}>
                       <Icon
-                        as={
-                          <IconmaterialIcons
-                            name={show ? 'visibility' : 'visibility-off'}
-                          />
-                        }
+                        as={<IconmaterialIcons name={show ? 'visibility' : 'visibility-off'} />}
                         size={5}
                         mr="5"
                         color="muted.400"
@@ -181,11 +163,7 @@ export default function SignUp({navigation, getUsers}) {
                   InputRightElement={
                     <Pressable onPress={() => setShow(!show)}>
                       <Icon
-                        as={
-                          <IconmaterialIcons
-                            name={show ? 'visibility' : 'visibility-off'}
-                          />
-                        }
+                        as={<IconmaterialIcons name={show ? 'visibility' : 'visibility-off'} />}
                         size={5}
                         mr="5"
                         color="muted.400"
@@ -299,11 +277,7 @@ export default function SignUp({navigation, getUsers}) {
               )}
             />
 
-            <SolidButton
-              mt={3}
-              title="Criar Conta"
-              onPress={handleSubmit(signUpAuth)}
-            />
+            <SolidButton mt={3} title="Criar Conta" onPress={handleSubmit(signUpAuth)} />
             <OutlineButtonOrange
               mt={8}
               mb={8}

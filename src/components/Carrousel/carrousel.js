@@ -3,7 +3,6 @@ import React, {useRef, useState} from 'react';
 import {Animated, Image, StyleSheet, View} from 'react-native';
 import useInterval from './useInterval';
 
-
 const Carousel = ({images}) => {
   const animation = useRef(new Animated.Value(0));
   const [currentImage, setCurrentImage] = useState(0);
@@ -18,7 +17,7 @@ const Carousel = ({images}) => {
 
     Animated.spring(animation.current, {
       toValue: -(350 * newCurrentImage),
-      useNativeDriver: true,
+      useNativeDriver: true
     }).start();
 
     setCurrentImage(newCurrentImage);
@@ -30,8 +29,8 @@ const Carousel = ({images}) => {
           style={[
             styles.container,
             {
-              transform: [{translateX: animation.current}],
-            },
+              transform: [{translateX: animation.current}]
+            }
           ]}>
           {images.map(image => (
             <Image key={image} source={{uri: image}} style={styles.image} />
@@ -43,7 +42,7 @@ const Carousel = ({images}) => {
               key={`${image}_${index}`}
               style={[
                 styles.indicator,
-                index === currentImage ? styles.activeIndicator : undefined,
+                index === currentImage ? styles.activeIndicator : undefined
               ]}
             />
           ))}
@@ -59,10 +58,10 @@ const styles = StyleSheet.create({
     height: 200,
     width: 350,
     borderRadius: 10,
-    marginLeft: 15,
+    marginLeft: 15
   },
   container: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   indicatorContainer: {
     position: 'relative',
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
     width: 300,
     bottom: 20,
     left: 50,
-    zIndex: 2,
+    zIndex: 2
   },
   indicator: {
     width: 10,
@@ -80,11 +79,11 @@ const styles = StyleSheet.create({
     borderRadius: 7.5,
     borderColor: 'white',
     borderWidth: 1,
-    marginHorizontal: 10,
+    marginHorizontal: 10
   },
   activeIndicator: {
-    backgroundColor: 'white',
-  },
+    backgroundColor: 'white'
+  }
 });
 
 export default Carousel;

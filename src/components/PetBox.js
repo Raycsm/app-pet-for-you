@@ -1,15 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {
-  Box,
-  Heading,
-  AspectRatio,
-  Image,
-  Text,
-  Center,
-  HStack,
-  Stack,
-} from 'native-base';
+import {Box, Heading, AspectRatio, Image, Text, Center, HStack, Stack} from 'native-base';
 
 export default function PetBox({style}) {
   return (
@@ -22,20 +13,20 @@ export default function PetBox({style}) {
         borderWidth="1"
         _dark={{
           borderColor: 'coolGray.600',
-          backgroundColor: 'gray.700',
+          backgroundColor: 'gray.700'
         }}
         _web={{
           shadow: 2,
-          borderWidth: 0,
+          borderWidth: 0
         }}
         _light={{
-          backgroundColor: 'gray.50',
+          backgroundColor: 'gray.50'
         }}>
         <Box>
           <AspectRatio w="100%" ratio={16 / 9}>
             <Image
               source={{
-                uri: 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/cat.jpg?alt=media&token=9a3182f1-4f48-450d-a12c-875ac2db5e7a',
+                uri: 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/cat.jpg?alt=media&token=9a3182f1-4f48-450d-a12c-875ac2db5e7a'
               }}
               alt="image"
             />
@@ -43,12 +34,12 @@ export default function PetBox({style}) {
           <Center
             bg="violet.500"
             _dark={{
-              bg: 'violet.400',
+              bg: 'violet.400'
             }}
             _text={{
               color: 'warmGray.50',
               fontWeight: '700',
-              fontSize: 'xs',
+              fontSize: 'xs'
             }}
             position="absolute"
             bottom="0"
@@ -65,10 +56,10 @@ export default function PetBox({style}) {
             <Text
               fontSize="xs"
               _light={{
-                color: 'violet.500',
+                color: 'violet.500'
               }}
               _dark={{
-                color: 'violet.400',
+                color: 'violet.400'
               }}
               fontWeight="500"
               ml="-0.5"
@@ -77,15 +68,15 @@ export default function PetBox({style}) {
             </Text>
           </Stack>
           <Text fontWeight="400">
-            Bengaluru (also called Bangalore) is the center of India's high-tech
-            industry. The city is also known for its parks and nightlife.
+            Bengaluru (also called Bangalore) is the center of India's high-tech industry. The city
+            is also known for its parks and nightlife.
           </Text>
           <HStack alignItems="center" space={4} justifyContent="space-between">
             <HStack alignItems="center">
               <Text
                 color="coolGray.600"
                 _dark={{
-                  color: 'warmGray.200',
+                  color: 'warmGray.200'
                 }}
                 fontWeight="400">
                 6 mins ago

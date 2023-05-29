@@ -3,19 +3,13 @@ import * as yup from 'yup';
 import {validatePhone, validateUF} from 'validations-br';
 
 const signUpSchema = yup.object({
-  name: yup
-    .string()
-    .required('Digite o seu nome')
-    .min(3, 'O nome deve ter no mínimo 3 dígitos'),
+  name: yup.string().required('Digite o seu nome').min(3, 'O nome deve ter no mínimo 3 dígitos'),
   userName: yup
     .string()
     .required('Digite seu nome de usuário')
     .min(6, 'O nome de usuário deve ter no mínimo 6 dígitos')
     .max(15, 'O nome de usuário deve ter no maxímo 15 dígitos'),
-  email: yup
-    .string()
-    .required('Digite o seu e-mail')
-    .email('Digite um e-mail válido'),
+  email: yup.string().required('Digite o seu e-mail').email('Digite um e-mail válido'),
   password: yup
     .string()
     .required('Digite uma senha')
@@ -37,7 +31,7 @@ const signUpSchema = yup.object({
     .required('Digite o seu estado')
     .max(2, 'O UF deve ter 2 dígitos')
     .min(2, 'O UF deve ter 2 dígitos')
-    .test('is-uf', 'UF inválido', value => validateUF(value)),
+    .test('is-uf', 'UF inválido', value => validateUF(value))
 });
 
 export default signUpSchema;

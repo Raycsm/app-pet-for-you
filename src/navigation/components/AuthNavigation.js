@@ -7,19 +7,10 @@ import {Login, SignUp, ForgotPassword} from '../../Screens';
 const Stack = createNativeStackNavigator();
 
 export default function AuthNavigation() {
-
   return (
-    <Stack.Navigator initialRouteName={ROUTES.LOGIN} >
-      <Stack.Screen
-        name={ROUTES.LOGIN}
-        component={Login}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name={ROUTES.SIGNUP}
-        component={SignUp}
-        options={{headerShown: false}}
-      />
+    <Stack.Navigator initialRouteName={ROUTES.LOGIN}>
+      <Stack.Screen name={ROUTES.LOGIN} component={Login} options={{headerShown: false}} />
+      <Stack.Screen name={ROUTES.SIGNUP} component={SignUp} options={{headerShown: false}} />
       <Stack.Screen
         name={ROUTES.FORGOT_PASSWORD}
         component={ForgotPassword}

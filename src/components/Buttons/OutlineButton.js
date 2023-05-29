@@ -10,7 +10,7 @@ export function OutlineButtonOrange({title, ...rest}) {
       borderColor={'#DB652F'}
       borderRadius={20}
       _pressed={{
-        bgColor: '#f7dcd0',
+        bgColor: '#f7dcd0'
       }}
       {...rest}>
       <Text fontSize={16} color={'#DB652F'}>

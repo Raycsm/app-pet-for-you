@@ -28,5 +28,5 @@ export default {
 
   MY_PETS: 'MyPets',
 
-  MY_APPLICATIONS: 'MyApplications',
+  MY_APPLICATIONS: 'MyApplications'
 };

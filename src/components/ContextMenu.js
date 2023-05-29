@@ -29,7 +29,7 @@ const ContextMenu = ({isVisible, onRequestClose, onOptionSelect, options}) => {
               onPress={() => onOptionSelect(option)}
               style={[
                 styles.optionContainer,
-                highlightedIndex === index ? styles.highlightedOption : null,
+                highlightedIndex === index ? styles.highlightedOption : null
               ]}>
               <Text style={styles.optionText}>{option}</Text>
             </TouchableOpacity>
@@ -45,28 +45,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)'
   },
   modalContent: {
     backgroundColor: '#DB652F',
     borderRadius: 25,
     padding: 10,
     borderColor: '#DB652F',
-    borderWidth: 1.6,
+    borderWidth: 1.6
   },
   optionContainer: {
     padding: 10,
-    backgroundColor: '#DB652F',
+    backgroundColor: '#DB652F'
   },
   optionText: {
     fontWeight: '500',
     fontSize: 16,
-    color: 'white',
+    color: 'white'
   },
   highlightedOption: {
     backgroundColor: 'black',
-    borderRadius: 225,
-  },
+    borderRadius: 225
+  }
 });
 
 export default ContextMenu;

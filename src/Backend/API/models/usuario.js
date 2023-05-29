@@ -23,7 +23,7 @@ export const addUser = (req, res) => {
     req.body.senha,
     req.body.bairro,
     req.body.cidade,
-    req.body.estado,
+    req.body.estado
   ];
 
   db.query(q, [values], err => {
@@ -45,7 +45,7 @@ export const updateUser = (req, res) => {
     req.body.senha,
     req.body.bairro,
     req.body.cidade,
-    req.body.estado,
+    req.body.estado
   ];
 
   db.query(q, [...values, req.params.id], err => {
@@ -56,4 +56,3 @@ export const updateUser = (req, res) => {
     return res.status(200).json('Usuário atualizado com sucesso!');
   });
 };
-

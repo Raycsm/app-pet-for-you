@@ -36,9 +36,7 @@ export default function AdoptionButtons({navigation}) {
           style={{borderRadius: 20, height: 100, width: 300, marginTop: 40}}
           onPress={() => navigation.navigate(ROUTES.MY_APPLICATIONS)}
           backgroundColor={'#DB652F'}
-          leftIcon={
-            <Icon as={IconMaterialCommunityIcons} name="rabbit" size="3xl" />
-          }>
+          leftIcon={<Icon as={IconMaterialCommunityIcons} name="rabbit" size="3xl" />}>
           <Text fontSize={20} color={'white'} marginLeft={2}>
             Minhas Candidaturas
           </Text>
@@ -51,6 +49,6 @@ export default function AdoptionButtons({navigation}) {
 const style = StyleSheet.create({
   container: {
     marginTop: 80,
-    alignSelf: 'center',
-  },
+    alignSelf: 'center'
+  }
 });

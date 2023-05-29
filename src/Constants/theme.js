@@ -4,5 +4,5 @@ export default {
   primary: '#db652f',
   secondary: '#db652f',
   terticiary: '#db652f',
-  tintColor: 'white',
+  tintColor: 'white'
 };

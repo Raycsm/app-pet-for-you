@@ -12,16 +12,24 @@ import {Text} from 'react-native-paper';
 import {ROUTES} from '../../Constants';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-
-import {Home, Favorites, Adoption, Profile, AboutUs, MyPets, CreatePet, MyApplications} from '../../Screens';
+import {
+  Home,
+  Favorites,
+  Adoption,
+  Profile,
+  AboutUs,
+  MyPets,
+  CreatePet,
+  MyApplications
+} from '../../Screens';
 
 const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
 
-function AdoptionNavigation(){
+function AdoptionNavigation() {
   return (
-    <Stack.Navigator screenOptions={{headerShown:false}}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name={ROUTES.ADOPTION} component={Adoption} />
       <Stack.Screen name={ROUTES.MY_PETS} component={MyPets} />
       <Stack.Screen name={ROUTES.CREATE_PET} component={CreatePet} />
@@ -31,7 +39,6 @@ function AdoptionNavigation(){
 }
 
 export default function UserAutheticated() {
-
   const [userData, setUserData] = React.useState(null);
 
   return (
@@ -40,7 +47,7 @@ export default function UserAutheticated() {
         headerShown: false,
         unmountOnBlur: true,
         tabBarShowLabel: false,
-        tabBarStyle: {height: 60},
+        tabBarStyle: {height: 60}
       }}>
       <Tab.Screen
         name={ROUTES.HOME_TAB}
@@ -48,22 +55,18 @@ export default function UserAutheticated() {
         options={{
           tabBarIcon: ({focused}) => (
             <>
-              <IconFeather
-                name="home"
-                size={20}
-                color={focused ? '#DB652F' : '#8B8888'}
-              />
+              <IconFeather name="home" size={20} color={focused ? '#DB652F' : '#8B8888'} />
               <Text
                 allowFontScaling={false}
                 style={{
                   color: focused ? '#DB652F' : '#8B8888',
                   fontSize: 15,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}>
                 Home
               </Text>
             </>
-          ),
+          )
         }}
       />
       <Tab.Screen
@@ -72,22 +75,18 @@ export default function UserAutheticated() {
         options={{
           tabBarIcon: ({focused}) => (
             <>
-              <IconIonicons
-                name="md-heart"
-                size={20}
-                color={focused ? '#DB652F' : '#8B8888'}
-              />
+              <IconIonicons name="md-heart" size={20} color={focused ? '#DB652F' : '#8B8888'} />
               <Text
                 allowFontScaling={false}
                 style={{
                   color: focused ? '#DB652F' : '#8B8888',
                   fontSize: 15,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}>
                 Favoritos
               </Text>
             </>
-          ),
+          )
         }}
       />
       <Tab.Screen
@@ -95,9 +94,7 @@ export default function UserAutheticated() {
         component={AdoptionNavigation}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({focused, size}) => (
-            <MoreButton size={size} focused={focused} />
-          ),
+          tabBarIcon: ({focused, size}) => <MoreButton size={size} focused={focused} />
         }}
       />
 
@@ -107,22 +104,18 @@ export default function UserAutheticated() {
         options={{
           tabBarIcon: ({focused}) => (
             <>
-              <IconIonicons
-                name="ios-people"
-                size={20}
-                color={focused ? '#DB652F' : '#8B8888'}
-              />
+              <IconIonicons name="ios-people" size={20} color={focused ? '#DB652F' : '#8B8888'} />
               <Text
                 allowFontScaling={false}
                 style={{
                   color: focused ? '#DB652F' : '#8B8888',
                   fontSize: 15,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}>
                 Sobre Nós
               </Text>
             </>
-          ),
+          )
         }}
       />
 
@@ -143,17 +136,15 @@ export default function UserAutheticated() {
                 style={{
                   color: focused ? '#DB652F' : '#8B8888',
                   fontSize: 15,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}>
                 Perfil
               </Text>
             </>
-          ),
+          )
         }}
-        initialParams={{ userData }}
+        initialParams={{userData}}
       />
     </Tab.Navigator>
   );
 }
-
-

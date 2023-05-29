@@ -14,45 +14,44 @@ import {
   WarningOutlineIcon,
   Box,
   TextArea,
-  Image,
+  Image
 } from 'native-base';
-import  React, {useState} from 'react';
+import React, {useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Platform, ScrollView, Alert} from 'react-native';
 import petSchema from '../Config/schema/petSchema';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
-import { ROUTES } from '../Constants';
+import {ROUTES} from '../Constants';
 import BackAction from '../components/BackAction';
 import 'firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
 
-
 export default function CreatePet({navigation}) {
-
   const [image, setImage] = useState();
 
-    const choosePhoto = () =>{
-      ImagePicker.openPicker({
-        width:500,
-        height:500,
-        cropping:true,
-      }).then((photo) => {
-        if ('path' in photo){
+  const choosePhoto = () => {
+    ImagePicker.openPicker({
+      width: 500,
+      height: 500,
+      cropping: true
+    })
+      .then(photo => {
+        if ('path' in photo) {
           console.log(photo.path);
           setImage(photo.path);
         }
-      }).catch(err => console.log(err));
-    };
+      })
+      .catch(err => console.log(err));
+  };
 
-
-  const addPet = async (data) => {
+  const addPet = async data => {
     const imagePetUrl = await uploadImage();
     console.log('Image Url: ', imagePetUrl);
 
-      firestore()
+    firestore()
       .collection('animal')
       .add({
         IdUser: data.uid,
@@ -69,16 +68,14 @@ export default function CreatePet({navigation}) {
         bairro: data.bairro,
         cidade: data.city,
         uf: data.uf,
-        petImg: imagePetUrl,
+        petImg: imagePetUrl
       })
-      .then(()=> Alert.alert('Pet criado com sucesso!'));
-      navigation.navigate( ROUTES.MY_PETS)
-      .catch((error) => console.log(error));
-
+      .then(() => Alert.alert('Pet criado com sucesso!'));
+    navigation.navigate(ROUTES.MY_PETS).catch(error => console.log(error));
   };
 
   const uploadImage = async () => {
-    if ( image == null ) {
+    if (image == null) {
       return null;
     }
 
@@ -87,42 +84,31 @@ export default function CreatePet({navigation}) {
     const url = await storage().ref(`PetPhoto/${image}`).getDownloadURL();
 
     return url;
-
-
   };
-
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: {errors}
   } = useForm({
-    resolver: yupResolver(petSchema),
+    resolver: yupResolver(petSchema)
   });
-
 
   return (
     <VStack flex={1}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <SafeAreaView>
-              <BackAction title="Criar Pet" onPress={navigation.goBack} />
-          </SafeAreaView>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <SafeAreaView>
+          <BackAction title="Criar Pet" onPress={navigation.goBack} />
+        </SafeAreaView>
         <ScrollView>
           <Center px={10}>
+            <View style={{marginBottom: 25}} />
 
-            <View style={{marginBottom:25}} />
+            {image != null ? (
+              <Image style={style.photoPet} source={{uri: image}} alt="petPhoto" />
+            ) : null}
 
-            {image != null ? <Image style={style.photoPet} source={{uri: image}} alt="petPhoto" /> : null}
-
-            <SolidButton
-              mt={3}
-              mb={6}
-              title="Selecionar foto"
-              width={180}
-              onPress={choosePhoto}
-            />
-
+            <SolidButton mt={3} mb={6} title="Selecionar foto" width={180} onPress={choosePhoto} />
 
             <Controller
               name="namePet"
@@ -135,35 +121,37 @@ export default function CreatePet({navigation}) {
                 />
               )}
             />
-             <Controller
+            <Controller
               name="porte"
               control={control}
               render={({field: {onChange, value}}) => (
-                  <FormControl  isRequired >
-                      <Select width={310}
-                              bg={'#dfdfdf'}
-                              fontSize="md"
-                              mb={6}
-                              selectedValue={value}
-                              onValueChange={(itemValue) => {
-                                onChange(itemValue);
-                              }}
-                              style={style.select}
-                              variant="rounded"
-                              accessibilityLabel="Tipo de pet"
-                              placeholder="Porte do pet"
-                              _selectedItem={{
-                                  bg: 'teal.600',
-                                  endIcon: <CheckIcon size={5} />,
-                              }} mt="1">
-                        <Select.Item label="Pequeno" value="pequeno" />
-                        <Select.Item label="Médio" value="medio" />
-                        <Select.Item label="Grande" value="grande" />
-                      </Select>
-                      <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                        Selecione o porte do pet
-                    </FormControl.ErrorMessage>
-                  </FormControl>
+                <FormControl isRequired>
+                  <Select
+                    width={310}
+                    bg={'#dfdfdf'}
+                    fontSize="md"
+                    mb={6}
+                    selectedValue={value}
+                    onValueChange={itemValue => {
+                      onChange(itemValue);
+                    }}
+                    style={style.select}
+                    variant="rounded"
+                    accessibilityLabel="Tipo de pet"
+                    placeholder="Porte do pet"
+                    _selectedItem={{
+                      bg: 'teal.600',
+                      endIcon: <CheckIcon size={5} />
+                    }}
+                    mt="1">
+                    <Select.Item label="Pequeno" value="pequeno" />
+                    <Select.Item label="Médio" value="medio" />
+                    <Select.Item label="Grande" value="grande" />
+                  </Select>
+                  <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                    Selecione o porte do pet
+                  </FormControl.ErrorMessage>
+                </FormControl>
               )}
             />
 
@@ -171,35 +159,36 @@ export default function CreatePet({navigation}) {
               name="type"
               control={control}
               render={({field: {onChange, value}}) => (
-                  <FormControl  isRequired >
-                      <Select width={310}
-                              selectedValue={value}
-                              onValueChange={(itemValue) => {
-                                onChange(itemValue);
-                              }}
-                              bg={'#dfdfdf'}
-                              fontSize="md"
-                              mb={6}
-                              style={style.select}
-                              variant="rounded"
-                              accessibilityLabel="Tipo de pet"
-                              placeholder="Tipo de pet"
-                              _selectedItem={{
-                                  bg: 'teal.600',
-                                  endIcon: <CheckIcon size={5} />,
-                              }} mt="1">
+                <FormControl isRequired>
+                  <Select
+                    width={310}
+                    selectedValue={value}
+                    onValueChange={itemValue => {
+                      onChange(itemValue);
+                    }}
+                    bg={'#dfdfdf'}
+                    fontSize="md"
+                    mb={6}
+                    style={style.select}
+                    variant="rounded"
+                    accessibilityLabel="Tipo de pet"
+                    placeholder="Tipo de pet"
+                    _selectedItem={{
+                      bg: 'teal.600',
+                      endIcon: <CheckIcon size={5} />
+                    }}
+                    mt="1">
+                    <Select.Item label="Cachorro" value="cachorro" />
+                    <Select.Item label="Gato" value="gato" />
+                    <Select.Item label="Passáro" value="passaro" />
+                    <Select.Item label="Roedor" value="roedor" />
+                    <Select.Item label="Outros" value="outros" />
+                  </Select>
 
-                        <Select.Item label="Cachorro" value="cachorro" />
-                        <Select.Item label="Gato" value="gato" />
-                        <Select.Item label="Passáro" value="passaro" />
-                        <Select.Item label="Roedor" value="roedor" />
-                        <Select.Item label="Outros" value="outros" />
-                      </Select>
-
-                      <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                        Selecione um tipo de pet
-                    </FormControl.ErrorMessage>
-                  </FormControl>
+                  <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                    Selecione um tipo de pet
+                  </FormControl.ErrorMessage>
+                </FormControl>
               )}
             />
 
@@ -207,33 +196,34 @@ export default function CreatePet({navigation}) {
               name="sexPet"
               control={control}
               render={({field: {onChange, value}}) => (
-                  <FormControl  isRequired >
-                      <Select width={310}
-                              bg={'#dfdfdf'}
-                              fontSize="md"
-                              mb={6}
-                              selectedValue={value}
-                              onValueChange={(itemValue) => {
-                                onChange(itemValue);
-                              }}
-                              style={style.select}
-                              variant="rounded"
-                              accessibilityLabel="Sexo do pet"
-                              placeholder="Sexo do pet"
-                              _selectedItem={{
-                                  bg: 'teal.600',
-                                  endIcon: <CheckIcon size={5} />,
-                              }} mt="1">
-                        <Select.Item label="Fêmea" value="femea" />
-                        <Select.Item label="Macho" value="macho" />
-                      </Select>
-                      <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                        Selecione o porte do pet
-                    </FormControl.ErrorMessage>
-                  </FormControl>
+                <FormControl isRequired>
+                  <Select
+                    width={310}
+                    bg={'#dfdfdf'}
+                    fontSize="md"
+                    mb={6}
+                    selectedValue={value}
+                    onValueChange={itemValue => {
+                      onChange(itemValue);
+                    }}
+                    style={style.select}
+                    variant="rounded"
+                    accessibilityLabel="Sexo do pet"
+                    placeholder="Sexo do pet"
+                    _selectedItem={{
+                      bg: 'teal.600',
+                      endIcon: <CheckIcon size={5} />
+                    }}
+                    mt="1">
+                    <Select.Item label="Fêmea" value="femea" />
+                    <Select.Item label="Macho" value="macho" />
+                  </Select>
+                  <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                    Selecione o porte do pet
+                  </FormControl.ErrorMessage>
+                </FormControl>
               )}
             />
-
 
             <Controller
               name="age"
@@ -323,11 +313,7 @@ export default function CreatePet({navigation}) {
               name="uf"
               control={control}
               render={({field: {onChange}}) => (
-                <Input
-                  placeholder="UF"
-                  onChangeText={onChange}
-                  errorMessage={errors.uf?.message}
-                />
+                <Input placeholder="UF" onChangeText={onChange} errorMessage={errors.uf?.message} />
               )}
             />
 
@@ -337,45 +323,40 @@ export default function CreatePet({navigation}) {
               render={({field: {onChange, value}}) => (
                 <Box alignItems="center" w="100%">
                   <TextArea
-                  h={20}
-                  placeholder="Descrição"
-                  isRequired
-                  onChangeText={(val) => onChange(val)}
-                  defaultValue={value}
-                  width="300"
-                  autoCompleteType={undefined}
-                  bg={'#dfdfdf'}
-                  fontSize="md"
-                  _light={{
-                    _hover: {
-                      bg: 'coolGray.200',
-                      borderColor: 'orange.400',
-                    },
-                    _focus: {
-                      bg: 'coolGray.200:alpha.70',
-                      borderColor: 'orange.700',
-                    },
-                  }} _dark={{
-                    bg: 'coolGray.800',
-                    _hover: {
-                      bg: 'coolGray.900',
-                    },
-                    _focus: {
-                      bg: 'coolGray.900:alpha.70',
-                    },
-                  }}
+                    h={20}
+                    placeholder="Descrição"
+                    isRequired
+                    onChangeText={val => onChange(val)}
+                    defaultValue={value}
+                    width="300"
+                    autoCompleteType={undefined}
+                    bg={'#dfdfdf'}
+                    fontSize="md"
+                    _light={{
+                      _hover: {
+                        bg: 'coolGray.200',
+                        borderColor: 'orange.400'
+                      },
+                      _focus: {
+                        bg: 'coolGray.200:alpha.70',
+                        borderColor: 'orange.700'
+                      }
+                    }}
+                    _dark={{
+                      bg: 'coolGray.800',
+                      _hover: {
+                        bg: 'coolGray.900'
+                      },
+                      _focus: {
+                        bg: 'coolGray.900:alpha.70'
+                      }
+                    }}
                   />
                 </Box>
               )}
             />
 
-            <SolidButton
-              mt={8}
-              mb={16}
-              title="Cadastrar"
-              onPress={handleSubmit(addPet)}
-            />
-
+            <SolidButton mt={8} mb={16} title="Cadastrar" onPress={handleSubmit(addPet)} />
           </Center>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -385,47 +366,45 @@ export default function CreatePet({navigation}) {
 
 const style = StyleSheet.create({
   containerHeader: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   text: {
     marginTop: 30,
     fontSize: 20,
     textAlign: 'center',
-    alignContent: 'center',
+    alignContent: 'center'
   },
   logo_home: {
     width: 100,
     height: 60,
     marginLeft: 90,
-    marginTop: 50,
+    marginTop: 50
   },
   exit: {
     width: 40,
     height: 40,
     marginLeft: 60,
     marginTop: 60,
-    backgroundColor:'#DB652F',
-    borderRadius:5,
+    backgroundColor: '#DB652F',
+    borderRadius: 5
   },
   filter: {
     marginLeft: 30,
     marginTop: 60,
     width: 40,
     height: 40,
-    borderRadius:5,
+    borderRadius: 5
   },
-  switch:{
-    flexDirection:'row',
+  switch: {
+    flexDirection: 'row'
   },
-  select:{
-    marginRight:10,
+  select: {
+    marginRight: 10
   },
-  photoPet:{
+  photoPet: {
     marginBottom: 15,
-    width:'100%',
-    height:250,
-    borderRadius:50,
-  },
+    width: '100%',
+    height: 250,
+    borderRadius: 50
+  }
 });
-
-
