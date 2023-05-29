@@ -1,8 +1,6 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {Appbar} from 'react-native-paper';
 import {StyleSheet} from 'react-native';
+import {Appbar} from 'react-native-paper';
 
 export default function BackAction({title, onPress}) {
   return (

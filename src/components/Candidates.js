@@ -1,8 +1,7 @@
-/* eslint-disable prettier/prettier */
-import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Box, HStack, Icon, Image, Spacer, Text, VStack} from 'native-base';
 import React from 'react';
 import {Dimensions} from 'react-native';
+import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const PessoaCard = ({imageUrl, nome, endereco}) => {
   const screenWidth = Dimensions.get('window').width;

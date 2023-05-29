@@ -1,11 +1,8 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import IconMaterialCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Center, Image, ScrollView, View} from 'native-base';
 import React, {useRef} from 'react';
 import {StyleSheet} from 'react-native';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import IconMaterialCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import BackAction from '../components/BackAction';
 import {TextGrey} from '../components/TextGrey';
 import {Title} from '../components/Title';

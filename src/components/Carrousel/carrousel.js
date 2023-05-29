@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, {useRef, useState} from 'react';
 import {Animated, Image, StyleSheet, View} from 'react-native';
 import useInterval from './useInterval';

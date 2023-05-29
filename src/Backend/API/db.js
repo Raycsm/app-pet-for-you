@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import mysql from 'mysql';
 
 export const db = mysql.createConnection({

@@ -1,29 +1,25 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-import { yupResolver } from '@hookform/resolvers/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import auth from '@react-native-firebase/auth';
-import { Center, FormControl, Icon, Pressable, VStack } from 'native-base';
+import {Center, FormControl, Icon, Pressable, VStack} from 'native-base';
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Alert, TouchableOpacity } from 'react-native';
-import { Text } from 'react-native-paper';
+import {Controller, useForm} from 'react-hook-form';
+import {Alert, TouchableOpacity} from 'react-native';
+import {Text} from 'react-native-paper';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ROUTES from '../Constants/routes';
-import { OutlineButtonOrange } from '../components/Buttons/OutlineButton';
-import { SolidButton } from '../components/Buttons/SolidButton';
-import { Input } from '../components/Input';
+import {OutlineButtonOrange} from '../components/Buttons/OutlineButton';
+import {SolidButton} from '../components/Buttons/SolidButton';
+import {Input} from '../components/Input';
 import Logo from '../components/Logo';
 import PetsImage from '../components/PetsImage';
 import signInSchema from '../config/schema/signInSchema';
 
-export default function Login({ navigation }) {
+export default function Login({navigation}) {
   const [show, setShow] = React.useState(false);
   const {
     control,
     handleSubmit,
-    formState: { errors }
+    formState: {errors}
   } = useForm({
     resolver: yupResolver(signInSchema)
   });
@@ -43,7 +39,7 @@ export default function Login({ navigation }) {
           <Controller
             name="email"
             control={control}
-            render={({ field: { onChange } }) => (
+            render={({field: {onChange}}) => (
               <Input
                 InputLeftElement={
                   <Icon as={<IconMaterialIcons name="email" />} size={5} ml="3" color="muted.400" />
@@ -58,7 +54,7 @@ export default function Login({ navigation }) {
           <Controller
             name="password"
             control={control}
-            render={({ field: { onChange } }) => (
+            render={({field: {onChange}}) => (
               <Input
                 type={show ? 'text' : 'password'}
                 InputLeftElement={

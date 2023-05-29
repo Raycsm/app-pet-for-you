@@ -1,4 +1,4 @@
-/* eslint-disable prettier/prettier */
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { ROUTES } from '../../constants';

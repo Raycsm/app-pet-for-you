@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 export default {
   LOGIN: 'Login',
   SIGNUP: 'Signup',

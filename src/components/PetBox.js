@@ -1,6 +1,5 @@
-/* eslint-disable prettier/prettier */
+import {AspectRatio, Box, Center, HStack, Heading, Image, Stack, Text} from 'native-base';
 import React from 'react';
-import {Box, Heading, AspectRatio, Image, Text, Center, HStack, Stack} from 'native-base';
 
 export default function PetBox({style}) {
   return (

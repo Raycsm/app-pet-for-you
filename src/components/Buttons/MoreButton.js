@@ -1,8 +1,6 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import React from 'react';
 
 export function MoreButton({focused, size}) {
   return (

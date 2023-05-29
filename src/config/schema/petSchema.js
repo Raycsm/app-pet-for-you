@@ -1,6 +1,5 @@
-/* eslint-disable prettier/prettier */
-import * as yup from 'yup';
 import {validateUF} from 'validations-br';
+import * as yup from 'yup';
 
 const petSchema = yup.object({
   namePet: yup.string().required('Digite o seu nome').min(3, 'O nome deve ter no mínimo 3 dígitos'),

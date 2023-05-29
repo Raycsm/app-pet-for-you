@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {AspectRatio, Box, HStack, Heading, Image, Stack, Text} from 'native-base';
 import React, {useState} from 'react';
 import {TouchableOpacity} from 'react-native';

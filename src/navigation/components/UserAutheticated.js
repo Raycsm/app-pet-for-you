@@ -1,7 +1,7 @@
-/* eslint-disable prettier/prettier */
+
 /* eslint-disable no-unused-vars */
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
+
+
 /* eslint-disable react/no-unstable-nested-components */
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

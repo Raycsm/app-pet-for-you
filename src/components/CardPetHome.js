@@ -1,6 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
-import {Box, AspectRatio, Stack, Heading, HStack, Image, Text, View} from 'native-base';
+import {AspectRatio, Box, HStack, Heading, Image, Stack, Text} from 'native-base';
 import React from 'react';
 import {SolidButton} from './Buttons/SolidButton';
 

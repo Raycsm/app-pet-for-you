@@ -1,18 +1,14 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-
-/* eslint-disable prettier/prettier */
+import auth from '@react-native-firebase/auth';
+import {Button, Icon, ScrollView, Text} from 'native-base';
 import React from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Foundations from 'react-native-vector-icons/Foundation';
-import {Button, Text, Icon, ScrollView} from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Carrousel from '../components/Carrousel/carrousel';
-import {TextGrey} from '../components/TextGrey';
-import auth from '@react-native-firebase/auth';
-import ROUTES from '../Constants/routes';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+import ROUTES from '../Constants/routes';
+import Carrousel from '../components/Carrousel/carrousel';
 import PetInfo from '../components/PetInfo';
+import {TextGrey} from '../components/TextGrey';
 
 const images = [
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_cat.jpg?alt=media&token=efac84f3-96b7-44c8-8cea-b5003f7546a5',

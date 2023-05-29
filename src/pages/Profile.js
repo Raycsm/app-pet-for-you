@@ -1,36 +1,31 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @typescript-eslint/no-shadow */
+
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
-import { yupResolver } from '@hookform/resolvers/yup';
+
+import {yupResolver} from '@hookform/resolvers/yup';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { Center, Icon, KeyboardAvoidingView, Pressable, VStack } from 'native-base';
+import {Center, Icon, KeyboardAvoidingView, Pressable, VStack} from 'native-base';
 import * as React from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Alert, Platform, SafeAreaView, ScrollView, View } from 'react-native';
+import {Controller, useForm} from 'react-hook-form';
+import {Alert, Platform, SafeAreaView, ScrollView, View} from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import BackAction from '../components/BackAction';
-import { SolidButton } from '../components/Buttons/SolidButton';
-import { Input } from '../components/Input';
+import {SolidButton} from '../components/Buttons/SolidButton';
+import {Input} from '../components/Input';
 import Logo from '../components/Logo';
 import updateSchema from '../config/schema/updateSchema';
 
-export default function Profile({ navigation, route }) {
+export default function Profile({navigation, route}) {
   const [show, setShow] = React.useState(false);
-  const { userData, defaultValue } = route.params;
+  const {userData, defaultValue} = route.params;
   const [defaultValues, setDefaultValues] = React.useState({});
 
   const {
     control,
     handleSubmit,
-    formState: { errors }
+    formState: {errors}
   } = useForm({
     resolver: yupResolver(updateSchema)
   });
@@ -90,7 +85,7 @@ export default function Profile({ navigation, route }) {
       }
     };
 
-    function getUser({ userId }) {
+    function getUser({userId}) {
       React.useEffect(() => {
         const subscriber = firestore()
           .collection('usuario')
@@ -114,13 +109,13 @@ export default function Profile({ navigation, route }) {
           </SafeAreaView>
           <ScrollView>
             <Center px={10}>
-              <View style={{ marginBottom: 20 }}>
+              <View style={{marginBottom: 20}}>
                 <Logo />
               </View>
               <Controller
                 name="name"
                 control={control}
-                render={({ field: { onChange } }) => (
+                render={({field: {onChange}}) => (
                   <Input
                     isDisabled
                     InputLeftElement={
@@ -140,7 +135,7 @@ export default function Profile({ navigation, route }) {
               <Controller
                 name="userName"
                 control={control}
-                render={({ field: { onChange } }) => (
+                render={({field: {onChange}}) => (
                   <Input
                     isDisabled
                     InputLeftElement={
@@ -160,7 +155,7 @@ export default function Profile({ navigation, route }) {
               <Controller
                 name="email"
                 control={control}
-                render={({ field: { onChange } }) => (
+                render={({field: {onChange}}) => (
                   <Input
                     isDisabled
                     InputLeftElement={
@@ -181,7 +176,7 @@ export default function Profile({ navigation, route }) {
               <Controller
                 name="password"
                 control={control}
-                render={({ field: { onChange } }) => (
+                render={({field: {onChange}}) => (
                   <Input
                     type={show ? 'text' : 'password'}
                     InputLeftElement={
@@ -212,7 +207,7 @@ export default function Profile({ navigation, route }) {
               <Controller
                 name="phone"
                 control={control}
-                render={({ field: { onChange } }) => (
+                render={({field: {onChange}}) => (
                   <Input
                     InputLeftElement={
                       <Icon
@@ -233,7 +228,7 @@ export default function Profile({ navigation, route }) {
               <Controller
                 name="address"
                 control={control}
-                render={({ field: { onChange } }) => (
+                render={({field: {onChange}}) => (
                   <Input
                     InputLeftElement={
                       <Icon
@@ -253,7 +248,7 @@ export default function Profile({ navigation, route }) {
               <Controller
                 name="bairro"
                 control={control}
-                render={({ field: { onChange } }) => (
+                render={({field: {onChange}}) => (
                   <Input
                     InputLeftElement={
                       <Icon
@@ -273,7 +268,7 @@ export default function Profile({ navigation, route }) {
               <Controller
                 name="city"
                 control={control}
-                render={({ field: { onChange } }) => (
+                render={({field: {onChange}}) => (
                   <Input
                     InputLeftElement={
                       <Icon
@@ -293,7 +288,7 @@ export default function Profile({ navigation, route }) {
               <Controller
                 name="uf"
                 control={control}
-                render={({ field: { onChange } }) => (
+                render={({field: {onChange}}) => (
                   <Input
                     InputLeftElement={
                       <Icon

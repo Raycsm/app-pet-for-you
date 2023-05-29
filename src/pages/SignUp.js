@@ -1,32 +1,28 @@
-
-
-
-/* eslint-disable react-native/no-inline-styles */
-import { yupResolver } from '@hookform/resolvers/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { Center, Icon, KeyboardAvoidingView, Pressable, VStack } from 'native-base';
+import {Center, Icon, KeyboardAvoidingView, Pressable, VStack} from 'native-base';
 import * as React from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Alert, Platform, ScrollView } from 'react-native';
+import {Controller, useForm} from 'react-hook-form';
+import {Alert, Platform, ScrollView} from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { OutlineButtonOrange } from '../components/Buttons/OutlineButton';
-import { SolidButton } from '../components/Buttons/SolidButton';
-import { Input } from '../components/Input';
+import {OutlineButtonOrange} from '../components/Buttons/OutlineButton';
+import {SolidButton} from '../components/Buttons/SolidButton';
+import {Input} from '../components/Input';
 import Logo from '../components/Logo';
 import PetsImage from '../components/PetsImage';
-import { Title } from '../components/Title';
+import {Title} from '../components/Title';
 import signUpSchema from '../config/schema/signUpSchema';
-import { ROUTES } from '../constants';
+import {ROUTES} from '../constants';
 
-export default function SignUp({ navigation, getUsers }) {
+export default function SignUp({navigation, getUsers}) {
   const [show, setShow] = React.useState(false);
 
   const {
     control,
     handleSubmit,
-    formState: { errors }
+    formState: {errors}
   } = useForm({
     resolver: yupResolver(signUpSchema)
   });
@@ -59,12 +55,12 @@ export default function SignUp({ navigation, getUsers }) {
           <Center px={10}>
             <Logo />
 
-            <Title style={{ marginBottom: 30, marginTop: 10 }}>Criar Conta</Title>
+            <Title style={{marginBottom: 30, marginTop: 10}}>Criar Conta</Title>
 
             <Controller
               name="name"
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Input
                   InputLeftElement={
                     <Icon
@@ -83,7 +79,7 @@ export default function SignUp({ navigation, getUsers }) {
             <Controller
               name="userName"
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Input
                   InputLeftElement={
                     <Icon as={<IconAntDesign name="idcard" />} size={5} ml="3" color="muted.400" />
@@ -97,7 +93,7 @@ export default function SignUp({ navigation, getUsers }) {
             <Controller
               name="email"
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Input
                   InputLeftElement={
                     <Icon
@@ -117,7 +113,7 @@ export default function SignUp({ navigation, getUsers }) {
             <Controller
               name="password"
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Input
                   type={show ? 'text' : 'password'}
                   InputLeftElement={
@@ -148,7 +144,7 @@ export default function SignUp({ navigation, getUsers }) {
             <Controller
               name="passwordConfirm"
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Input
                   type={show ? 'text' : 'password'}
                   InputLeftElement={
@@ -179,7 +175,7 @@ export default function SignUp({ navigation, getUsers }) {
             <Controller
               name="phone"
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Input
                   InputLeftElement={
                     <Icon
@@ -199,7 +195,7 @@ export default function SignUp({ navigation, getUsers }) {
             <Controller
               name="address"
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Input
                   InputLeftElement={
                     <Icon
@@ -219,7 +215,7 @@ export default function SignUp({ navigation, getUsers }) {
             <Controller
               name="bairro"
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Input
                   InputLeftElement={
                     <Icon
@@ -239,7 +235,7 @@ export default function SignUp({ navigation, getUsers }) {
             <Controller
               name="city"
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Input
                   InputLeftElement={
                     <Icon
@@ -259,7 +255,7 @@ export default function SignUp({ navigation, getUsers }) {
             <Controller
               name="uf"
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Input
                   InputLeftElement={
                     <Icon

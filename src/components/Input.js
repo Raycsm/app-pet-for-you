@@ -1,8 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-mixed-spaces-and-tabs */
-/* eslint-disable keyword-spacing */
-/* eslint-disable quotes */
-import {Input as NativeBaseInput, IInputProps, FormControl, WarningOutlineIcon} from 'native-base';
+import {FormControl, IInputProps, Input as NativeBaseInput, WarningOutlineIcon} from 'native-base';
 import React from 'react';
 
 type Props = IInputProps & {

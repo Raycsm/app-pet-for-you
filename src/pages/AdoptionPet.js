@@ -1,19 +1,17 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-import { Button, Icon, Text, View } from 'native-base';
+import {Button, Icon, Text, View} from 'native-base';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import BackAction from '../components/BackAction';
-import { ROUTES } from '../constants';
+import {ROUTES} from '../constants';
 
-export default function AdoptionButtons({ navigation }) {
+export default function AdoptionButtons({navigation}) {
   return (
     <View>
       <BackAction title="Adoção" onPress={navigation.goBack} />
       <View style={style.container}>
         <Button
-          style={{ borderRadius: 20, height: 100, width: 300 }}
+          style={{borderRadius: 20, height: 100, width: 300}}
           onPress={() => navigation.navigate(ROUTES.CREATE_PET)}
           backgroundColor={'#DB652F'}
           leftIcon={<Icon as={IconMaterialCommunityIcons} name="dog" size="3xl" />}>
@@ -23,7 +21,7 @@ export default function AdoptionButtons({ navigation }) {
         </Button>
 
         <Button
-          style={{ borderRadius: 20, height: 100, width: 300, marginTop: 40 }}
+          style={{borderRadius: 20, height: 100, width: 300, marginTop: 40}}
           onPress={() => navigation.navigate(ROUTES.MY_PETS)}
           backgroundColor={'#DB652F'}
           leftIcon={<Icon as={IconMaterialCommunityIcons} name="cat" size="3xl" />}>
@@ -33,7 +31,7 @@ export default function AdoptionButtons({ navigation }) {
         </Button>
 
         <Button
-          style={{ borderRadius: 20, height: 100, width: 300, marginTop: 40 }}
+          style={{borderRadius: 20, height: 100, width: 300, marginTop: 40}}
           onPress={() => navigation.navigate(ROUTES.MY_APPLICATIONS)}
           backgroundColor={'#DB652F'}
           leftIcon={<Icon as={IconMaterialCommunityIcons} name="rabbit" size="3xl" />}>
