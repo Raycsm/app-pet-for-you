@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {ROUTES} from '../../Constants';
-import {Home, Profile, AboutUs, Adoption, Favorites} from '../../Screens';
+import { ROUTES } from '../../Constants';
+import { AboutUs, Adoption, Favorites, Home, Profile } from '../../pages';
+/;
 
 const Stack = createNativeStackNavigator();
 

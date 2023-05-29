@@ -3,25 +3,26 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {MoreButton} from '../../components/Buttons/MoreButton';
-import IconIonicons from 'react-native-vector-icons/Ionicons';
-import IconFeather from 'react-native-vector-icons/Feather';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {Text} from 'react-native-paper';
-import {ROUTES} from '../../Constants';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { Text } from 'react-native-paper';
+import IconFeather from 'react-native-vector-icons/Feather';
+import IconIonicons from 'react-native-vector-icons/Ionicons';
+import { ROUTES } from '../../Constants';
+import { MoreButton } from '../../components/Buttons/MoreButton';
 
 import {
-  Home,
-  Favorites,
-  Adoption,
-  Profile,
   AboutUs,
-  MyPets,
+  Adoption,
   CreatePet,
-  MyApplications
-} from '../../Screens';
+  Favorites,
+  Home,
+  MyApplications,
+  MyPets,
+  Profile
+} from '../../pages';
+/;
 
 const Tab = createBottomTabNavigator();
 
@@ -29,7 +30,7 @@ const Stack = createNativeStackNavigator();
 
 function AdoptionNavigation() {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={ROUTES.ADOPTION} component={Adoption} />
       <Stack.Screen name={ROUTES.MY_PETS} component={MyPets} />
       <Stack.Screen name={ROUTES.CREATE_PET} component={CreatePet} />
@@ -47,13 +48,13 @@ export default function UserAutheticated() {
         headerShown: false,
         unmountOnBlur: true,
         tabBarShowLabel: false,
-        tabBarStyle: {height: 60}
+        tabBarStyle: { height: 60 }
       }}>
       <Tab.Screen
         name={ROUTES.HOME_TAB}
         component={Home}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <>
               <IconFeather name="home" size={20} color={focused ? '#DB652F' : '#8B8888'} />
               <Text
@@ -73,7 +74,7 @@ export default function UserAutheticated() {
         name={ROUTES.FAVORITES_TAB}
         component={Favorites}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <>
               <IconIonicons name="md-heart" size={20} color={focused ? '#DB652F' : '#8B8888'} />
               <Text
@@ -94,7 +95,7 @@ export default function UserAutheticated() {
         component={AdoptionNavigation}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({focused, size}) => <MoreButton size={size} focused={focused} />
+          tabBarIcon: ({ focused, size }) => <MoreButton size={size} focused={focused} />
         }}
       />
 
@@ -102,7 +103,7 @@ export default function UserAutheticated() {
         name={ROUTES.ABOUTUS_TAB}
         component={AboutUs}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <>
               <IconIonicons name="ios-people" size={20} color={focused ? '#DB652F' : '#8B8888'} />
               <Text
@@ -123,7 +124,7 @@ export default function UserAutheticated() {
         name={ROUTES.PROFILE_TAB}
         component={Profile}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <>
               <IconIonicons
                 name="person-circle-sharp"
@@ -143,7 +144,7 @@ export default function UserAutheticated() {
             </>
           )
         }}
-        initialParams={{userData}}
+        initialParams={{ userData }}
       />
     </Tab.Navigator>
   );
