@@ -22,10 +22,10 @@ import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-import petSchema from '../Config/schema/petSchema';
 import BackAction from '../components/BackAction';
 import { SolidButton } from '../components/Buttons/SolidButton';
 import { Input } from '../components/Input';
+import petSchema from '../config/schema/petSchema';
 import { ROUTES } from '../constants';
 
 export default function CreatePet({ navigation }) {

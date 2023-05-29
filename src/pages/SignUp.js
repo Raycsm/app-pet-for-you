@@ -11,13 +11,13 @@ import { Controller, useForm } from 'react-hook-form';
 import { Alert, Platform, ScrollView } from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import signUpSchema from '../Config/schema/signUpSchema';
 import { OutlineButtonOrange } from '../components/Buttons/OutlineButton';
 import { SolidButton } from '../components/Buttons/SolidButton';
 import { Input } from '../components/Input';
 import Logo from '../components/Logo';
 import PetsImage from '../components/PetsImage';
 import { Title } from '../components/Title';
+import signUpSchema from '../config/schema/signUpSchema';
 import { ROUTES } from '../constants';
 
 export default function SignUp({ navigation, getUsers }) {
