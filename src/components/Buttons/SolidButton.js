@@ -1,7 +1,5 @@
-/* eslint-disable prettier/prettier */
 import {Button, Text} from 'native-base';
 import React from 'react';
-
 
 export function SolidButton({title, ...rest}) {
   return (
@@ -11,7 +9,7 @@ export function SolidButton({title, ...rest}) {
       variant="rounded"
       borderRadius={20}
       _pressed={{
-        bgColor: '#cb5017',
+        bgColor: '#cb5017'
       }}
       {...rest}>
       <Text fontSize={16} color={'white'}>

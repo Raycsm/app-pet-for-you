@@ -1,17 +1,7 @@
-/* eslint-disable prettier/prettier */
-import {
-  AspectRatio,
-  Box,
-  HStack,
-  Heading,
-  Image,
-  Stack,
-  Text,
-} from 'native-base';
+import {AspectRatio, Box, HStack, Heading, Image, Stack, Text} from 'native-base';
 import React, {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 import ContextMenu from './ContextMenu';
-
 
 const PetInfo = ({
   imageUrl = 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/cat.jpg?alt=media&token=9a3182f1-4f48-450d-a12c-875ac2db5e7a',
@@ -19,14 +9,14 @@ const PetInfo = ({
   idade = 10,
   sexo = 'Macho',
   porte = 'Médio',
-  raca = 'Vira-lata',
+  raca = 'Vira-lata'
 }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const menuOptions = [
     'Visualizar candidaturas',
     'Editar pet',
     'Excluir pet',
-    'Marcar como adotado',
+    'Marcar como adotado'
   ];
 
   const handleMenuClick = () => {
@@ -37,7 +27,7 @@ const PetInfo = ({
     setMenuVisible(false);
   };
 
-  const handleOptionSelect = (option) => {
+  const handleOptionSelect = option => {
     console.log(option);
     setMenuVisible(false);
   };
@@ -56,21 +46,18 @@ const PetInfo = ({
           borderWidth="1"
           _dark={{
             borderColor: 'coolGray.600',
-            backgroundColor: 'gray.700',
+            backgroundColor: 'gray.700'
           }}
           _web={{
             shadow: 2,
-            borderWidth: 0,
+            borderWidth: 0
           }}
           _light={{
-            backgroundColor: 'gray.50',
+            backgroundColor: 'gray.50'
           }}>
           <Box>
             <AspectRatio w="120%" ratio={16 / 9}>
-            <Image
-              source={{uri:imageUrl}}
-              alt="imagePet"
-            />
+              <Image source={{uri: imageUrl}} alt="imagePet" />
             </AspectRatio>
           </Box>
           <Stack p="4" space={3}>
@@ -79,18 +66,10 @@ const PetInfo = ({
                 {nome}
               </Heading>
               <HStack space={15} justifyContent="space-between">
-              <Text>
-                  {raca}
-                </Text>
-                <Text>
-                  {idade} anos
-                </Text>
-                <Text>
-                  {sexo}
-                </Text>
-                <Text>
-                  {porte}
-                </Text>
+                <Text>{raca}</Text>
+                <Text>{idade} anos</Text>
+                <Text>{sexo}</Text>
+                <Text>{porte}</Text>
               </HStack>
             </Stack>
           </Stack>

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 export default {
   LOGIN: 'Login',
   SIGNUP: 'Signup',
@@ -28,5 +27,5 @@ export default {
 
   MY_PETS: 'MyPets',
 
-  MY_APPLICATIONS: 'MyApplications',
+  MY_APPLICATIONS: 'MyApplications'
 };

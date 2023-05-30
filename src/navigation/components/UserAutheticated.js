@@ -1,27 +1,36 @@
-/* eslint-disable prettier/prettier */
+
 /* eslint-disable no-unused-vars */
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
+
+
 /* eslint-disable react/no-unstable-nested-components */
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {MoreButton} from '../../components/Buttons/MoreButton';
-import IconIonicons from 'react-native-vector-icons/Ionicons';
-import IconFeather from 'react-native-vector-icons/Feather';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {Text} from 'react-native-paper';
-import {ROUTES} from '../../Constants';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { Text } from 'react-native-paper';
+import IconFeather from 'react-native-vector-icons/Feather';
+import IconIonicons from 'react-native-vector-icons/Ionicons';
+import { MoreButton } from '../../components/Buttons/MoreButton';
+import { ROUTES } from '../../constants';
 
-
-import {Home, Favorites, Adoption, Profile, AboutUs, MyPets, CreatePet, MyApplications} from '../../Screens';
+import {
+  AboutUs,
+  Adoption,
+  CreatePet,
+  Favorites,
+  Home,
+  MyApplications,
+  MyPets,
+  Profile
+} from '../../pages';
+/;
 
 const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
 
-function AdoptionNavigation(){
+function AdoptionNavigation() {
   return (
-    <Stack.Navigator screenOptions={{headerShown:false}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={ROUTES.ADOPTION} component={Adoption} />
       <Stack.Screen name={ROUTES.MY_PETS} component={MyPets} />
       <Stack.Screen name={ROUTES.CREATE_PET} component={CreatePet} />
@@ -31,7 +40,6 @@ function AdoptionNavigation(){
 }
 
 export default function UserAutheticated() {
-
   const [userData, setUserData] = React.useState(null);
 
   return (
@@ -40,54 +48,46 @@ export default function UserAutheticated() {
         headerShown: false,
         unmountOnBlur: true,
         tabBarShowLabel: false,
-        tabBarStyle: {height: 60},
+        tabBarStyle: { height: 60 }
       }}>
       <Tab.Screen
         name={ROUTES.HOME_TAB}
         component={Home}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <>
-              <IconFeather
-                name="home"
-                size={20}
-                color={focused ? '#DB652F' : '#8B8888'}
-              />
+              <IconFeather name="home" size={20} color={focused ? '#DB652F' : '#8B8888'} />
               <Text
                 allowFontScaling={false}
                 style={{
                   color: focused ? '#DB652F' : '#8B8888',
                   fontSize: 15,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}>
                 Home
               </Text>
             </>
-          ),
+          )
         }}
       />
       <Tab.Screen
         name={ROUTES.FAVORITES_TAB}
         component={Favorites}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <>
-              <IconIonicons
-                name="md-heart"
-                size={20}
-                color={focused ? '#DB652F' : '#8B8888'}
-              />
+              <IconIonicons name="md-heart" size={20} color={focused ? '#DB652F' : '#8B8888'} />
               <Text
                 allowFontScaling={false}
                 style={{
                   color: focused ? '#DB652F' : '#8B8888',
                   fontSize: 15,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}>
                 Favoritos
               </Text>
             </>
-          ),
+          )
         }}
       />
       <Tab.Screen
@@ -95,9 +95,7 @@ export default function UserAutheticated() {
         component={AdoptionNavigation}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({focused, size}) => (
-            <MoreButton size={size} focused={focused} />
-          ),
+          tabBarIcon: ({ focused, size }) => <MoreButton size={size} focused={focused} />
         }}
       />
 
@@ -105,24 +103,20 @@ export default function UserAutheticated() {
         name={ROUTES.ABOUTUS_TAB}
         component={AboutUs}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <>
-              <IconIonicons
-                name="ios-people"
-                size={20}
-                color={focused ? '#DB652F' : '#8B8888'}
-              />
+              <IconIonicons name="ios-people" size={20} color={focused ? '#DB652F' : '#8B8888'} />
               <Text
                 allowFontScaling={false}
                 style={{
                   color: focused ? '#DB652F' : '#8B8888',
                   fontSize: 15,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}>
                 Sobre Nós
               </Text>
             </>
-          ),
+          )
         }}
       />
 
@@ -130,7 +124,7 @@ export default function UserAutheticated() {
         name={ROUTES.PROFILE_TAB}
         component={Profile}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <>
               <IconIonicons
                 name="person-circle-sharp"
@@ -143,17 +137,15 @@ export default function UserAutheticated() {
                 style={{
                   color: focused ? '#DB652F' : '#8B8888',
                   fontSize: 15,
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}>
                 Perfil
               </Text>
             </>
-          ),
+          )
         }}
         initialParams={{ userData }}
       />
     </Tab.Navigator>
   );
 }
-
-

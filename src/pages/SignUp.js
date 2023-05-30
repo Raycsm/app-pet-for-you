@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -14,27 +13,24 @@ import {
 } from 'native-base';
 import * as React from 'react';
 import {Platform, ScrollView} from 'react-native';
-import {ROUTES} from '../Constants';
 import {OutlineButtonOrange} from '../components/Buttons/OutlineButton';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
 import Logo from '../components/Logo';
 import PetsImage from '../components/PetsImage';
 import {Title} from '../components/Title';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-
+import { ROUTES } from '../Constants';
 
 export default function SignUp({navigation}) {
   const [show, setShow] = React.useState(false);
-  const [image, setImage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [bairro, setBairro] = useState('');
-  const [city, setCity] = useState('');
-  const [uf, setUf] = useState('');
+  const [image, setImage] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [bairro, setBairro] = React.useState('');
+  const [city, setCity] = React.useState('');
+  const [uf, setUf] = React.useState('');
   
 
    function signUpAuth (data) {
@@ -60,8 +56,7 @@ export default function SignUp({navigation}) {
 
   return (
     <VStack flex={1}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView>
           <Center px={10}>
             <Logo />

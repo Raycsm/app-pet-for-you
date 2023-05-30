@@ -1,9 +1,7 @@
-/* eslint-disable prettier/prettier */
-import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Box, HStack, Icon, Image, Spacer, Text, VStack} from 'native-base';
 import React from 'react';
 import {Dimensions} from 'react-native';
-
+import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const PessoaCard = ({imageUrl, nome, endereco}) => {
   const screenWidth = Dimensions.get('window').width;
@@ -27,16 +25,8 @@ const PessoaCard = ({imageUrl, nome, endereco}) => {
             {endereco}
           </Text>
           <HStack mt={2} space={4}>
-            <Icon
-              as={<IconMaterialCommunityIcons name="email" />}
-              size="sm"
-              color="blue.500"
-            />
-            <Icon
-              as={<IconMaterialCommunityIcons name="whatsapp" />}
-              size="sm"
-              color="green.500"
-            />
+            <Icon as={<IconMaterialCommunityIcons name="email" />} size="sm" color="blue.500" />
+            <Icon as={<IconMaterialCommunityIcons name="whatsapp" />} size="sm" color="green.500" />
           </HStack>
         </VStack>
       </HStack>

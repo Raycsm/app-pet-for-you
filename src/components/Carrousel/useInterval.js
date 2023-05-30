@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import {useRef, useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();

@@ -1,8 +1,6 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
+import {StyleSheet} from 'react-native';
 import {Appbar} from 'react-native-paper';
-import { StyleSheet } from 'react-native';
 
 export default function BackAction({title, onPress}) {
   return (
@@ -22,6 +20,6 @@ const style = StyleSheet.create({
     shadowColor: '#000',
     backgroundColor: 'white',
     height: 45,
-    marginBottom: 18,
-  },
+    marginBottom: 18
+  }
 });
