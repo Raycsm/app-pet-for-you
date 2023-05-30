@@ -3,7 +3,6 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import BackAction from '../components/BackAction';
-import {ROUTES} from '../constants';
 
 export default function AdoptionButtons({navigation}) {
   return (
@@ -12,7 +11,7 @@ export default function AdoptionButtons({navigation}) {
       <View style={style.container}>
         <Button
           style={{borderRadius: 20, height: 100, width: 300}}
-          onPress={() => navigation.navigate(ROUTES.CREATE_PET)}
+          onPress={() => navigation.navigate('CreatePet')}
           backgroundColor={'#DB652F'}
           leftIcon={<Icon as={IconMaterialCommunityIcons} name="dog" size="3xl" />}>
           <Text fontSize={20} color={'white'} marginLeft={2}>
@@ -22,7 +21,7 @@ export default function AdoptionButtons({navigation}) {
 
         <Button
           style={{borderRadius: 20, height: 100, width: 300, marginTop: 40}}
-          onPress={() => navigation.navigate(ROUTES.MY_PETS)}
+          onPress={() => navigation.navigate('MyPets')}
           backgroundColor={'#DB652F'}
           leftIcon={<Icon as={IconMaterialCommunityIcons} name="cat" size="3xl" />}>
           <Text fontSize={20} color={'white'} marginLeft={2}>
@@ -32,7 +31,7 @@ export default function AdoptionButtons({navigation}) {
 
         <Button
           style={{borderRadius: 20, height: 100, width: 300, marginTop: 40}}
-          onPress={() => navigation.navigate(ROUTES.MY_APPLICATIONS)}
+          onPress={() => navigation.navigate('MyApplications')}
           backgroundColor={'#DB652F'}
           leftIcon={<Icon as={IconMaterialCommunityIcons} name="rabbit" size="3xl" />}>
           <Text fontSize={20} color={'white'} marginLeft={2}>

@@ -10,7 +10,7 @@ import UserAutheticated from './components/UserAutheticated';
 export default function Navigation() {
   const [user, setUser] = React.useState(null);
 
-  function getUser({userId}) {
+   const getUser = ({userId}) => {
     React.useEffect(() => {
       const subscriber = firestore()
         .collection('usuario')

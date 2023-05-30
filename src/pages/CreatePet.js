@@ -1,8 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
-import {StyleSheet, View, SafeAreaView} from 'react-native';
+ import {StyleSheet, View, SafeAreaView, TouchableOpacity} from 'react-native';
 import {
   Center,
   KeyboardAvoidingView,
@@ -11,23 +7,18 @@ import {
   CheckIcon,
   Box,
   TextArea,
-  Image,
   Avatar
 } from 'native-base';
-import  React, {useState} from 'react';
+import  React, {useState, useEffect} from 'react';
 import {Platform, ScrollView, Alert} from 'react-native';
-import petSchema from '../Config/schema/petSchema';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
-import { ROUTES } from '../Constants';
 import BackAction from '../components/BackAction';
 import 'firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
-import * as yup from 'yup';
-import { validateUF} from 'validations-br';
-
+import auth from '@react-native-firebase/auth';
 
 
 export default function CreatePet({navigation}) {
@@ -46,7 +37,6 @@ export default function CreatePet({navigation}) {
   const [city, setCity] = useState('');
   const [uf, setUf] = useState('');
 
-
   const choosePhoto = () =>{
     ImagePicker.openPicker({
       width:500,
@@ -58,10 +48,10 @@ export default function CreatePet({navigation}) {
       setImage(imageUri);
     }).catch(err => console.log(err));
   };
-
+    
 
   const addPet = async () => {
-    isLoading(true)
+    setIsLoading(true)
     const imagePetUrl = await uploadImage();
     console.log('Image Url: ', imagePetUrl);
 
@@ -84,9 +74,9 @@ export default function CreatePet({navigation}) {
         petImg: imagePetUrl,
       })
       .then(()=> Alert.alert('Pet criado com sucesso!'));
-      navigation.navigate( ROUTES.MY_PETS)
+      navigation.navigate('MyPets')
       .catch((error) => console.log(error))
-      .finally(isLoading(false));
+      .finally(setIsLoading(false));
     } else {
       Alert.alert('Preencha todos os campos!');
     }
@@ -127,9 +117,10 @@ export default function CreatePet({navigation}) {
           <Center px={10}>
 
             <View style={{marginBottom:25}} />
-
-            {image != null ? <Avatar style={style.photoPet} source={{uri: image}} alt="petPhoto" /> : null}
-
+            
+            <TouchableOpacity onPress={choosePhoto}>
+            <Avatar style={style.photoPet} source={{uri: image}} alt="petPhoto" />
+            </TouchableOpacity>
             <SolidButton
               mt={3}
               mb={6}

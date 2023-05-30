@@ -10,7 +10,7 @@ import { Text } from 'react-native-paper';
 import IconFeather from 'react-native-vector-icons/Feather';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 import { MoreButton } from '../../components/Buttons/MoreButton';
-import { ROUTES } from '../../constants';
+import { ROUTES } from '../../Constants';
 
 import {
   AboutUs,
@@ -22,7 +22,7 @@ import {
   MyPets,
   Profile
 } from '../../pages';
-/;
+
 
 const Tab = createBottomTabNavigator();
 
@@ -31,10 +31,10 @@ const Stack = createNativeStackNavigator();
 function AdoptionNavigation() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={ROUTES.ADOPTION} component={Adoption} />
-      <Stack.Screen name={ROUTES.MY_PETS} component={MyPets} />
-      <Stack.Screen name={ROUTES.CREATE_PET} component={CreatePet} />
-      <Stack.Screen name={ROUTES.MY_APPLICATIONS} component={MyApplications} />
+      <Stack.Screen name={'Adoption'} component={Adoption} />
+      <Stack.Screen name={'MyPets'} component={MyPets} />
+      <Stack.Screen name={'CreatePet'} component={CreatePet} />
+      <Stack.Screen name={'MyApplications'} component={MyApplications} />
     </Stack.Navigator>
   );
 }
@@ -51,7 +51,7 @@ export default function UserAutheticated() {
         tabBarStyle: { height: 60 }
       }}>
       <Tab.Screen
-        name={ROUTES.HOME_TAB}
+        name='homeTab'
         component={Home}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -71,7 +71,7 @@ export default function UserAutheticated() {
         }}
       />
       <Tab.Screen
-        name={ROUTES.FAVORITES_TAB}
+        name='favoriteTab'
         component={Favorites}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -100,7 +100,7 @@ export default function UserAutheticated() {
       />
 
       <Tab.Screen
-        name={ROUTES.ABOUTUS_TAB}
+        name='AboutUsTab'
         component={AboutUs}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -121,7 +121,7 @@ export default function UserAutheticated() {
       />
 
       <Tab.Screen
-        name={ROUTES.PROFILE_TAB}
+        name='profileTab'
         component={Profile}
         options={{
           tabBarIcon: ({ focused }) => (

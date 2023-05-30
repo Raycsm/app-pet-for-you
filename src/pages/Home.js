@@ -1,14 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import auth from '@react-native-firebase/auth';
-import {Button, Icon, ScrollView, Text} from 'native-base';
+import {Button, Icon, ScrollView,  Box, HStack, Heading, Image, Stack, Text, AspectRatio} from 'native-base';
 import React from 'react';
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, TouchableOpacity, View, FlatList} from 'react-native';
 import Foundations from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
-import ROUTES from '../Constants/routes';
 import Carrousel from '../components/Carrousel/carrousel';
-import PetInfo from '../components/PetInfo';
 import {TextGrey} from '../components/TextGrey';
+import firestore from '@react-native-firebase/firestore';
 
 const images = [
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_cat.jpg?alt=media&token=efac84f3-96b7-44c8-8cea-b5003f7546a5',
@@ -25,12 +25,54 @@ const petsCategories = [
 
 export default function Home(navigation) {
   const [selectcategory, setselectCategory] = React.useState(0);
+  const [pets, setPets] = React.useState([]);
+
+  React.useEffect(async () => {
+        firestore()
+        .collection('animal')
+        .onSnapshot(
+          querySnapshot => {
+            const petsData = []
+            querySnapshot.forEach((doc)=>{
+              const { nomePet, 
+                      peso, 
+                      idade,  
+                      porte,
+                      raça,
+                      sexoPet,
+                      tipoPet,
+                      descrição,
+                      bairro,
+                      cidade,
+                      uf,
+                      petImg
+              } = doc.data()
+              petsData.push({
+                id: doc.id,
+                nomePet, 
+                peso, 
+                idade, 
+                petImg, 
+                porte,
+                raça,
+                sexoPet,
+                tipoPet,
+                descrição,
+                bairro,
+                cidade,
+                uf,
+              })
+            })
+            setPets(petsData)
+          }
+        )
+  }, []);
 
   const signOutAuth = () => {
     auth()
       .signOut()
       .then(() => {
-        navigation.navigate(ROUTES.LOGIN);
+        navigation.navigate('Login');
       });
   };
 
@@ -83,7 +125,49 @@ export default function Home(navigation) {
 
         <TextGrey style={style.text}>Pets perto de você</TextGrey>
         <View>
-          <PetInfo />
+        <FlatList
+            data={pets}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) =>  (
+              <Box alignItems="center">
+                <TouchableOpacity>
+                  <Box
+                    width={300}
+                    height={300}
+                    mb={8}
+                    mt={8}
+                    rounded="lg"
+                    overflow="hidden"
+                    borderColor="coolGray.200"
+                    borderWidth="1"
+                    _light={{
+                      backgroundColor: 'gray.50'
+                    }}>
+                    <Box>
+                      <AspectRatio w="120%" ratio={16 / 9}>
+                        <Image source={{uri: item.petImg}} alt="imagePet" />
+                      </AspectRatio>
+                    </Box>
+                    <Stack p="4" space={3}>
+                      <Stack space={2}>
+                        <Heading size="md" ml="-1">
+                          {item.nomePet}
+                        </Heading>
+                        <HStack space={15} justifyContent="space-between">
+                          <Text>{item.raça}</Text>
+                          <Text>{item.idade}</Text>
+                          <Text>{item.sexoPet}</Text>
+                          <Text>{item.porte}</Text>
+                        </HStack>
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </TouchableOpacity>
+              </Box>
+            )}
+            showsVerticalScrollIndicator={false}
+            style={{ flex: 1 }}
+          />
         </View>
       </ScrollView>
     </View>
