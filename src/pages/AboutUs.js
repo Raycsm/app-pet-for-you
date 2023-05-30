@@ -1,20 +1,13 @@
-import {Center, Image, ScrollView, View} from 'native-base';
-import React, {useRef} from 'react';
-import {StyleSheet} from 'react-native';
+import { Center, Image, Link, ScrollView, View } from 'native-base';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconMaterialCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import BackAction from '../components/BackAction';
-import {TextGrey} from '../components/TextGrey';
-import {Title} from '../components/Title';
+import { TextGrey } from '../components/TextGrey';
+import { Title } from '../components/Title';
 
-export default function AboutUs({navigation}) {
-  const githubB = useRef(null);
-  // https://github.com/Bamarcheti
-  // https://github.com/PhelipeMelo
-  // https://www.linkedin.com/in/rayassismagalhaes/
-  // https://github.com/Raycsm
-  // https://www.linkedin.com/in/raylla-do-sol-dias-858164231
-
+export default function AboutUs({ navigation }) {
   return (
     <ScrollView flex={1}>
       <BackAction title="Sobre nós" onPress={navigation.goBack} />
@@ -41,7 +34,6 @@ export default function AboutUs({navigation}) {
               busca por um animalzinho.
             </TextGrey>
           </View>
-          {/* <View style={styles.container}> */}
           <Title
             style={{
               marginTop: 30,
@@ -51,7 +43,6 @@ export default function AboutUs({navigation}) {
             }}>
             Integrantes
           </Title>
-          {/* </View> */}
           <View justifyContent="center" alignContent="center">
             <View flexDirection="column" justifyContent="center" alignItems="center">
               <Image
@@ -69,15 +60,14 @@ export default function AboutUs({navigation}) {
                   Bárbara Marcheti Fiorin
                 </TextGrey>
                 <View flexDirection="row" justifyContent="center" alignItems="center" marginTop={4}>
-                  {/* <Image
-                    source={{
-                      uri:"https://www.linkedin.com/in/barbara-marcheti-fiorin/"
-                    }}
-                  > */}
+                  <Link href='https://www.linkedin.com/in/barbara-marcheti-fiorin'>
 
-                  <IconAntDesign name="linkedin-square" size={24} color="blue" />
-                  {/* </Image> */}
-                  <IconAntDesign name="github" size={24} color="black" ref={githubB} />
+                    <IconAntDesign name="linkedin-square" size={24} color="blue" />
+                  </Link>
+                  <Link href='https://github.com/Bamarcheti'>
+
+                    <IconAntDesign name="github" size={24} color="black" />
+                  </Link>
                 </View>
               </View>
             </View>
@@ -98,8 +88,12 @@ export default function AboutUs({navigation}) {
                   Phelipe Gomes de Melo
                 </TextGrey>
                 <View flexDirection="row" justifyContent="center" alignItems="center" marginTop={4}>
-                  <IconAntDesign name="linkedin-square" size={24} color="blue" ref={githubB} />
-                  <IconAntDesign name="github" size={24} color="black" ref={githubB} />
+                  <Link href='https://www.linkedin.com/in/phelipe-gomes-de-melo-806015190'>
+                    <IconAntDesign name="linkedin-square" size={24} color="blue" />
+                  </Link>
+                  <Link href='https://github.com/PhelipeMelo'>
+                    <IconAntDesign name="github" size={24} color="black" />
+                  </Link>
                 </View>
               </View>
             </View>
@@ -120,9 +114,12 @@ export default function AboutUs({navigation}) {
                   Rayane Assis Magalhães
                 </TextGrey>
                 <View flexDirection="row" justifyContent="center" alignItems="center" marginTop={4}>
-                  <IconAntDesign name="linkedin-square" size={24} color="blue" ref={githubB} />
-
-                  <IconAntDesign name="github" size={24} color="black" ref={githubB} />
+                  <Link href='https://www.linkedin.com/in/rayassismagalhaes'>
+                    <IconAntDesign name="linkedin-square" size={24} color="blue" />
+                  </Link>
+                  <Link href='https://github.com/Raycsm'>
+                    <IconAntDesign name="github" size={24} color="black" />
+                  </Link>
                 </View>
               </View>
             </View>
@@ -143,7 +140,9 @@ export default function AboutUs({navigation}) {
                   Raylla do Sol Dias
                 </TextGrey>
                 <View flexDirection="row" justifyContent="center" alignItems="center" marginTop={4}>
-                  <IconAntDesign name="linkedin-square" size={24} color="blue" ref={githubB} />
+                  <Link href='https://www.linkedin.com/in/raylla-do-sol-dias-858164231'>
+                    <IconAntDesign name="linkedin-square" size={24} color="blue" />
+                  </Link>
                 </View>
               </View>
             </View>
@@ -152,12 +151,12 @@ export default function AboutUs({navigation}) {
               justifyContent="center"
               alignItems="center"
               textAlign="center">
-              <TextGrey style={{marginTop: 30, fontSize: 20}}>
+              <TextGrey style={{ marginTop: 30, fontSize: 20 }}>
                 Para mais informações entre em contato.
               </TextGrey>
               <View flexDirection="row" justifyContent="center" marginTop={30}>
-                <IconMaterialCommunity name="gmail" size={24} color="red" ref={githubB} />
-                <TextGrey style={{fontSize: 18}}>petForYou@outlook.com</TextGrey>
+                <IconMaterialCommunity name="gmail" size={24} color="red" />
+                <TextGrey style={{ fontSize: 18 }}>petForYou@outlook.com</TextGrey>
               </View>
             </View>
           </View>
