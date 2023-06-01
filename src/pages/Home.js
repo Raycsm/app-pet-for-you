@@ -2,13 +2,14 @@
 import auth from '@react-native-firebase/auth';
 import {Button, Icon, ScrollView,  Box, HStack, Heading, Image, Stack, Text, AspectRatio} from 'native-base';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View, FlatList} from 'react-native';
+import { StyleSheet, TouchableOpacity, View, FlatList, Pressable} from 'react-native';
 import Foundations from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Carrousel from '../components/Carrousel/carrousel';
 import {TextGrey} from '../components/TextGrey';
 import firestore from '@react-native-firebase/firestore';
+import { SolidButton } from '../components/Buttons/SolidButton';
 
 const images = [
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_cat.jpg?alt=media&token=efac84f3-96b7-44c8-8cea-b5003f7546a5',
@@ -26,8 +27,9 @@ const petsCategories = [
 export default function Home(navigation) {
   const [selectcategory, setselectCategory] = React.useState(0);
   const [pets, setPets] = React.useState([]);
+  const [favorite, setFavorite] = React.useState();
 
-  React.useEffect(async () => {
+  React.useEffect( () => {
         firestore()
         .collection('animal')
         .onSnapshot(
@@ -88,6 +90,7 @@ export default function Home(navigation) {
 
           <Image
             style={style.logo_home}
+            alt='logo_home'
             source={{
               uri: 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/logo.png?alt=media&token=ed7ba77b-b2f7-4349-ad3c-34abbd26f5bb'
             }}
@@ -105,7 +108,7 @@ export default function Home(navigation) {
 
         <View style={style.categoryPet}>
           {petsCategories.map((item, index) => (
-            <View key={'pets' + index} style={{alignItems: 'center'}}>
+            <View style={{alignItems: 'center'}}>
               <TouchableOpacity
                 onPress={() => {
                   setselectCategory(index);
@@ -123,17 +126,19 @@ export default function Home(navigation) {
           ))}
         </View>
 
-        <TextGrey style={style.text}>Pets perto de você</TextGrey>
+        <TextGrey style={style.text}>Pets disponíveis</TextGrey>
         <View>
         <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
             data={pets}
+            scrollEventThrottle={16}
             keyExtractor={item => item.id}
             renderItem={({ item }) =>  (
-              <Box alignItems="center">
-                <TouchableOpacity>
+              <Box alignItems="center" width={'80'} marginLeft={4}justifyContent="space-around">
                   <Box
-                    width={300}
-                    height={300}
+                    width={320}
+                    height={450}
                     mb={8}
                     mt={8}
                     rounded="lg"
@@ -145,31 +150,65 @@ export default function Home(navigation) {
                     }}>
                     <Box>
                       <AspectRatio w="120%" ratio={16 / 9}>
-                        <Image source={{uri: item.petImg}} alt="imagePet" />
+                        <Image source={{uri: item.petImg}} alt="imagePets" />
                       </AspectRatio>
                     </Box>
                     <Stack p="4" space={3}>
                       <Stack space={2}>
-                        <Heading size="md" ml="-1">
-                          {item.nomePet}
-                        </Heading>
+                        <Stack flexDirection={'row'} justifyContent="space-between">
+                          <Heading size="md" >
+                            {item.nomePet}
+                          </Heading>
+                          <Text fontSize={12} ml="-1" mt={1} 
+                          color={'#000'}>
+                            {item.bairro}, {item.cidade}/{item.uf}
+                          </Text>
+                        </Stack>
                         <HStack space={15} justifyContent="space-between">
-                          <Text>{item.raça}</Text>
-                          <Text>{item.idade}</Text>
-                          <Text>{item.sexoPet}</Text>
-                          <Text>{item.porte}</Text>
+                          <Text>Rayane Assis</Text>
+
+                        </HStack>
+                        <HStack space={15} justifyContent="space-between">
+                          <Text fontWeight={600}>{item.raça}</Text>
+                          <Text fontWeight={600}>{item.idade}</Text>
+                          <Text fontWeight={600}>{item.peso}</Text>
+                          <Text fontWeight={600}>{item.sexoPet}</Text>
+                          <Text fontWeight={600}>{item.porte}</Text>
+                        </HStack>
+                        <HStack space={15}>
+                          <Text>{item.descrição}</Text>
+                        </HStack>
+                        <HStack alignItems="center" mt={5}justifyContent="space-between">
+                          <SolidButton
+                            title="Chat"
+                            width={130}
+                            height={30}
+                            fontSize={10}
+                            paddingBottom={1}
+                            paddingTop={1}
+                            textAlign="center"
+                          />
+                          <View>
+                            <Button backgroundColor='#DB652F' borderRadius={40}>
+                            <Pressable onPress={() => setFavorite((isfavorite) => !isfavorite)}>
+                              <Icons
+                                name={favorite? "heart" : "heart-outline"}
+                                size={24}
+                                color={favorite ? "red" : "white"}
+                              />
+                            </Pressable>
+                            </Button>
+                          </View>
                         </HStack>
                       </Stack>
                     </Stack>
                   </Box>
-                </TouchableOpacity>
               </Box>
             )}
-            showsVerticalScrollIndicator={false}
             style={{ flex: 1 }}
           />
         </View>
-      </ScrollView>
+        </ScrollView>
     </View>
   );
 }

@@ -10,7 +10,6 @@ import { Text } from 'react-native-paper';
 import IconFeather from 'react-native-vector-icons/Feather';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 import { MoreButton } from '../../components/Buttons/MoreButton';
-import { ROUTES } from '../../Constants';
 
 import {
   AboutUs,
@@ -18,9 +17,9 @@ import {
   CreatePet,
   Favorites,
   Home,
-  MyApplications,
   MyPets,
-  Profile
+  Profile,
+  Chat,
 } from '../../pages';
 
 
@@ -34,7 +33,7 @@ function AdoptionNavigation() {
       <Stack.Screen name={'Adoption'} component={Adoption} />
       <Stack.Screen name={'MyPets'} component={MyPets} />
       <Stack.Screen name={'CreatePet'} component={CreatePet} />
-      <Stack.Screen name={'MyApplications'} component={MyApplications} />
+      <Stack.Screen name={'Favorites'} component={Favorites} />
     </Stack.Navigator>
   );
 }
@@ -71,12 +70,12 @@ export default function UserAutheticated() {
         }}
       />
       <Tab.Screen
-        name='favoriteTab'
-        component={Favorites}
+        name='chatTab'
+        component={Chat}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
-              <IconIonicons name="md-heart" size={20} color={focused ? '#DB652F' : '#8B8888'} />
+              <IconIonicons name="ios-chatbubble-ellipses" size={20} color={focused ? '#DB652F' : '#8B8888'} />
               <Text
                 allowFontScaling={false}
                 style={{
@@ -84,7 +83,7 @@ export default function UserAutheticated() {
                   fontSize: 15,
                   textAlign: 'center'
                 }}>
-                Favoritos
+                Chat
               </Text>
             </>
           )

@@ -21,7 +21,6 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
-import { AuthContext } from '../navigation/components/AuthProvider';
 
 export default function SignUp({navigation}) {
   const [show, setShow] = React.useState(false);

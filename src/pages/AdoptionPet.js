@@ -31,11 +31,11 @@ export default function AdoptionButtons({navigation}) {
 
         <Button
           style={{borderRadius: 20, height: 100, width: 300, marginTop: 40}}
-          onPress={() => navigation.navigate('MyApplications')}
+          onPress={() => navigation.navigate('Favorites')}
           backgroundColor={'#DB652F'}
-          leftIcon={<Icon as={IconMaterialCommunityIcons} name="rabbit" size="3xl" />}>
+          leftIcon={<Icon as={IconMaterialCommunityIcons} name="heart" size="3xl" />}>
           <Text fontSize={20} color={'white'} marginLeft={2}>
-            Minhas Candidaturas
+            Pets favoritos
           </Text>
         </Button>
       </View>
@@ -45,7 +45,7 @@ export default function AdoptionButtons({navigation}) {
 
 const style = StyleSheet.create({
   container: {
-    marginTop: 80,
+    marginTop: 40,
     alignSelf: 'center'
   }
 });

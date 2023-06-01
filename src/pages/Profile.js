@@ -14,6 +14,7 @@ import {Input} from '../components/Input';
 import ImagePicker from 'react-native-image-crop-picker';
 
 
+
 export default function Profile({navigation, route}) {
   const [show, setShow] = React.useState(false);
   const {userData, defaultValue} = route.params;
@@ -114,7 +115,8 @@ export default function Profile({navigation, route}) {
             <Center px={10}>
 
               <TouchableOpacity onPress={choosePhoto}>
-                <Avatar style={style.photoUser} source={{uri: image}} alt="petPhoto" />
+                <Avatar style={style.photoUser} source={{uri: image}} alt="petPhoto" 
+               />
               </TouchableOpacity>
             
             <SolidButton
@@ -155,6 +157,7 @@ export default function Profile({navigation, route}) {
                 placeholder="Senha"
                 onChangeText={setPassword}
                 value={password}
+                defaultValue={password}
               />
             
               <Input
@@ -168,12 +171,14 @@ export default function Profile({navigation, route}) {
                 placeholder="Cidade"
                 onChangeText={setCity}
                 value={city}
+                defaultValue={city}
               />
           
               <Input
                 placeholder="UF"
                 onChangeText={setUf}
                 value={uf}
+                defaultValue={uf}
                />
 
               <SolidButton mt={3} mb={16} title="Atualizar" onPress={updateUser} />
