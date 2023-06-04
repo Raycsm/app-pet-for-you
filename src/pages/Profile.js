@@ -1,9 +1,6 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-
-/* eslint-disable react-hooks/exhaustive-deps */
+ /* eslint-disable react-hooks/exhaustive-deps */
 
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import {Center, Icon, KeyboardAvoidingView, Pressable, VStack, Avatar} from 'native-base';
 import * as React from 'react';
 import {Alert, Platform, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
@@ -12,20 +9,15 @@ import BackAction from '../components/BackAction';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
 import ImagePicker from 'react-native-image-crop-picker';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 
-
-export default function Profile({navigation, route}) {
+export default function Profile({navigation}) {
   const [show, setShow] = React.useState(false);
-  const {userData, defaultValue} = route.params;
-  const [defaultValues, setDefaultValues] = React.useState({});
+  const [userData, setUserData] = React.useState(null);
   const [image, setImage] = React.useState(null);
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [bairro, setBairro] = React.useState('');
-  const [city, setCity] = React.useState('');
-  const [uf, setUf] = React.useState('');
+  
 
   const choosePhoto = () =>{
     ImagePicker.openPicker({
@@ -39,72 +31,82 @@ export default function Profile({navigation, route}) {
     }).catch(err => console.log(err));
   };
 
+  const authUser = auth();
+  const user = authUser.currentUser;
 
-  const userAuth = auth().currentUser;
+  const getUser = async() => {
+     firestore()
+    .collection('usuario')
+    .doc(user.uid)
+    .get()
+    .then((documentSnapshot) => {
+      if( documentSnapshot.exists ) {
+        console.log('User Data', documentSnapshot.data());
+        setUserData(documentSnapshot.data());
+      }
+    })
+  }
 
-  if (userAuth != null) {
+    const updateUser = async () => {
+      const imageUserUrl = await uploadImage();
+      console.log('Image Url: ', imageUserUrl);
 
-    const updateUser = () => {
-      if (userAuth != null) {
-        const uid = userAuth.uid;
+      const updateData = {}
 
-        React.useEffect(() => {
-          setDefaultValues({
-            ...defaultValues,
-            bairro: userData.bairro,
-            city: userData.cidade
-          });
-        }, [defaultValue]);
-
-        const updateData = {};
-
-        if (password) {
-          updateData.senha = password;
+        if (userData.name) {
+          updateData.nome = userData.name;
         }
 
-        if (bairro) {
-          updateData.bairro = bairro;
+        if (userData.email) {
+          updateData.email = userData.email;
         }
 
-        if (city) {
-          updateData.cidade = city;
+        if (userData.password) {
+          updateData.senha = userData.password;
         }
 
-        if (uf) {
-          updateData.uf = uf;
-        }
-
-        if (image) {
-          updateData.userImg = image;
+        if (userData.userImg) {
+          updateData.usuarioImg = userData.userImg;
         }
 
         firestore()
           .collection('usuario')
-          .doc(uid)
+          .doc(user.uid)
           .update(updateData)
           .then(() => Alert.alert('Atualizado com sucesso!'))
           .catch(error => {
             console.log('Erro ao atualizar:', error);
           });
       }
-    };
 
-    function getUser({userId}) {
+      const uploadImage = async () => {
+        if ( image == null ) {
+          return null;
+        }
+        const uploadUri = image;
+        let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+        const storageRef = storage().ref(`photos/${filename}`);
+        const task = storageRef.putFile(uploadUri);
+    
+        try {
+          await task;
+    
+          const url = await storageRef.getDownloadURL();
+          setImage(null);
+    
+          return url;
+    
+        } catch (e) {
+          console.log(e);
+          return null;
+        }
+    
+      };
+
       React.useEffect(() => {
-        const subscriber = firestore()
-          .collection('usuario')
-          .doc(userId)
-          .onSnapshot(documentSnapshot => {
-            if (documentSnapshot.exists) {
-              const data = documentSnapshot.data();
-              setDefaultValues(data);
-            }
-          });
-
-        return () => subscriber();
+        getUser();
       }, []);
-    }
-
+    
     return (
       <VStack flex={1}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -115,31 +117,33 @@ export default function Profile({navigation, route}) {
             <Center px={10}>
 
               <TouchableOpacity onPress={choosePhoto}>
-                <Avatar style={style.photoUser} source={{uri: image}} alt="petPhoto" 
+                <Avatar style={style.photoUser} 
+                source={{uri: image
+                  ? image
+                  : userData ? userData.usuarioImg || 
+                  'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Ficons8-avatar-96.png?alt=media&token=a7943aa1-ff8d-4eda-8c44-7c3186ec1234' 
+                  :'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Ficons8-avatar-96.png?alt=media&token=a7943aa1-ff8d-4eda-8c44-7c3186ec1234'}} 
+                  alt="userPhoto" 
                />
               </TouchableOpacity>
-            
-            <SolidButton
-              mt={3}
-              mb={6}
-              title="Selecionar foto"
-              width={180}
-              onPress={choosePhoto}
-            />
-
-             
+              
+              <SolidButton
+                mt={3}
+                mb={6}
+                title="Selecionar foto"
+                width={180}
+                onPress={choosePhoto}
+              />
               <Input
-                isDisabled
                 placeholder="Nome"
-                onChangeText={setName}
-                value={name}
+                value={userData ? userData.nome : ''}
+                onChangeText={(txt) => setUserData({...userData, nome: txt})}
               />
             
               <Input
-                isDisabled
                 placeholder="E-mail"
-                onChangeText={setEmail}
-                value={email}
+                value={userData ? userData.email : ''}
+                onChangeText={(txt) => setUserData({...userData, email: txt})}
               />
 
               <Input
@@ -155,31 +159,9 @@ export default function Profile({navigation, route}) {
                   </Pressable>
                 }
                 placeholder="Senha"
-                onChangeText={setPassword}
-                value={password}
-                defaultValue={password}
+                value={userData ? userData.senha : ''}
+                onChangeText={(txt) => setUserData({...userData, senha: txt})}
               />
-            
-              <Input
-                placeholder="Bairro"
-                onChangeText={setBairro}
-                value={bairro}
-                defaultValue={bairro}
-              />
-          
-              <Input
-                placeholder="Cidade"
-                onChangeText={setCity}
-                value={city}
-                defaultValue={city}
-              />
-          
-              <Input
-                placeholder="UF"
-                onChangeText={setUf}
-                value={uf}
-                defaultValue={uf}
-               />
 
               <SolidButton mt={3} mb={16} title="Atualizar" onPress={updateUser} />
             </Center>
@@ -188,14 +170,15 @@ export default function Profile({navigation, route}) {
       </VStack>
     );
   }
-}
+
 
 const style = StyleSheet.create({
   photoUser:{
     marginBottom: 15,
     width:180,
     height:180,
-    marginTop:30 
+    marginTop:30,
+    backgroundColor: '#f5f5f5'
   },
 });
 

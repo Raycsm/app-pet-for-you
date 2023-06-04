@@ -48,18 +48,25 @@ export default function CreatePet({navigation}) {
       setImage(imageUri);
     }).catch(err => console.log(err));
   };
-    
 
   const addPet = async () => {
     setIsLoading(true)
     const imagePetUrl = await uploadImage();
     console.log('Image Url: ', imagePetUrl);
 
+    const authUser = auth();
+    const user = authUser.currentUser;
+    const displayName = user.displayName;
+    const uid = user.uid;
+  
+
     if ((namePet, typePet, sexPet, age, weight, porte, race, description, bairro, city, uf !== '')){
 
       firestore()
       .collection('animal')
       .add({
+        IdUsuario: uid,
+        nomeUsuario: displayName,
         nomePet: namePet,
         tipoPet: typePet,
         sexoPet: sexPet,
@@ -119,7 +126,7 @@ export default function CreatePet({navigation}) {
             <View style={{marginBottom:25}} />
             
             <TouchableOpacity onPress={choosePhoto}>
-            <Avatar style={style.photoPet} source={{uri: image}} alt="petPhoto" />
+            <Avatar style={style.photoUser} size={180} source={{uri: image}} alt="petPhoto"> + </Avatar>
             </TouchableOpacity>
             <SolidButton
               mt={3}
@@ -315,10 +322,7 @@ const style = StyleSheet.create({
     marginRight:10,
   },
   photoPet:{
-    marginBottom: 15,
-    width:180,
-    height:180
-    
+    marginBottom: 15, 
   },
 });
 

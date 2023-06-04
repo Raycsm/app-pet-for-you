@@ -20,6 +20,7 @@ import {
   MyPets,
   Profile,
   Chat,
+  EditPet
 } from '../../pages';
 
 
@@ -34,6 +35,7 @@ function AdoptionNavigation() {
       <Stack.Screen name={'MyPets'} component={MyPets} />
       <Stack.Screen name={'CreatePet'} component={CreatePet} />
       <Stack.Screen name={'Favorites'} component={Favorites} />
+      <Stack.Screen name={'EditPet'} component={EditPet} />
     </Stack.Navigator>
   );
 }

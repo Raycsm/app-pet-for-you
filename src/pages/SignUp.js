@@ -1,6 +1,3 @@
-import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Alert} from 'react-native';
-
 import {
   Center,
   Icon,
@@ -10,7 +7,7 @@ import {
   Avatar
 } from 'native-base';
 import * as React from 'react';
-import {Platform, ScrollView, StyleSheet} from 'react-native';
+import {Platform, ScrollView, Alert, StyleSheet} from 'react-native';
 import {OutlineButtonOrange} from '../components/Buttons/OutlineButton';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
@@ -21,16 +18,14 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default function SignUp({navigation}) {
   const [show, setShow] = React.useState(false);
-  const [image, setImage] = React.useState(null);
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
+  const [image, setImage] = React.useState(null);
   const [password, setPassword] = React.useState('');
-  const [bairro, setBairro] = React.useState('');
-  const [city, setCity] = React.useState('');
-  const [uf, setUf] = React.useState('');
 
   const choosePhoto = () =>{
     ImagePicker.openPicker({
@@ -50,7 +45,7 @@ export default function SignUp({navigation}) {
     const imagePetUrl = await uploadImage();
     console.log('Image Url: ', imagePetUrl);
 
-    if ((name, email, password, bairro, city, uf !== '')){
+    if ((name, email, password !== '')){
 
     auth()
       .createUserWithEmailAndPassword(email, password)
@@ -62,9 +57,6 @@ export default function SignUp({navigation}) {
             nome: name,
             email: email,
             senha: password,
-            bairro: bairro,
-            cidade: city,
-            uf: uf,
             userImg: imagePetUrl,
           })
           .then(()=> Alert.alert('Conta criada com sucesso!'));
@@ -110,7 +102,7 @@ const uploadImage = async () => {
 
             <Title style={{marginBottom: 30, marginTop: 10}}>Criar Conta</Title>
 
-            {image != null ? <Avatar style={style.photoUser} source={{uri: image}} alt="userPhoto" /> : null}
+            <Avatar style={style.photoUser} source={{uri: image}} alt="userPhoto" /> 
 
             <SolidButton
               mt={3}
@@ -139,7 +131,7 @@ const uploadImage = async () => {
                 <Pressable onPress={() => setShow(!show)}>
                   <Icon
                     as={
-                      <IconmaterialIcons
+                      <IconMaterialIcons
                         name={show ? 'visibility' : 'visibility-off'}
                       />
                     }
@@ -152,24 +144,6 @@ const uploadImage = async () => {
               placeholder="Senha"
               onChangeText={setPassword}
               evalue={password}
-            />
-
-            <Input
-              placeholder="Bairro"
-              onChangeText={setBairro}
-              value={bairro}
-            />
-
-            <Input
-              placeholder="Cidade"
-              onChangeText={setCity}
-              value={city}
-            />
-
-            <Input
-              placeholder="UF"
-              onChangeText={setUf}
-              value={uf}
             />
 
             <SolidButton

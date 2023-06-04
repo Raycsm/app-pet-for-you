@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import auth from '@react-native-firebase/auth';
 import {Button, Icon, ScrollView,  Box, HStack, Heading, Image, Stack, Text, AspectRatio} from 'native-base';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View, FlatList, Pressable} from 'react-native';
@@ -10,6 +8,7 @@ import Carrousel from '../components/Carrousel/carrousel';
 import {TextGrey} from '../components/TextGrey';
 import firestore from '@react-native-firebase/firestore';
 import { SolidButton } from '../components/Buttons/SolidButton';
+import { UserContext } from '../context/UserProvider';
 
 const images = [
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_cat.jpg?alt=media&token=efac84f3-96b7-44c8-8cea-b5003f7546a5',
@@ -28,6 +27,7 @@ export default function Home(navigation) {
   const [selectcategory, setselectCategory] = React.useState(0);
   const [pets, setPets] = React.useState([]);
   const [favorite, setFavorite] = React.useState();
+  const {logout} = React.useContext(UserContext);
 
   React.useEffect( () => {
         firestore()
@@ -36,47 +36,15 @@ export default function Home(navigation) {
           querySnapshot => {
             const petsData = []
             querySnapshot.forEach((doc)=>{
-              const { nomePet, 
-                      peso, 
-                      idade,  
-                      porte,
-                      raça,
-                      sexoPet,
-                      tipoPet,
-                      descrição,
-                      bairro,
-                      cidade,
-                      uf,
-                      petImg
-              } = doc.data()
               petsData.push({
                 id: doc.id,
-                nomePet, 
-                peso, 
-                idade, 
-                petImg, 
-                porte,
-                raça,
-                sexoPet,
-                tipoPet,
-                descrição,
-                bairro,
-                cidade,
-                uf,
+                ...doc.data(),
               })
             })
             setPets(petsData)
           }
         )
   }, []);
-
-  const signOutAuth = () => {
-    auth()
-      .signOut()
-      .then(() => {
-        navigation.navigate('Login');
-      });
-  };
 
   return (
     <View>
@@ -98,7 +66,7 @@ export default function Home(navigation) {
 
           <Button
             style={style.exit}
-            onPress={() => signOutAuth()}
+            onPress={() => logout()}
             backgroundColor={'#DB652F'}
             leftIcon={<Icon as={Ionicons} name="ios-exit" size="xl" />}
           />
