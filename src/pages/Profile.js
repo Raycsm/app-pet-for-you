@@ -1,106 +1,112 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+ /* eslint-disable react-hooks/exhaustive-deps */
 
-/* eslint-disable react-hooks/exhaustive-deps */
-
-import {yupResolver} from '@hookform/resolvers/yup';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import {Center, Icon, KeyboardAvoidingView, Pressable, VStack} from 'native-base';
+import {Center, Icon, KeyboardAvoidingView, Pressable, VStack, Avatar} from 'native-base';
 import * as React from 'react';
-import {Controller, useForm} from 'react-hook-form';
-import {Alert, Platform, SafeAreaView, ScrollView, View} from 'react-native';
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import {Alert, Platform, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import BackAction from '../components/BackAction';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
-import Logo from '../components/Logo';
-import updateSchema from '../config/schema/updateSchema';
+import ImagePicker from 'react-native-image-crop-picker';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
-export default function Profile({navigation, route}) {
+
+export default function Profile({navigation}) {
   const [show, setShow] = React.useState(false);
-  const {userData, defaultValue} = route.params;
-  const [defaultValues, setDefaultValues] = React.useState({});
+  const [userData, setUserData] = React.useState(null);
+  const [image, setImage] = React.useState(null);
+  
 
-  const {
-    control,
-    handleSubmit,
-    formState: {errors}
-  } = useForm({
-    resolver: yupResolver(updateSchema)
-  });
+  const choosePhoto = () =>{
+    ImagePicker.openPicker({
+      width:500,
+      height:500,
+      cropping:true,
+    }).then((photo) => {
+      console.log(photo);
+      const imageUri = Platform.OS === 'ios' ? photo.sourceURL : photo.path;
+      setImage(imageUri);
+    }).catch(err => console.log(err));
+  };
 
-  const userAuth = auth().currentUser;
+  const authUser = auth();
+  const user = authUser.currentUser;
 
-  let id;
+  const getUser = async() => {
+     firestore()
+    .collection('usuario')
+    .doc(user.uid)
+    .get()
+    .then((documentSnapshot) => {
+      if( documentSnapshot.exists ) {
+        console.log('User Data', documentSnapshot.data());
+        setUserData(documentSnapshot.data());
+      }
+    })
+  }
 
-  if (userAuth != null) {
-    id = userAuth.uid;
+    const updateUser = async () => {
+      const imageUserUrl = await uploadImage();
+      console.log('Image Url: ', imageUserUrl);
 
-    const updateUser = data => {
-      if (userAuth != null) {
-        const uid = userAuth.uid;
+      const updateData = {}
 
-        React.useEffect(() => {
-          setDefaultValues({
-            ...defaultValues,
-            phone: userData.telefone
-          });
-        }, [defaultValue]);
-
-        const updateData = {};
-
-        if (data.password) {
-          updateData.senha = data.password;
+        if (userData.name) {
+          updateData.nome = userData.name;
         }
 
-        if (data.phone) {
-          updateData.telefone = data.phone;
+        if (userData.email) {
+          updateData.email = userData.email;
         }
 
-        if (data.address) {
-          updateData.endereço = data.address;
+        if (userData.password) {
+          updateData.senha = userData.password;
         }
 
-        if (data.bairro) {
-          updateData.bairro = data.bairro;
-        }
-
-        if (data.city) {
-          updateData.cidade = data.city;
-        }
-
-        if (data.uf) {
-          updateData.uf = data.uf;
+        if (userData.userImg) {
+          updateData.usuarioImg = userData.userImg;
         }
 
         firestore()
           .collection('usuario')
-          .doc(uid)
+          .doc(user.uid)
           .update(updateData)
           .then(() => Alert.alert('Atualizado com sucesso!'))
           .catch(error => {
             console.log('Erro ao atualizar:', error);
           });
       }
-    };
 
-    function getUser({userId}) {
+      const uploadImage = async () => {
+        if ( image == null ) {
+          return null;
+        }
+        const uploadUri = image;
+        let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+        const storageRef = storage().ref(`photos/${filename}`);
+        const task = storageRef.putFile(uploadUri);
+    
+        try {
+          await task;
+    
+          const url = await storageRef.getDownloadURL();
+          setImage(null);
+    
+          return url;
+    
+        } catch (e) {
+          console.log(e);
+          return null;
+        }
+    
+      };
+
       React.useEffect(() => {
-        const subscriber = firestore()
-          .collection('usuario')
-          .doc(userId)
-          .onSnapshot(documentSnapshot => {
-            if (documentSnapshot.exists) {
-              const data = documentSnapshot.data();
-              setDefaultValues(data);
-            }
-          });
-
-        return () => subscriber();
+        getUser();
       }, []);
-    }
-
+    
     return (
       <VStack flex={1}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -109,207 +115,70 @@ export default function Profile({navigation, route}) {
           </SafeAreaView>
           <ScrollView>
             <Center px={10}>
-              <View style={{marginBottom: 20}}>
-                <Logo />
-              </View>
-              <Controller
-                name="name"
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Input
-                    isDisabled
-                    InputLeftElement={
-                      <Icon
-                        as={<IconmaterialIcons name="person" />}
-                        size={5}
-                        ml="3"
-                        color="muted.400"
-                      />
-                    }
-                    placeholder="Nome"
-                    onChangeText={onChange}
-                    errorMessage={errors.name?.message}
-                  />
-                )}
+
+              <TouchableOpacity onPress={choosePhoto}>
+                <Avatar style={style.photoUser} 
+                source={{uri: image
+                  ? image
+                  : userData ? userData.usuarioImg || 
+                  'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Ficons8-avatar-96.png?alt=media&token=a7943aa1-ff8d-4eda-8c44-7c3186ec1234' 
+                  :'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Ficons8-avatar-96.png?alt=media&token=a7943aa1-ff8d-4eda-8c44-7c3186ec1234'}} 
+                  alt="userPhoto" 
+               />
+              </TouchableOpacity>
+              
+              <SolidButton
+                mt={3}
+                mb={6}
+                title="Selecionar foto"
+                width={180}
+                onPress={choosePhoto}
               />
-              <Controller
-                name="userName"
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Input
-                    isDisabled
-                    InputLeftElement={
-                      <Icon
-                        as={<IconAntDesign name="idcard" />}
-                        size={5}
-                        ml="3"
-                        color="muted.400"
-                      />
-                    }
-                    placeholder="Nome de Usuário"
-                    onChangeText={onChange}
-                    errorMessage={errors.userName?.message}
-                  />
-                )}
+              <Input
+                placeholder="Nome"
+                value={userData ? userData.nome : ''}
+                onChangeText={(txt) => setUserData({...userData, nome: txt})}
               />
-              <Controller
-                name="email"
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Input
-                    isDisabled
-                    InputLeftElement={
-                      <Icon
-                        as={<IconmaterialIcons name="email" />}
-                        size={5}
-                        ml="3"
-                        color="muted.400"
-                      />
-                    }
-                    placeholder="E-mail"
-                    onChangeText={onChange}
-                    errorMessage={errors.email?.message}
-                  />
-                )}
+            
+              <Input
+                placeholder="E-mail"
+                value={userData ? userData.email : ''}
+                onChangeText={(txt) => setUserData({...userData, email: txt})}
               />
 
-              <Controller
-                name="password"
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Input
-                    type={show ? 'text' : 'password'}
-                    InputLeftElement={
-                      <Icon
-                        as={<IconmaterialIcons name="lock" />}
-                        size={5}
-                        ml="3"
-                        color="muted.400"
-                      />
-                    }
-                    InputRightElement={
-                      <Pressable onPress={() => setShow(!show)}>
-                        <Icon
-                          as={<IconmaterialIcons name={show ? 'visibility' : 'visibility-off'} />}
-                          size={5}
-                          mr="5"
-                          color="muted.400"
-                        />
-                      </Pressable>
-                    }
-                    placeholder="Senha"
-                    onChangeText={onChange}
-                    errorMessage={errors.password?.message}
-                  />
-                )}
+              <Input
+                type={show ? 'text' : 'password'}
+                InputRightElement={
+                  <Pressable onPress={() => setShow(!show)}>
+                    <Icon
+                      as={<IconmaterialIcons name={show ? 'visibility' : 'visibility-off'} />}
+                      size={5}
+                      mr="5"
+                      color="muted.400"
+                    />
+                  </Pressable>
+                }
+                placeholder="Senha"
+                value={userData ? userData.senha : ''}
+                onChangeText={(txt) => setUserData({...userData, senha: txt})}
               />
 
-              <Controller
-                name="phone"
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Input
-                    InputLeftElement={
-                      <Icon
-                        as={<IconmaterialIcons name="smartphone" />}
-                        size={5}
-                        ml="3"
-                        color="muted.400"
-                      />
-                    }
-                    placeholder="Telefone"
-                    onChangeText={onChange}
-                    defaultValue={defaultValues.phone}
-                    errorMessage={errors.phone?.message}
-                  />
-                )}
-              />
-
-              <Controller
-                name="address"
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Input
-                    InputLeftElement={
-                      <Icon
-                        as={<IconmaterialIcons name="location-pin" />}
-                        size={5}
-                        ml="3"
-                        color="muted.400"
-                      />
-                    }
-                    placeholder="Rua"
-                    onChangeText={onChange}
-                    errorMessage={errors.address?.message}
-                  />
-                )}
-              />
-
-              <Controller
-                name="bairro"
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Input
-                    InputLeftElement={
-                      <Icon
-                        as={<IconmaterialIcons name="location-on" />}
-                        size={5}
-                        ml="3"
-                        color="muted.400"
-                      />
-                    }
-                    placeholder="Bairro"
-                    onChangeText={onChange}
-                    errorMessage={errors.bairro?.message}
-                  />
-                )}
-              />
-
-              <Controller
-                name="city"
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Input
-                    InputLeftElement={
-                      <Icon
-                        as={<IconmaterialIcons name="location-city" />}
-                        size={5}
-                        ml="3"
-                        color="muted.400"
-                      />
-                    }
-                    placeholder="Cidade"
-                    onChangeText={onChange}
-                    errorMessage={errors.city?.message}
-                  />
-                )}
-              />
-
-              <Controller
-                name="uf"
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Input
-                    InputLeftElement={
-                      <Icon
-                        as={<IconmaterialIcons name="add-location" />}
-                        size={5}
-                        ml="3"
-                        color="muted.400"
-                      />
-                    }
-                    placeholder="UF"
-                    onChangeText={onChange}
-                    errorMessage={errors.uf?.message}
-                  />
-                )}
-              />
-
-              <SolidButton mt={3} mb={16} title="Atualizar" onPress={handleSubmit(updateUser)} />
+              <SolidButton mt={3} mb={16} title="Atualizar" onPress={updateUser} />
             </Center>
           </ScrollView>
         </KeyboardAvoidingView>
       </VStack>
     );
   }
-}
+
+
+const style = StyleSheet.create({
+  photoUser:{
+    marginBottom: 15,
+    width:180,
+    height:180,
+    marginTop:30,
+    backgroundColor: '#f5f5f5'
+  },
+});
+

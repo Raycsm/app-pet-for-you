@@ -47,6 +47,7 @@ export default function AboutUs({ navigation }) {
             <View flexDirection="column" justifyContent="center" alignItems="center">
               <Image
                 style={styles.foto}
+                alt='imageBarbara'
                 source={{
                   uri: 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Fotos%2FbarbaraMarchetiFiorin.jpg?alt=media&token=99c35825-c3a2-447e-a839-e13486eb7fd5'
                 }}
@@ -75,6 +76,7 @@ export default function AboutUs({ navigation }) {
             <View flexDirection="column" justifyContent="center" alignItems="center">
               <Image
                 style={styles.foto}
+                alt='imagePhelipe'
                 source={{
                   uri: 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Fotos%2FphelipeGomesDeMelo.jpeg?alt=media&token=01114aaf-14c9-4a5b-912a-f88927dd4c75'
                 }}
@@ -101,6 +103,7 @@ export default function AboutUs({ navigation }) {
             <View flexDirection="column" justifyContent="center" alignItems="center">
               <Image
                 style={styles.foto}
+                alt='imageRayane'
                 source={{
                   uri: 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Fotos%2FrayaneAssisMagalhaes.jpeg?alt=media&token=d7c3d5c8-4166-4c48-ad2d-7b15ae7fd82f'
                 }}
@@ -127,6 +130,7 @@ export default function AboutUs({ navigation }) {
             <View flexDirection="column" justifyContent="center" alignItems="center">
               <Image
                 style={styles.foto}
+                alt='imageRaylla'
                 source={{
                   uri: 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Fotos%2FrayllaSolDias.jpeg?alt=media&token=a5d3f272-fec9-4f15-8ec0-3db00ea757fb'
                 }}

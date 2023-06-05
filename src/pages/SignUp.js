@@ -1,58 +1,97 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Alert} from 'react-native';
-
 import {
   Center,
   Icon,
   KeyboardAvoidingView,
   Pressable,
   VStack,
+  Avatar
 } from 'native-base';
 import * as React from 'react';
-import {Platform, ScrollView} from 'react-native';
+import {Platform, ScrollView, Alert, StyleSheet} from 'react-native';
 import {OutlineButtonOrange} from '../components/Buttons/OutlineButton';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
 import Logo from '../components/Logo';
 import PetsImage from '../components/PetsImage';
 import {Title} from '../components/Title';
-import { ROUTES } from '../constants';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
+import ImagePicker from 'react-native-image-crop-picker';
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default function SignUp({navigation}) {
   const [show, setShow] = React.useState(false);
-  const [image, setImage] = React.useState(null);
-  const [isLoading, setIsLoading] = React.useState(false);
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
+  const [image, setImage] = React.useState(null);
   const [password, setPassword] = React.useState('');
-  const [bairro, setBairro] = React.useState('');
-  const [city, setCity] = React.useState('');
-  const [uf, setUf] = React.useState('');
-  
 
-   function signUpAuth (data) {
-      auth()
-        .createUserWithEmailAndPassword(data.email, data.password)
-        .then((res) => {
-            firestore()
-            .collection('usuario')
-            .doc(res.user.uid)
-            .set({
-              nome: data.name,
-              email: data.email,
-              senha: data.password,
-              bairro: data.bairro,
-              cidade: data.city,
-              uf: data.uf,
-            })
-            .then(()=> Alert.alert('Conta criada com sucesso!'));
-            navigation.navigate( ROUTES.LOGIN)
-            .catch((error) => console.log(error));
-         });
+  const choosePhoto = () =>{
+    ImagePicker.openPicker({
+      width:500,
+      height:500,
+      cropping:true,
+    }).then((photo) => {
+      console.log(photo);
+      const imageUri = Platform.OS === 'ios' ? photo.sourceURL : photo.path;
+      setImage(imageUri);
+    }).catch(err => console.log(err));
+  };
+
+  
+  const signUpAuth = async() => {
+
+    const imagePetUrl = await uploadImage();
+    console.log('Image Url: ', imagePetUrl);
+
+    if ((name, email, password !== '')){
+
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((res) => {
+          firestore()
+          .collection('usuario')
+          .doc(res.user.uid)
+          .set({
+            nome: name,
+            email: email,
+            senha: password,
+            userImg: imagePetUrl,
+          })
+          .then(()=> Alert.alert('Conta criada com sucesso!'));
+          navigation.navigate('Login')
+          .catch((error) => console.log(error));
+      
+        });
+    }else {
+      Alert.alert('Preencha todos os campos!');
+    }
   }
+
+const uploadImage = async () => {
+  if ( image == null ) {
+    return null;
+  }
+  const uploadUri = image;
+  let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+  const storageRef = storage().ref(`photos/${filename}`);
+  const task = storageRef.putFile(uploadUri);
+
+  try {
+    await task;
+
+    const url = await storageRef.getDownloadURL();
+    setImage(null);
+
+    return url;
+
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+
+};
 
   return (
     <VStack flex={1}>
@@ -62,6 +101,16 @@ export default function SignUp({navigation}) {
             <Logo />
 
             <Title style={{marginBottom: 30, marginTop: 10}}>Criar Conta</Title>
+
+            <Avatar style={style.photoUser} source={{uri: image}} alt="userPhoto" /> 
+
+            <SolidButton
+              mt={3}
+              mb={6}
+              title="Selecionar foto"
+              width={180}
+              onPress={choosePhoto}
+            />
           
             <Input
               placeholder="Nome"
@@ -71,6 +120,7 @@ export default function SignUp({navigation}) {
 
             <Input
               placeholder="E-mail"
+              type='email'
               onChangeText={setEmail}
               value={email}
             />
@@ -81,7 +131,7 @@ export default function SignUp({navigation}) {
                 <Pressable onPress={() => setShow(!show)}>
                   <Icon
                     as={
-                      <IconmaterialIcons
+                      <IconMaterialIcons
                         name={show ? 'visibility' : 'visibility-off'}
                       />
                     }
@@ -96,24 +146,6 @@ export default function SignUp({navigation}) {
               evalue={password}
             />
 
-            <Input
-              placeholder="Bairro"
-              onChangeText={setBairro}
-              value={bairro}
-            />
-
-            <Input
-              placeholder="Cidade"
-              onChangeText={setCity}
-              value={city}
-            />
-
-            <Input
-              placeholder="UF"
-              onChangeText={setUf}
-              value={uf}
-            />
-
             <SolidButton
               mt={3}
               title="Criar Conta"
@@ -123,7 +155,7 @@ export default function SignUp({navigation}) {
               mt={8}
               mb={8}
               title="Login"
-              onPress={() => navigation.navigate(ROUTES.LOGIN)}
+              onPress={() => navigation.navigate('Login')}
             />
             <PetsImage />
           </Center>
@@ -132,3 +164,13 @@ export default function SignUp({navigation}) {
     </VStack>
   );
 }
+
+const style = StyleSheet.create({
+  photoUser:{
+    marginBottom: 15,
+    width:180,
+    height:180
+    
+  },
+});
+

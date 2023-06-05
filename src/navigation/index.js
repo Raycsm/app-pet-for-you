@@ -1,36 +1,16 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-import AuthNavigation from './components/AuthNavigation';
-import UserAutheticated from './components/UserAutheticated';
+import { UserProvider } from '../context/UserProvider';
+import Routes from './components/routes';
+import { PetProvider } from '../context/PetProvider';
 
-export default function Navigation() {
-  const [user, setUser] = React.useState(null);
-
-  function getUser({userId}) {
-    React.useEffect(() => {
-      const subscriber = firestore()
-        .collection('usuario')
-        .doc(userId)
-        .onSnapshot(documentSnapshot => {
-          console.log('User data: ', documentSnapshot.data());
-        });
-
-      return () => subscriber();
-    }, [userId]);
-  }
-
-  React.useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(setUser);
-
-    return subscriber;
-  }, []);
+const Providers = () => {
   return (
-    <NavigationContainer independent={true}>
-      {user ? <UserAutheticated /> : <AuthNavigation />}
-    </NavigationContainer>
+    <UserProvider>
+      <PetProvider>
+        <Routes />
+      </PetProvider>
+    </UserProvider>
   );
 }
+
+export default Providers;

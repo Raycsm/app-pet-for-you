@@ -1,8 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
-import {StyleSheet, View, SafeAreaView} from 'react-native';
+import {StyleSheet, View, SafeAreaView, TouchableOpacity} from 'react-native';
 import {
   Center,
   KeyboardAvoidingView,
@@ -11,41 +7,27 @@ import {
   CheckIcon,
   Box,
   TextArea,
-  Image,
   Avatar
 } from 'native-base';
-import  React, {useState} from 'react';
+import  React, {useState, useEffect} from 'react';
 import {Platform, ScrollView, Alert} from 'react-native';
-import petSchema from '../config/schema/petSchema';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
-import { ROUTES } from '../constants';
 import BackAction from '../components/BackAction';
 import 'firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
-import * as yup from 'yup';
-import { validateUF} from 'validations-br';
+import auth from '@react-native-firebase/auth';
 
+export default function EditPet({navigation, props}) {
 
-
-export default function CreatePet({navigation}) {
+  console.log(props);
 
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [namePet, setNamePet] = useState('');
-  const [typePet, setTypePet] = useState('');
-  const [weight, setWeight] = useState('');
-  const [sexPet, setSexPet] = useState('');
-  const [age, setAge] = useState('');
-  const [porte, setPorte] = useState('');
-  const [race, setRace] = useState('');
-  const [description, setDescription] = useState('');
-  const [bairro, setBairro] = useState('');
-  const [city, setCity] = useState('');
-  const [uf, setUf] = useState('');
-
+  const [petData, setPetData] = React.useState(null);
+  const [uid, setUid] = React.useState('');
 
   const choosePhoto = () =>{
     ImagePicker.openPicker({
@@ -59,38 +41,69 @@ export default function CreatePet({navigation}) {
     }).catch(err => console.log(err));
   };
 
+    const updatePet = async (animal) => {
+      const imageUserUrl = await uploadImage();
+      console.log('Image Url: ', imageUserUrl);
 
-  const addPet = async () => {
-    isLoading(true)
-    const imagePetUrl = await uploadImage();
-    console.log('Image Url: ', imagePetUrl);
+      const updateData = {}
 
-    if ((namePet, typePet, sexPet, age, weight, porte, race, description, bairro, city, uf !== '')){
+        if (petData.namePet) {
+          updateData.nomePet = petData.namePet;
+        }
 
-      firestore()
-      .collection('animal')
-      .add({
-        nomePet: namePet,
-        tipoPet: typePet,
-        sexoPet: sexPet,
-        idade: age,
-        peso: weight,
-        porte: porte,
-        raça: race,
-        descrição: description,
-        bairro: bairro,
-        cidade: city,
-        uf: uf,
-        petImg: imagePetUrl,
-      })
-      .then(()=> Alert.alert('Pet criado com sucesso!'));
-      navigation.navigate( ROUTES.MY_PETS)
-      .catch((error) => console.log(error))
-      .finally(isLoading(false));
-    } else {
-      Alert.alert('Preencha todos os campos!');
-    }
-  };
+        if (petData.age) {
+          updateData.idade = petData.age;
+        }
+
+        if (petData.race) {
+          updateData.raça = petData.race;
+        }
+
+        if (petData.weight) {
+          updateData.peso = petData.weight;
+        }
+
+        if (petData.porte) {
+          updateData.porte = petData.porte;
+        }
+
+        if (petData.uf) {
+          updateData.uf = petData.uf;
+        }
+
+        if (petData.typePet) {
+          updateData.tipoPet = petData.typePet;
+        }
+
+        if (petData.description) {
+          updateData.descrição = petData.description;
+        }
+
+        if (petData.petImg) {
+          updateData.petImg = petData.petImg;
+        }
+
+        if (petData.bairro) {
+          updateData.bairro = petData.bairro;
+        }
+
+        if (petData.city) {
+          updateData.cidade = petData.city;
+        }
+
+        if (petData.uf) {
+          updateData.uf = petData.uf;
+        }
+
+        firestore()
+          .collection('animal')
+          .doc(uid)
+          .update(updateData)
+          .then(() => Alert.alert('Atualizado com sucesso!'))
+          .catch(error => {
+            console.log('Erro ao atualizar:', error);
+          });
+      }
 
   const uploadImage = async () => {
     if ( image == null ) {
@@ -121,15 +134,16 @@ export default function CreatePet({navigation}) {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <SafeAreaView>
-              <BackAction title="Criar Pet" onPress={navigation.goBack} />
+              <BackAction title="Editar Pet" onPress={navigation.goBack} />
           </SafeAreaView>
         <ScrollView>
           <Center px={10}>
 
             <View style={{marginBottom:25}} />
-
-            {image != null ? <Avatar style={style.photoPet} source={{uri: image}} alt="petPhoto" /> : null}
-
+            
+            <TouchableOpacity onPress={choosePhoto}>
+            <Avatar style={style.photoUser} size={180} source={{uri: image}} alt="petPhoto"> + </Avatar>
+            </TouchableOpacity>
             <SolidButton
               mt={3}
               mb={6}
@@ -140,8 +154,8 @@ export default function CreatePet({navigation}) {
 
             <Input
               placeholder="Nome do pet"
-              onChangeText={setNamePet}
-              value={namePet}
+              value={petData ? petData.nome : ''}
+              onChangeText={(txt) => setPetData({...petData, nomePet: txt})}
             />
 
             <Select width={310}
@@ -149,8 +163,8 @@ export default function CreatePet({navigation}) {
                     fontSize="md"
                     mb={6}
                     isRequired
-                    value={porte}
-                    onValueChange={setPorte}
+                    value={petData ? petData.porte : ''}
+                    onChange={(txt) => setPetData({...petData, porte: txt})}
                     style={style.select}
                     variant="rounded"
                     accessibilityLabel="Tipo de pet"
@@ -165,8 +179,8 @@ export default function CreatePet({navigation}) {
             </Select>
 
             <Select width={310}
-                    value={typePet}
-                    onValueChange={setTypePet}
+                    value={petData ? petData.tipoPet : ''}
+                    onValueChange={(txt) => setPetData({...petData, tipoPet: txt})}
                     bg={'#dfdfdf'}
                     fontSize="md"
                     mb={6}
@@ -190,8 +204,8 @@ export default function CreatePet({navigation}) {
                     bg={'#dfdfdf'}
                     fontSize="md"
                     mb={6}
-                    value={sexPet}
-                    onValueChange={setSexPet}
+                    value={petData ? petData.sexoPet : ''}
+                    onValueChange={(txt) => setPetData({...petData, sexoPet: txt})}
                     style={style.select}
                     variant="rounded"
                     accessibilityLabel="Sexo do pet"
@@ -206,38 +220,38 @@ export default function CreatePet({navigation}) {
 
             <Input
               placeholder="Idade do pet"
-              onChangeText={setAge}
-              value={age}
+              value={petData ? petData.idade : ''}
+              onChangeText={(txt) => setPetData({...petData, idade: txt})}
             />
 
             <Input
               placeholder="Raça"
-              onChangeText={setRace}
-              value={race}
+              value={petData ? petData.raça : ''}
+              onChangeText={(txt) => setPetData({...petData, raça: txt})}
             />
 
             <Input
               placeholder="Peso"
-              onChangeText={setWeight}
-              value={weight}
+              value={petData ? petData.peso : ''}
+              onChangeText={(txt) => setPetData({...petData, peso: txt})}
             />
 
             <Input
               placeholder="Bairro"
-              onChangeText={setBairro}
-              value={bairro}
+              value={petData ? petData.bairro : ''}
+                onChangeText={(txt) => setPetData({...petData, bairro: txt})}
             />
 
             <Input
               placeholder="Cidade"
-              onChangeText={setCity}
-              value={city}
+              value={petData ? petData.cidade : ''}
+              onChangeText={(txt) => setPetData({...petData, cidade: txt})}
             />
 
             <Input
               placeholder="UF"
-              onChangeText={setUf}
-              value={uf}
+              value={petData ? petData.uf : ''}
+              onChangeText={(txt) => setPetData({...petData, uf: txt})}
             />
 
             <Box alignItems="center" w="100%">
@@ -245,8 +259,8 @@ export default function CreatePet({navigation}) {
               h={20}
               placeholder="Descrição"
               isRequired
-              onChangeText={(val) => setDescription(val)}
-              value={description}
+              value={petData ? petData.descrição : ''}
+              onChangeText={(txt) => setPetData({...petData, descrição: txt})}
               width="300"
               autoCompleteType={undefined}
               bg={'#dfdfdf'}
@@ -275,8 +289,8 @@ export default function CreatePet({navigation}) {
             <SolidButton
               mt={8}
               mb={16}
-              title="Cadastrar"
-              onPress={addPet}
+              title="Atualizar"
+              onPress={updatePet}
             />
 
           </Center>
@@ -324,11 +338,6 @@ const style = StyleSheet.create({
     marginRight:10,
   },
   photoPet:{
-    marginBottom: 15,
-    width:180,
-    height:180
-    
+    marginBottom: 15, 
   },
 });
-
-

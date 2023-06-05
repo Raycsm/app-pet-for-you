@@ -1,11 +1,7 @@
-import {FormControl, IInputProps, Input as NativeBaseInput, WarningOutlineIcon} from 'native-base';
+import {FormControl, Input as NativeBaseInput} from 'native-base';
 import React from 'react';
 
-type Props = IInputProps & {
-  errorMessage?: string | null
-};
-
-export function Input({errorMessage = null, isInvalid, ...rest}: Props) {
+export function Input({errorMessage = null, isInvalid, ...rest}) {
   const invalid = !!errorMessage || isInvalid;
 
   return (
@@ -26,9 +22,6 @@ export function Input({errorMessage = null, isInvalid, ...rest}: Props) {
         focusOutlineColor={'#DB652F'}
         {...rest}
       />
-      <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-        {errorMessage}
-      </FormControl.ErrorMessage>
     </FormControl>
   );
 }
