@@ -19,7 +19,7 @@ import {Input} from '../components/Input';
 import Logo from '../components/Logo';
 import PetsImage from '../components/PetsImage';
 import {Title} from '../components/Title';
-import { ROUTES } from '../Constants';
+import { ROUTES } from '../constants';
 
 export default function SignUp({navigation}) {
   const [show, setShow] = React.useState(false);

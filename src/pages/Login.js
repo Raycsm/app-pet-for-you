@@ -6,7 +6,7 @@ import {Controller, useForm} from 'react-hook-form';
 import {Alert, TouchableOpacity} from 'react-native';
 import {Text} from 'react-native-paper';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import ROUTES from '../Constants/routes';
+import ROUTES from '../constants/routes';
 import {OutlineButtonOrange} from '../components/Buttons/OutlineButton';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';

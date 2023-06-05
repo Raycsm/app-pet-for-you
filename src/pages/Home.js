@@ -5,10 +5,11 @@ import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Foundations from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
-import ROUTES from '../Constants/routes';
+import ROUTES from '../constants/routes';
 import Carrousel from '../components/Carrousel/carrousel';
 import PetInfo from '../components/PetInfo';
 import {TextGrey} from '../components/TextGrey';
+import DialogFilter from '../components/DialogFilter';
 
 const images = [
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_cat.jpg?alt=media&token=efac84f3-96b7-44c8-8cea-b5003f7546a5',
@@ -25,6 +26,7 @@ const petsCategories = [
 
 export default function Home(navigation) {
   const [selectcategory, setselectCategory] = React.useState(0);
+  const [visible, setVisible] = React.useState(false);
 
   const signOutAuth = () => {
     auth()
@@ -36,9 +38,11 @@ export default function Home(navigation) {
 
   return (
     <View>
+      <DialogFilter visible={visible} setVisible={setVisible}/>
       <ScrollView>
         <View style={style.containerHeader}>
           <Button
+            onPress={() => setVisible(true)}
             style={style.filter}
             backgroundColor={'#DB652F'}
             rightIcon={<Icon as={Foundations} name="filter" size="xl" />}

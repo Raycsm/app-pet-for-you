@@ -16,10 +16,10 @@ import {
 } from 'native-base';
 import  React, {useState} from 'react';
 import {Platform, ScrollView, Alert} from 'react-native';
-import petSchema from '../Config/schema/petSchema';
+import petSchema from '../config/schema/petSchema';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
-import { ROUTES } from '../Constants';
+import { ROUTES } from '../constants';
 import BackAction from '../components/BackAction';
 import 'firebase/storage';
 import firestore from '@react-native-firebase/firestore';

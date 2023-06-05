@@ -22,7 +22,6 @@ import {
   MyPets,
   Profile
 } from '../../pages';
-/;
 
 const Tab = createBottomTabNavigator();
 

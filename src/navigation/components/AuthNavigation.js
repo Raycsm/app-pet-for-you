@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { ROUTES } from '../../constants';
 import { ForgotPassword, Login, SignUp } from '../../pages';
-/;
 
 const Stack = createNativeStackNavigator();
 
