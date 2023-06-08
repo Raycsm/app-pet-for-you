@@ -1,4 +1,4 @@
-import { Heading, View } from 'native-base';
+import { View } from 'native-base';
 import * as React from 'react';
 import { Dialog, Portal, Text, Checkbox } from 'react-native-paper';
 import {SolidButton} from '../components/Buttons/SolidButton';

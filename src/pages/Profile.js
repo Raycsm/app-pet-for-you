@@ -65,15 +65,20 @@ export default function Profile({navigation}) {
           updateData.senha = userData.password;
         }
 
-        if (userData.userImg) {
-          updateData.usuarioImg = userData.userImg;
+        if (userData.phone) {
+          updateData.telefone = userData.phone;
+        }
+
+        if (image) {
+          updateData.usuarioImg = image
         }
 
         firestore()
           .collection('usuario')
           .doc(user.uid)
           .update(updateData)
-          .then(() => Alert.alert('Atualizado com sucesso!'))
+          .then(() => getUser())
+          .then(Alert.alert('Atualizado com sucesso!'))
           .catch(error => {
             console.log('Erro ao atualizar:', error);
           });
@@ -161,6 +166,12 @@ export default function Profile({navigation}) {
                 placeholder="Senha"
                 value={userData ? userData.senha : ''}
                 onChangeText={(txt) => setUserData({...userData, senha: txt})}
+              />
+
+              <Input
+                placeholder="Telefone"
+                value={userData ? userData.telefone : ''}
+                onChangeText={(txt) => setUserData({...userData, telefone: txt})}
               />
 
               <SolidButton mt={3} mb={16} title="Atualizar" onPress={updateUser} />

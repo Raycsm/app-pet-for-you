@@ -1,4 +1,6 @@
- import {StyleSheet, View, SafeAreaView, TouchableOpacity} from 'react-native';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+import {StyleSheet, View, SafeAreaView, TouchableOpacity} from 'react-native';
 import {
   Center,
   KeyboardAvoidingView,
@@ -9,7 +11,7 @@ import {
   TextArea,
   Avatar
 } from 'native-base';
-import  React, {useState, useEffect} from 'react';
+import  React, {useState} from 'react';
 import {Platform, ScrollView, Alert} from 'react-native';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
@@ -21,7 +23,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import auth from '@react-native-firebase/auth';
 
 
-export default function CreatePet({navigation}) {
+export default function CreatePet({navigation, route}) {
 
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +38,7 @@ export default function CreatePet({navigation}) {
   const [bairro, setBairro] = useState('');
   const [city, setCity] = useState('');
   const [uf, setUf] = useState('');
+  const [userData, setUserData] = useState(null);
 
   const choosePhoto = () =>{
     ImagePicker.openPicker({
@@ -49,15 +52,31 @@ export default function CreatePet({navigation}) {
     }).catch(err => console.log(err));
   };
 
+  const authUser = auth();
+  const user = authUser.currentUser;
+  const uid = user.uid;
+
+  const getUser = async() => {
+    await firestore()
+    .collection('usuario')
+    .doc( route.params ? route.params.IdUsuario : user.uid)
+    .get()
+    .then((documentSnapshot) => {
+      if( documentSnapshot.exists ) {
+        console.log('User Data', documentSnapshot.data());
+        setUserData(documentSnapshot.data());
+      }
+    })
+  }
+
+  React.useEffect(() => {
+    getUser();
+  }, []);
+
   const addPet = async () => {
     setIsLoading(true)
     const imagePetUrl = await uploadImage();
     console.log('Image Url: ', imagePetUrl);
-
-    const authUser = auth();
-    const user = authUser.currentUser;
-    const displayName = user.displayName;
-    const uid = user.uid;
   
 
     if ((namePet, typePet, sexPet, age, weight, porte, race, description, bairro, city, uf !== '')){
@@ -66,7 +85,8 @@ export default function CreatePet({navigation}) {
       .collection('animal')
       .add({
         IdUsuario: uid,
-        nomeUsuario: displayName,
+        nomeUsuario: userData.nome,
+        telefone: userData.telefone,
         nomePet: namePet,
         tipoPet: typePet,
         sexoPet: sexPet,

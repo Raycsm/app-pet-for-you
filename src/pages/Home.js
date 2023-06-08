@@ -1,6 +1,7 @@
-import {Button, Icon, ScrollView,  Box, HStack, Heading, Image, Stack, Text, AspectRatio} from 'native-base';
+/* eslint-disable no-unused-vars */
+import {Button, Icon, ScrollView,Image,Text} from 'native-base';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View, FlatList, Pressable} from 'react-native';
+import { StyleSheet, TouchableOpacity, View, FlatList, Linking} from 'react-native';
 import Foundations from 'react-native-vector-icons/Foundation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,27 +9,31 @@ import Carrousel from '../components/Carrousel/carrousel';
 import {TextGrey} from '../components/TextGrey';
 import DialogFilter from '../components/DialogFilter';
 import firestore from '@react-native-firebase/firestore';
-import { SolidButton } from '../components/Buttons/SolidButton';
 import { UserContext } from '../context/UserProvider';
+import CardPetsHome from '../components/CardPetsHome';
 
 const images = [
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_cat.jpg?alt=media&token=efac84f3-96b7-44c8-8cea-b5003f7546a5',
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_dog.jpg?alt=media&token=2a579fc8-c108-41b8-8e41-92eb678495f2'
 ];
 
+
+
 const petsCategories = [
-  {name: 'Gatos', icon: 'cat'},
-  {name: 'Cachorros', icon: 'dog'},
-  {name: 'Pássaros', icon: 'bird'},
-  {name: 'Roedores', icon: 'rodent'},
-  {name: 'Outros', icon: 'rabbit'}
+  {id:1, name: 'Gatos', icon: 'cat'},
+  {id:2, name: 'Cachorros', icon: 'dog'},
+  {id:3, name: 'Pássaros', icon: 'bird'},
+  {id:4, name: 'Roedores', icon: 'rodent'},
+  {id:5, name: 'Outros', icon: 'rabbit'}
 ];
 
+
 export default function Home(navigation) {
-  const [selectcategory, setselectCategory] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(0);
+  const [selectcategory, setselectCategory] = React.useState();
   const [visible, setVisible] = React.useState(false);
+  const [gato, setGato] = React.useState(false);
   const [pets, setPets] = React.useState([]);
-  const [favorite, setFavorite] = React.useState();
   const {logout} = React.useContext(UserContext);
 
   React.useEffect( () => {
@@ -48,6 +53,92 @@ export default function Home(navigation) {
         )
   }, []);
 
+
+  async function getCats() {
+      setPets([]);
+     const cats = [];
+     const citiesRef = firestore().collection('animal')
+     const snapshot = await citiesRef.where('tipoPet', '==', 'gato').get();    
+     snapshot.forEach( (c) => {cats.push({key: c.id, ...c.data()} )})                                      
+     setPets(cats);
+     if (snapshot.empty) {
+      <Text>Nenhum dado encontrado!</Text>
+      return;
+     }  
+  }
+
+  async function getDogs() {
+    setPets([]);
+   const dogs = [];
+   const citiesRef = firestore().collection('animal')
+   const snapshot = await citiesRef.where('tipoPet', '==', 'cachorro').get();    
+   snapshot.forEach( (d) => {dogs.push({key: d.id, ...d.data()} )})                                      
+   setPets(dogs);
+   console.log(dogs)
+   if (snapshot.empty) {
+    <Text>Nenhum dado encontrado!</Text>
+    return;
+   }  
+}
+
+async function getBirds() {
+  setPets([]);
+ const birds = [];
+ const citiesRef = firestore().collection('animal')
+ const snapshot = await citiesRef.where('tipoPet', '==', 'passaros').get();    
+ snapshot.forEach( (b) => {birds.push({key: b.id, ...b.data()} )})                                      
+ setPets(birds);
+ if (snapshot.empty) {
+  <Text>Nenhum dado encontrado!</Text>
+  return;
+ }  
+}
+
+async function getRodents() {
+  setPets([]);
+ const rodents = [];
+ const citiesRef = firestore().collection('animal')
+ const snapshot = await citiesRef.where('tipoPet', '==', 'roedor').get();    
+ snapshot.forEach( (r) => {rodents.push({key: r.id, ...r.data()} )})                                      
+ setPets(rodents);
+ if (snapshot.empty) {
+  <Text>Nenhum dado encontrado!</Text>
+  return;
+ }  
+}
+
+async function getOthers() {
+  setPets([]);
+ const others = [];
+ const citiesRef = firestore().collection('animal')
+ const snapshot = await citiesRef.where('tipoPet', '==', 'outros').get();    
+ snapshot.forEach( (o) => {others.push({key: o.id, ...o.data()} )})                                      
+ setPets(others);
+ if (snapshot.empty) {
+  <Text>Nenhum dado encontrado!</Text>
+  return;
+ }  
+}
+
+const handleCategory = (index) => {
+  
+    if (index === 0) {
+      getCats()
+    }
+     else if (index === 1) {
+      getDogs()
+    }
+    else if (index === 2) {
+      getBirds()
+    }
+    else if (index === 3) {
+      getRodents()
+    }
+    else if (index === 4) {
+      getOthers()
+    }
+    
+}
   return (
     <View>
       <DialogFilter visible={visible} setVisible={setVisible}/>
@@ -83,7 +174,8 @@ export default function Home(navigation) {
             <View style={{alignItems: 'center'}}>
               <TouchableOpacity
                 onPress={() => {
-                  setselectCategory(index);
+                  setselectCategory(index); 
+                  handleCategory(index)
                 }}
                 style={[
                   style.buttonCategories,
@@ -107,76 +199,8 @@ export default function Home(navigation) {
             scrollEventThrottle={16}
             keyExtractor={item => item.id}
             renderItem={({ item }) =>  (
-              <Box alignItems="center" width={'80'} marginLeft={4}justifyContent="space-around">
-                  <Box
-                    width={320}
-                    height={450}
-                    mb={8}
-                    mt={8}
-                    rounded="lg"
-                    overflow="hidden"
-                    borderColor="coolGray.200"
-                    borderWidth="1"
-                    _light={{
-                      backgroundColor: 'gray.50'
-                    }}>
-                    <Box>
-                      <AspectRatio w="120%" ratio={16 / 9}>
-                        <Image source={{uri: item.petImg}} alt="imagePets" />
-                      </AspectRatio>
-                    </Box>
-                    <Stack p="4" space={3}>
-                      <Stack space={2}>
-                        <Stack flexDirection={'row'} justifyContent="space-between">
-                          <Heading size="md" >
-                            {item.nomePet}
-                          </Heading>
-                          <Text fontSize={12} ml="-1" mt={1} 
-                          color={'#000'}>
-                            {item.bairro}, {item.cidade}/{item.uf}
-                          </Text>
-                        </Stack>
-                        <HStack space={15} justifyContent="space-between">
-                          <Text>Rayane Assis</Text>
-
-                        </HStack>
-                        <HStack space={15} justifyContent="space-between">
-                          <Text fontWeight={600}>{item.raça}</Text>
-                          <Text fontWeight={600}>{item.idade}</Text>
-                          <Text fontWeight={600}>{item.peso}</Text>
-                          <Text fontWeight={600}>{item.sexoPet}</Text>
-                          <Text fontWeight={600}>{item.porte}</Text>
-                        </HStack>
-                        <HStack space={15}>
-                          <Text>{item.descrição}</Text>
-                        </HStack>
-                        <HStack alignItems="center" mt={5}justifyContent="space-between">
-                          <SolidButton
-                            title="Chat"
-                            width={130}
-                            height={30}
-                            fontSize={10}
-                            paddingBottom={1}
-                            paddingTop={1}
-                            textAlign="center"
-                          />
-                          <View>
-                            <Button backgroundColor='#DB652F' borderRadius={40}>
-                            <Pressable onPress={() => setFavorite((isfavorite) => !isfavorite)}>
-                              <Icons
-                                name={favorite? "heart" : "heart-outline"}
-                                size={24}
-                                color={favorite ? "red" : "white"}
-                              />
-                            </Pressable>
-                            </Button>
-                          </View>
-                        </HStack>
-                      </Stack>
-                    </Stack>
-                  </Box>
-              </Box>
-            )}
+               <CardPetsHome item={item} />
+             )}
             style={{ flex: 1 }}
           />
         </View>

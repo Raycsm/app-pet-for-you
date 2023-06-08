@@ -8,18 +8,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { Text } from 'react-native-paper';
 import IconFeather from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 import { MoreButton } from '../../components/Buttons/MoreButton';
 
 import {
   AboutUs,
-  Adoption,
   CreatePet,
-  Favorites,
   Home,
-  MyPets,
   Profile,
-  Chat,
+  MyPets,
   EditPet
 } from '../../pages';
 
@@ -27,13 +25,10 @@ const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
 
-function AdoptionNavigation() {
+function MyPetsnNavigation() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={'Adoption'} component={Adoption} />
       <Stack.Screen name={'MyPets'} component={MyPets} />
-      <Stack.Screen name={'CreatePet'} component={CreatePet} />
-      <Stack.Screen name={'Favorites'} component={Favorites} />
       <Stack.Screen name={'EditPet'} component={EditPet} />
     </Stack.Navigator>
   );
@@ -71,12 +66,12 @@ export default function UserAutheticated() {
         }}
       />
       <Tab.Screen
-        name='chatTab'
-        component={Chat}
+        name='MyPetsNavigation'
+        component={MyPetsnNavigation}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
-              <IconIonicons name="ios-chatbubble-ellipses" size={20} color={focused ? '#DB652F' : '#8B8888'} />
+              <MaterialCommunityIcons name="dog" size={20} color={focused ? '#DB652F' : '#8B8888'} />
               <Text
                 allowFontScaling={false}
                 style={{
@@ -84,15 +79,15 @@ export default function UserAutheticated() {
                   fontSize: 15,
                   textAlign: 'center'
                 }}>
-                Chat
+                Meus Pets
               </Text>
             </>
           )
         }}
       />
       <Tab.Screen
-        name="AdoptionNavigation"
-        component={AdoptionNavigation}
+        name="CreatePet"
+        component={CreatePet}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ focused, size }) => <MoreButton size={size} focused={focused} />

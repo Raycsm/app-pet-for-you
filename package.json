@@ -12,6 +12,7 @@
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
     "@react-native-firebase/storage": "^17.5.0",
+    "@react-native-picker/picker": "^2.4.10",
     "dotenv": "^16.0.3",
     "expo-constants": "^14.2.1",
     "expo-permissions": "^14.1.1",

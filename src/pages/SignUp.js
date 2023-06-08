@@ -24,6 +24,7 @@ export default function SignUp({navigation}) {
   const [show, setShow] = React.useState(false);
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
+  const [phone, setPhone] = React.useState('');
   const [image, setImage] = React.useState(null);
   const [password, setPassword] = React.useState('');
 
@@ -42,8 +43,8 @@ export default function SignUp({navigation}) {
   
   const signUpAuth = async() => {
 
-    const imagePetUrl = await uploadImage();
-    console.log('Image Url: ', imagePetUrl);
+    const imageUserUrl = await uploadImage();
+    console.log('Image Url: ', imageUserUrl);
 
     if ((name, email, password !== '')){
 
@@ -57,7 +58,8 @@ export default function SignUp({navigation}) {
             nome: name,
             email: email,
             senha: password,
-            userImg: imagePetUrl,
+            telefone:phone,
+            usuarioImg: imageUserUrl,
           })
           .then(()=> Alert.alert('Conta criada com sucesso!'));
           navigation.navigate('Login')
@@ -102,7 +104,7 @@ const uploadImage = async () => {
 
             <Title style={{marginBottom: 30, marginTop: 10}}>Criar Conta</Title>
 
-            <Avatar style={style.photoUser} source={{uri: image}} alt="userPhoto" /> 
+            <Avatar style={style.photoUser} source={{uri: image}} alt="userPhoto">+</Avatar> 
 
             <SolidButton
               mt={3}
@@ -144,6 +146,12 @@ const uploadImage = async () => {
               placeholder="Senha"
               onChangeText={setPassword}
               evalue={password}
+            />
+
+            <Input
+              placeholder="Telefone"
+              onChangeText={setPhone}
+              value={phone}
             />
 
             <SolidButton
