@@ -17,6 +17,7 @@ export default function Profile({navigation}) {
   const [show, setShow] = React.useState(false);
   const [userData, setUserData] = React.useState(null);
   const [image, setImage] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
   
 
   const choosePhoto = () =>{
@@ -52,7 +53,7 @@ export default function Profile({navigation}) {
       console.log('Image Url: ', imageUserUrl);
 
       const updateData = {}
-
+        setIsLoading(true)
         if (userData.name) {
           updateData.nome = userData.name;
         }
@@ -78,10 +79,10 @@ export default function Profile({navigation}) {
           .doc(user.uid)
           .update(updateData)
           .then(() => getUser())
-          .then(Alert.alert('Atualizado com sucesso!'))
+          .then(Alert.alert('Sucesso','Atualizado com sucesso!'))
           .catch(error => {
-            console.log('Erro ao atualizar:', error);
-          });
+            console.log('Erro','Erro ao atualizar:', error);
+          }).finally(()=> setIsLoading(false));
       }
 
       const uploadImage = async () => {
@@ -126,8 +127,8 @@ export default function Profile({navigation}) {
                 source={{uri: image
                   ? image
                   : userData ? userData.usuarioImg || 
-                  'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Ficons8-avatar-96.png?alt=media&token=a7943aa1-ff8d-4eda-8c44-7c3186ec1234' 
-                  :'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Ficons8-avatar-96.png?alt=media&token=a7943aa1-ff8d-4eda-8c44-7c3186ec1234'}} 
+                  'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Fuser_icon.png?alt=media&token=435c6cbd-7eda-49bf-864a-ece464b11ef5' 
+                  :'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Fuser_icon.png?alt=media&token=435c6cbd-7eda-49bf-864a-ece464b11ef5'}} 
                   alt="userPhoto" 
                />
               </TouchableOpacity>
@@ -174,7 +175,7 @@ export default function Profile({navigation}) {
                 onChangeText={(txt) => setUserData({...userData, telefone: txt})}
               />
 
-              <SolidButton mt={3} mb={16} title="Atualizar" onPress={updateUser} />
+              <SolidButton mt={3} mb={16} title="Atualizar" onPress={updateUser} isLoading={isLoading} />
             </Center>
           </ScrollView>
         </KeyboardAvoidingView>

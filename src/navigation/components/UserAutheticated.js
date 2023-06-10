@@ -25,7 +25,7 @@ const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
 
-function MyPetsnNavigation() {
+function MyPetsNavigation() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={'MyPets'} component={MyPets} />
@@ -46,7 +46,7 @@ export default function UserAutheticated() {
         tabBarStyle: { height: 60 }
       }}>
       <Tab.Screen
-        name='homeTab'
+        name='HomeTab'
         component={Home}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -67,7 +67,7 @@ export default function UserAutheticated() {
       />
       <Tab.Screen
         name='MyPetsNavigation'
-        component={MyPetsnNavigation}
+        component={MyPetsNavigation}
         options={{
           tabBarIcon: ({ focused }) => (
             <>

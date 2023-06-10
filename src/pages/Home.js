@@ -17,8 +17,6 @@ const images = [
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_dog.jpg?alt=media&token=2a579fc8-c108-41b8-8e41-92eb678495f2'
 ];
 
-
-
 const petsCategories = [
   {id:1, name: 'Gatos', icon: 'cat'},
   {id:2, name: 'Cachorros', icon: 'dog'},
@@ -27,12 +25,9 @@ const petsCategories = [
   {id:5, name: 'Outros', icon: 'rabbit'}
 ];
 
-
 export default function Home(navigation) {
-  const [isLoading, setIsLoading] = React.useState(0);
   const [selectcategory, setselectCategory] = React.useState();
   const [visible, setVisible] = React.useState(false);
-  const [gato, setGato] = React.useState(false);
   const [pets, setPets] = React.useState([]);
   const {logout} = React.useContext(UserContext);
 
@@ -52,7 +47,6 @@ export default function Home(navigation) {
           }
         )
   }, []);
-
 
   async function getCats() {
       setPets([]);
@@ -136,8 +130,7 @@ const handleCategory = (index) => {
     }
     else if (index === 4) {
       getOthers()
-    }
-    
+    }   
 }
   return (
     <View>
@@ -148,7 +141,7 @@ const handleCategory = (index) => {
             onPress={() => setVisible(true)}
             style={style.filter}
             backgroundColor={'#DB652F'}
-            rightIcon={<Icon as={Foundations} name="filter" size="xl" />}
+            startIcon={<Icon as={Foundations} name="filter" size="xl" marginLeft={1} />}
           />
 
           <Image
@@ -163,7 +156,7 @@ const handleCategory = (index) => {
             style={style.exit}
             onPress={() => logout()}
             backgroundColor={'#DB652F'}
-            leftIcon={<Icon as={Ionicons} name="ios-exit" size="xl" />}
+            leftIcon={<Icon as={Ionicons} name="ios-exit" size="xl" marginLeft={1} />}
           />
         </View>
 

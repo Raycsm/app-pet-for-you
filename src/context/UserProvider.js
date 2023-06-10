@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react/jsx-no-undef */
 import React, {createContext, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import { Alert } from 'react-native';
@@ -6,6 +8,7 @@ export const UserContext = createContext();
 
 export const UserProvider = ({children}) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <UserContext.Provider
@@ -13,6 +16,7 @@ export const UserProvider = ({children}) => {
         user,
         setUser,
         login: async (email, password) => {
+          setIsLoading(true)
             if (( email, password !== '')){
                 try {
                     await auth().signInWithEmailAndPassword(email, password);
@@ -31,8 +35,10 @@ export const UserProvider = ({children}) => {
                         Alert.alert('Erro', "Email inválido.");
                         break;
                     }
+                    setIsLoading(false)
                 }
-            }else{ Alert.alert('Preencha todos os campos!')}},
+            }else{Alert.alert('Aviso', "Preencha todos os Campos!")
+          }},
            
         logout: async () => {
           try {

@@ -26,7 +26,6 @@ export default function EditPet({route, navigation}) {
   console.log(route.params.pets);
 
   const [image, setImage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [uid, setUid] = useState('');
   const [nomePet, setNomePet] = useState('');
   const [tipoPet, setTipoPet] = useState('');
@@ -75,14 +74,12 @@ export default function EditPet({route, navigation}) {
     .doc(uid)
     .delete()
     .then(() => {
-      Alert.alert('Pet deletado com sucesso!')
-      navigation.navigate('Adoption')
+      Alert.alert('Sucesso','Pet deletado com sucesso!');
+      navigation.navigate('MyPets')
     });
   }
 
   const updatePet = async () => {
-
-    setIsLoading(true)
     const imageUserUrl = await uploadImage();
     console.log('Image Url: ', imageUserUrl);
 
@@ -109,7 +106,7 @@ export default function EditPet({route, navigation}) {
         .then(() => Alert.alert('Atualizado com sucesso!'))
         .catch(error => {
           console.log('Erro ao atualizar:', error)
-        .finally(isLoading(false));
+        
         });
   }
 
@@ -150,7 +147,10 @@ export default function EditPet({route, navigation}) {
             <View style={{marginBottom:25}} />
             
             <TouchableOpacity onPress={choosePhoto}>
-            <Avatar style={style.photoUser} size={180} source={{uri: image ? image : 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Ficons8-avatar-96.png?alt=media&token=a7943aa1-ff8d-4eda-8c44-7c3186ec1234'}} alt="petPhoto"> + </Avatar>
+            <Avatar style={style.photoPet} 
+                    size={200} 
+                    source={{uri: image ? image : 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Ficon_cat.png?alt=media&token=0d648c9e-96b9-42f6-88c3-552793f43c06'}} 
+                    alt="petPhoto"> + </Avatar>
             </TouchableOpacity>
             <SolidButton
               mt={3}
@@ -360,7 +360,6 @@ const style = StyleSheet.create({
     marginRight:10,
   },
   photoPet:{
-    marginBottom: 15, 
     backgroundColor: '#f5f5f5',
   },
 });

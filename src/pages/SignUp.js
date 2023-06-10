@@ -13,7 +13,6 @@ import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
 import Logo from '../components/Logo';
 import PetsImage from '../components/PetsImage';
-import {Title} from '../components/Title';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
@@ -27,6 +26,7 @@ export default function SignUp({navigation}) {
   const [phone, setPhone] = React.useState('');
   const [image, setImage] = React.useState(null);
   const [password, setPassword] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const choosePhoto = () =>{
     ImagePicker.openPicker({
@@ -42,12 +42,11 @@ export default function SignUp({navigation}) {
 
   
   const signUpAuth = async() => {
-
     const imageUserUrl = await uploadImage();
     console.log('Image Url: ', imageUserUrl);
 
     if ((name, email, password !== '')){
-
+      setIsLoading(true)
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then((res) => {
@@ -61,13 +60,14 @@ export default function SignUp({navigation}) {
             telefone:phone,
             usuarioImg: imageUserUrl,
           })
-          .then(()=> Alert.alert('Conta criada com sucesso!'));
+          .then(()=> Alert.alert('Sucesso','Conta criada com sucesso!'));
           navigation.navigate('Login')
-          .catch((error) => console.log(error));
+          .catch((error) => console.log(error))
+          .finally(() => setIsLoading(false));
       
         });
     }else {
-      Alert.alert('Preencha todos os campos!');
+      Alert.alert('Aviso','Preencha todos os campos!');
     }
   }
 
@@ -101,10 +101,7 @@ const uploadImage = async () => {
         <ScrollView>
           <Center px={10}>
             <Logo />
-
-            <Title style={{marginBottom: 30, marginTop: 10}}>Criar Conta</Title>
-
-            <Avatar style={style.photoUser} source={{uri: image}} alt="userPhoto">+</Avatar> 
+            <Avatar style={style.photoUser} source={{uri: image ? image : 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Fuser_icon.png?alt=media&token=435c6cbd-7eda-49bf-864a-ece464b11ef5'}} alt="userPhoto">+</Avatar> 
 
             <SolidButton
               mt={3}
@@ -158,6 +155,7 @@ const uploadImage = async () => {
               mt={3}
               title="Criar Conta"
               onPress={(signUpAuth)}
+              isLoading={isLoading}
             />
             <OutlineButtonOrange
               mt={8}
@@ -175,10 +173,10 @@ const uploadImage = async () => {
 
 const style = StyleSheet.create({
   photoUser:{
-    marginBottom: 15,
     width:180,
-    height:180
-    
+    height:180,
+    backgroundColor:'#f5f5f5',
+    marginBottom: 15, 
   },
 });
 

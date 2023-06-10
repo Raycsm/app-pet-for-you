@@ -11,12 +11,15 @@ import {Title} from '../components/Title';
 
 export default function ForgotPassword({navigation}) {
   const [email, setEmail] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const forgotPasswordAuth = () => {
+    setIsLoading(true)
     auth()
       .sendPasswordResetEmail(email)
       .then(() => Alert.alert('E-mail enviado com sucesso!', 'Verifique a caixa de entrada do seu e-mail'))
-      .catch(error => Alert.alert('E-mail não enviado,', error));
+      .catch(error => Alert.alert('Erro','E-mail não enviado,', error))
+      .finally(()=> setIsLoading(false));
   };
 
   return (
@@ -31,7 +34,7 @@ export default function ForgotPassword({navigation}) {
                 onChangeText={setEmail}
                 value={email}
               />
-        <SolidButton mt={4} title="Enviar" onPress={(forgotPasswordAuth)} />
+        <SolidButton mt={4} title="Enviar" onPress={(forgotPasswordAuth)} isLoading={isLoading}/>
 
         <OutlineButtonOrange
           mt={8}

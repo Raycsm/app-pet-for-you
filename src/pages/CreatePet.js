@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import {StyleSheet, View, SafeAreaView, TouchableOpacity} from 'react-native';
 import {
   Center,
@@ -9,7 +8,7 @@ import {
   CheckIcon,
   Box,
   TextArea,
-  Avatar
+  Avatar,
 } from 'native-base';
 import  React, {useState} from 'react';
 import {Platform, ScrollView, Alert} from 'react-native';
@@ -21,7 +20,6 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
 import auth from '@react-native-firebase/auth';
-
 
 export default function CreatePet({navigation, route}) {
 
@@ -100,12 +98,12 @@ export default function CreatePet({navigation, route}) {
         uf: uf,
         petImg: imagePetUrl,
       })
-      .then(()=> Alert.alert('Pet criado com sucesso!'));
-      navigation.navigate('MyPets')
+      .then(()=> Alert.alert('Sucesso','Pet criado com sucesso!'));
+      navigation.navigate('MyPetsNavigation')
       .catch((error) => console.log(error))
-      .finally(setIsLoading(false));
+      .finally(()=> setIsLoading(false));
     } else {
-      Alert.alert('Preencha todos os campos!');
+      Alert.alert('Aviso','Preencha todos os campos!');
     }
   };
 
@@ -145,8 +143,12 @@ export default function CreatePet({navigation, route}) {
 
             <View style={{marginBottom:25}} />
             
-            <TouchableOpacity onPress={choosePhoto}>
-            <Avatar style={style.photoUser} size={180} source={{uri: image}} alt="petPhoto"> + </Avatar>
+            <TouchableOpacity onPress={choosePhoto} >
+            <Avatar size={200} 
+                   source={{uri: image ? image :'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/assets%2Ficon_cat.png?alt=media&token=0d648c9e-96b9-42f6-88c3-552793f43c06'}} 
+                    alt="petPhoto"
+                    backgroundColor={'#f5f5f5'}
+                     />
             </TouchableOpacity>
             <SolidButton
               mt={3}
@@ -155,7 +157,7 @@ export default function CreatePet({navigation, route}) {
               width={180}
               onPress={choosePhoto}
             />
-
+            
             <Input
               placeholder="Nome do pet"
               onChangeText={setNamePet}
@@ -295,8 +297,8 @@ export default function CreatePet({navigation, route}) {
               mb={16}
               title="Cadastrar"
               onPress={addPet}
+              isLoading={isLoading}
             />
-
           </Center>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -305,44 +307,8 @@ export default function CreatePet({navigation, route}) {
 }
 
 const style = StyleSheet.create({
-  containerHeader: {
-    flexDirection: 'row',
-  },
-  text: {
-    marginTop: 30,
-    fontSize: 20,
-    textAlign: 'center',
-    alignContent: 'center',
-  },
-  logo_home: {
-    width: 100,
-    height: 60,
-    marginLeft: 90,
-    marginTop: 50,
-  },
-  exit: {
-    width: 40,
-    height: 40,
-    marginLeft: 60,
-    marginTop: 60,
-    backgroundColor:'#DB652F',
-    borderRadius:5,
-  },
-  filter: {
-    marginLeft: 30,
-    marginTop: 60,
-    width: 40,
-    height: 40,
-    borderRadius:5,
-  },
-  switch:{
-    flexDirection:'row',
-  },
   select:{
     marginRight:10,
-  },
-  photoPet:{
-    marginBottom: 15, 
   },
 });
 

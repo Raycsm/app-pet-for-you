@@ -16,6 +16,7 @@ export default function Login({navigation}) {
   const [password, setPassword] = React.useState('');
 
   const {login} = React.useContext(UserContext);
+  const {isLoading} = React.useContext(UserContext);
 
   return (
     <VStack flex={1} px={10}>
@@ -56,7 +57,7 @@ export default function Login({navigation}) {
             </Text>
           </TouchableOpacity>
 
-        <SolidButton mt={4} mb={2} title="Entrar"  onPress={() => login(email, password)} />
+        <SolidButton mt={4} mb={2} title="Entrar"  onPress={() => login(email, password)} isLoading={isLoading} />
 
         <OutlineButtonOrange
           mt={8}
