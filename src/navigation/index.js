@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserProvider } from '../context/UserProvider';
-import Routes from './components/routes';
+import Routes from './components/Routes';
 import { PetProvider } from '../context/PetProvider';
 
 const Providers = () => {
