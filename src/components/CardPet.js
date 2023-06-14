@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, TouchableOpacity} from 'react-native';
+import { View, TouchableOpacity, StyleSheet} from 'react-native';
 import { Box, HStack, Heading, Image, Stack, Text, AspectRatio,} from 'native-base';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default function CardPet({item, onPress}) {
   
@@ -9,8 +10,7 @@ export default function CardPet({item, onPress}) {
         <TouchableOpacity onPress={onPress}>
             <Box key={item.key} alignItems="center">
                 <Box
-                width={300}
-                height={360}
+                style={style.box}
                 mb={8}
                 mt={8}
                 rounded="lg"
@@ -31,10 +31,13 @@ export default function CardPet({item, onPress}) {
                         {item.nomePet}
                     </Heading>
                     <HStack space={15} justifyContent="space-between">
-                        <Text>{item.raça}</Text>
-                        <Text>{item.idade}</Text>
-                        <Text>{item.sexoPet}</Text>
-                        <Text>{item.porte}</Text>
+                          <Text fontWeight={600}>{item.raça}</Text>
+                          <Text fontWeight={600}>{item.idade}</Text>
+                          <Text fontWeight={600}>{item.peso}</Text>
+                          <Text fontWeight={600}>{item.sexoPet}</Text>
+                    </HStack>
+                    <HStack>
+                          <Text fontWeight={600}>{item.porte}</Text>
                     </HStack>
                     <HStack space={15}>
                         <Text>{item.descrição}</Text>
@@ -47,3 +50,12 @@ export default function CardPet({item, onPress}) {
         </View>
   );
 }
+
+const style = StyleSheet.create({
+    box: {
+      width: wp('80%'),
+      height: hp('55%'),
+      marginTop:20
+    }
+  });
+  

@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Linking} from 'react-native';
+import { View, Linking, StyleSheet} from 'react-native';
 import { Box, HStack,Heading, Image, Stack, Text, AspectRatio, Button} from 'native-base';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { SolidButton } from './Buttons/SolidButton';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 export default function CardPets({item}) {
 
@@ -16,7 +17,7 @@ export default function CardPets({item}) {
       <View>
         <Box key={item.key} alignItems="center" width={'80'} marginLeft={4}justifyContent="space-around">
                   <Box
-                    width={'100%'}
+                   style={style.box}
                    height={480}
                     mb={8}
                     mt={8}
@@ -84,3 +85,10 @@ export default function CardPets({item}) {
         </View>
   );
 }
+
+const style = StyleSheet.create({
+  box: {
+    width: wp('80%'),
+    height: hp('65%')
+  }
+});

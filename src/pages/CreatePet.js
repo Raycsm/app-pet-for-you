@@ -9,6 +9,7 @@ import {
   Box,
   TextArea,
   Avatar,
+  Text
 } from 'native-base';
 import  React, {useState} from 'react';
 import {Platform, ScrollView, Alert} from 'react-native';
@@ -299,6 +300,8 @@ export default function CreatePet({navigation, route}) {
               onPress={addPet}
               isLoading={isLoading}
             />
+            <Text mt={8}
+              mb={5}/>
           </Center>
         </ScrollView>
       </KeyboardAvoidingView>

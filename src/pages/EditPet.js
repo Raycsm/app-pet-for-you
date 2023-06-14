@@ -11,7 +11,7 @@ import {
   Avatar
 } from 'native-base';
 import  React, {useState, useEffect} from 'react';
-import {Platform, ScrollView, Alert} from 'react-native';
+import {Platform, ScrollView, Alert, Text} from 'react-native';
 import {SolidButton} from '../components/Buttons/SolidButton';
 import {Input} from '../components/Input';
 import BackAction from '../components/BackAction';
@@ -314,7 +314,7 @@ export default function EditPet({route, navigation}) {
               title="Deletar"
               onPress={() => setIsOpen(true)}
             />
-
+            <Text mt={8} mb={16} />
           </Center>
         </ScrollView>
       </KeyboardAvoidingView>

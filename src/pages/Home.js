@@ -51,8 +51,8 @@ export default function Home(navigation) {
   async function getCats() {
       setPets([]);
      const cats = [];
-     const citiesRef = firestore().collection('animal')
-     const snapshot = await citiesRef.where('tipoPet', '==', 'gato').get();    
+     const catsRef = firestore().collection('animal')
+     const snapshot = await catsRef.where('tipoPet', '==', 'gato').get();    
      snapshot.forEach( (c) => {cats.push({key: c.id, ...c.data()} )})                                      
      setPets(cats);
      if (snapshot.empty) {
@@ -64,8 +64,8 @@ export default function Home(navigation) {
   async function getDogs() {
     setPets([]);
    const dogs = [];
-   const citiesRef = firestore().collection('animal')
-   const snapshot = await citiesRef.where('tipoPet', '==', 'cachorro').get();    
+   const dogsRef = firestore().collection('animal')
+   const snapshot = await dogsRef.where('tipoPet', '==', 'cachorro').get();    
    snapshot.forEach( (d) => {dogs.push({key: d.id, ...d.data()} )})                                      
    setPets(dogs);
    console.log(dogs)
@@ -78,8 +78,8 @@ export default function Home(navigation) {
 async function getBirds() {
   setPets([]);
  const birds = [];
- const citiesRef = firestore().collection('animal')
- const snapshot = await citiesRef.where('tipoPet', '==', 'passaros').get();    
+ const birdsRef = firestore().collection('animal')
+ const snapshot = await birdsRef.where('tipoPet', '==', 'passaros').get();    
  snapshot.forEach( (b) => {birds.push({key: b.id, ...b.data()} )})                                      
  setPets(birds);
  if (snapshot.empty) {
@@ -91,8 +91,8 @@ async function getBirds() {
 async function getRodents() {
   setPets([]);
  const rodents = [];
- const citiesRef = firestore().collection('animal')
- const snapshot = await citiesRef.where('tipoPet', '==', 'roedor').get();    
+ const rodentsRef = firestore().collection('animal')
+ const snapshot = await rodentsRef.where('tipoPet', '==', 'roedor').get();    
  snapshot.forEach( (r) => {rodents.push({key: r.id, ...r.data()} )})                                      
  setPets(rodents);
  if (snapshot.empty) {
@@ -104,8 +104,8 @@ async function getRodents() {
 async function getOthers() {
   setPets([]);
  const others = [];
- const citiesRef = firestore().collection('animal')
- const snapshot = await citiesRef.where('tipoPet', '==', 'outros').get();    
+ const othersRef = firestore().collection('animal')
+ const snapshot = await othersRef.where('tipoPet', '==', 'outros').get();    
  snapshot.forEach( (o) => {others.push({key: o.id, ...o.data()} )})                                      
  setPets(others);
  if (snapshot.empty) {

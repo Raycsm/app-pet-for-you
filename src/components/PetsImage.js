@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default function PetsImage() {
   return (
@@ -19,7 +20,7 @@ const style = StyleSheet.create({
     display: 'flex',
     marginTop: 40,
     alignSelf: 'center',
-    width: 310,
-    height: 165
+    width: wp('70%'),
+    height: hp('20%')
   }
 });

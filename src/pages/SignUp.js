@@ -4,7 +4,7 @@ import {
   KeyboardAvoidingView,
   Pressable,
   VStack,
-  Avatar
+  Avatar,
 } from 'native-base';
 import * as React from 'react';
 import {Platform, ScrollView, Alert, StyleSheet} from 'react-native';

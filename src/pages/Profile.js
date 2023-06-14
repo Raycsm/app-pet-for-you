@@ -1,9 +1,9 @@
  /* eslint-disable react-hooks/exhaustive-deps */
 
 import auth from '@react-native-firebase/auth';
-import {Center, Icon, KeyboardAvoidingView, Pressable, VStack, Avatar} from 'native-base';
+import {Center, Icon, KeyboardAvoidingView, Pressable, VStack, Avatar, Text} from 'native-base';
 import * as React from 'react';
-import {Alert, Platform, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
+import {Alert, Platform, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import IconmaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import BackAction from '../components/BackAction';
 import {SolidButton} from '../components/Buttons/SolidButton';
@@ -18,8 +18,9 @@ export default function Profile({navigation}) {
   const [userData, setUserData] = React.useState(null);
   const [image, setImage] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
-  
 
+  const { width, height } = Dimensions.get('window');
+    
   const choosePhoto = () =>{
     ImagePicker.openPicker({
       width:500,
@@ -175,7 +176,8 @@ export default function Profile({navigation}) {
                 onChangeText={(txt) => setUserData({...userData, telefone: txt})}
               />
 
-              <SolidButton mt={3} mb={16} title="Atualizar" onPress={updateUser} isLoading={isLoading} />
+              <SolidButton style={style.button}  title="Atualizar" onPress={updateUser} isLoading={isLoading} />
+              <SolidButton style={style.button} />
             </Center>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -192,5 +194,9 @@ const style = StyleSheet.create({
     marginTop:30,
     backgroundColor: '#f5f5f5'
   },
+  button:{
+    marginTop:10,
+    marginBottom:20
+  }
 });
 
