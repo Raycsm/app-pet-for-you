@@ -1,16 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import {Button, Icon, ScrollView,Image,Text} from 'native-base';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View, FlatList, Linking} from 'react-native';
-import Foundations from 'react-native-vector-icons/Foundation';
+import { StyleSheet, TouchableOpacity, View, FlatList} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Carrousel from '../components/Carrousel/carrousel';
 import {TextGrey} from '../components/TextGrey';
-import DialogFilter from '../components/DialogFilter';
 import firestore from '@react-native-firebase/firestore';
 import { UserContext } from '../context/UserProvider';
 import CardPetsHome from '../components/CardPetsHome';
+import auth from '@react-native-firebase/auth';
 
 const images = [
   'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/Banners%2Fbanner_cat.jpg?alt=media&token=efac84f3-96b7-44c8-8cea-b5003f7546a5',
@@ -27,9 +27,9 @@ const petsCategories = [
 
 export default function Home(navigation) {
   const [selectcategory, setselectCategory] = React.useState();
-  const [visible, setVisible] = React.useState(false);
   const [pets, setPets] = React.useState([]);
   const {logout} = React.useContext(UserContext);
+  const [userData, setUserData] = React.useState([]);
 
   React.useEffect( () => {
         firestore()
@@ -77,83 +77,93 @@ export default function Home(navigation) {
    }  
 }
 
-async function getBirds() {
-  setPets([]);
- const birds = [];
- const birdsRef = firestore().collection('animal')
- const snapshot = await birdsRef.where('tipoPet', '==', 'passaros').get();    
- snapshot.forEach( (b) => {birds.push({key: b.id, ...b.data()} )})                                      
- setPets(birds);
- if (snapshot.empty) {
-  <Text>Nenhum dado encontrado!</Text>
-  return;
- }  
-}
+  async function getBirds() {
+    setPets([]);
+  const birds = [];
+  const birdsRef = firestore().collection('animal')
+  const snapshot = await birdsRef.where('tipoPet', '==', 'passaros').get();    
+  snapshot.forEach( (b) => {birds.push({key: b.id, ...b.data()} )})                                      
+  setPets(birds);
+  if (snapshot.empty) {
+    <Text>Nenhum dado encontrado!</Text>
+    return;
+  }  
+  }
 
-async function getRodents() {
-  setPets([]);
- const rodents = [];
- const rodentsRef = firestore().collection('animal')
- const snapshot = await rodentsRef.where('tipoPet', '==', 'roedor').get();    
- snapshot.forEach( (r) => {rodents.push({key: r.id, ...r.data()} )})                                      
- setPets(rodents);
- if (snapshot.empty) {
-  <Text>Nenhum dado encontrado!</Text>
-  return;
- }  
-}
+  async function getRodents() {
+    setPets([]);
+  const rodents = [];
+  const rodentsRef = firestore().collection('animal')
+  const snapshot = await rodentsRef.where('tipoPet', '==', 'roedor').get();    
+  snapshot.forEach( (r) => {rodents.push({key: r.id, ...r.data()} )})                                      
+  setPets(rodents);
+  if (snapshot.empty) {
+    <Text>Nenhum dado encontrado!</Text>
+    return;
+  }  
+  }
 
-async function getOthers() {
-  setPets([]);
- const others = [];
- const othersRef = firestore().collection('animal')
- const snapshot = await othersRef.where('tipoPet', '==', 'outros').get();    
- snapshot.forEach( (o) => {others.push({key: o.id, ...o.data()} )})                                      
- setPets(others);
- if (snapshot.empty) {
-  <Text>Nenhum dado encontrado!</Text>
-  return;
- }  
-}
+  async function getOthers() {
+    setPets([]);
+  const others = [];
+  const othersRef = firestore().collection('animal')
+  const snapshot = await othersRef.where('tipoPet', '==', 'outros').get();    
+  snapshot.forEach( (o) => {others.push({key: o.id, ...o.data()} )})                                      
+  setPets(others);
+  if (snapshot.empty) {
+    <Text>Nenhum dado encontrado!</Text>
+    return;
+  }  
+  }
 
-const handleCategory = (index) => {
-  
-    if (index === 0) {
-      getCats()
-    }
-     else if (index === 1) {
-      getDogs()
-    }
-    else if (index === 2) {
-      getBirds()
-    }
-    else if (index === 3) {
-      getRodents()
-    }
-    else if (index === 4) {
-      getOthers()
-    }   
-}
+  const handleCategory = (index) => {
+    
+      if (index === 0) {
+        getCats()
+      }
+      else if (index === 1) {
+        getDogs()
+      }
+      else if (index === 2) {
+        getBirds()
+      }
+      else if (index === 3) {
+        getRodents()
+      }
+      else if (index === 4) {
+        getOthers()
+      }   
+  }
+
+  const authUser = auth();
+  const user = authUser.currentUser;
+
+  const getUser = async() => {
+    firestore()
+   .collection('usuario')
+   .doc(user.uid)
+   .get()
+   .then((documentSnapshot) => {
+     if( documentSnapshot.exists ) {
+       setUserData(documentSnapshot.data());
+     }
+   })
+ }
+
+  React.useEffect(() => {
+    getUser();
+  }, []);
+    
+
   return (
     <View>
-      <DialogFilter visible={visible} setVisible={setVisible}/>
       <ScrollView>
         <View style={style.containerHeader}>
-          <Button
-            onPress={() => setVisible(true)}
-            style={style.filter}
-            backgroundColor={'#DB652F'}
-            startIcon={<Icon as={Foundations} name="filter" size="xl" marginLeft={1} />}
-          />
-
-          <Image
-            style={style.logo_home}
-            alt='logo_home'
-            source={{
-              uri: 'https://firebasestorage.googleapis.com/v0/b/pet-for-you-8001f.appspot.com/o/logo.png?alt=media&token=ed7ba77b-b2f7-4349-ad3c-34abbd26f5bb'
-            }}
-          />
-
+        <View style={{flexDirection:'row', marginTop:70, marginLeft:20}}>
+            <Text style={style.saudacao}>Olá, </Text>
+            <Text style={style.nome}>{userData.nome} </Text>
+        </View>
+      
           <Button
             style={style.exit}
             onPress={() => logout()}
@@ -161,6 +171,7 @@ const handleCategory = (index) => {
             leftIcon={<Icon as={Ionicons} name="ios-exit" size="xl" marginLeft={1} />}
           />
         </View>
+        <Text style={{marginLeft:20, color: '#434242'}}>Bem vindo ao Pet for You! </Text>
 
         <Carrousel images={images} />
 
@@ -208,6 +219,14 @@ const style = StyleSheet.create({
   containerHeader: {
     flexDirection: 'row'
   },
+  nome:{
+    fontWeight:'bold', 
+    fontSize:22,
+    color: '#434242'
+  },
+  saudacao:{
+    fontSize:22,
+  },
   text: {
     marginTop: 30,
     fontSize: 20,
@@ -217,22 +236,15 @@ const style = StyleSheet.create({
   logo_home: {
     width: 100,
     height: 60,
-    marginLeft: 90,
+    marginLeft: 150,
     marginTop: 50
   },
   exit: {
     width: 40,
     height: 40,
-    marginLeft: 60,
+    marginLeft: 120,
     marginTop: 60,
     backgroundColor: '#DB652F',
-    borderRadius: 5
-  },
-  filter: {
-    marginLeft: 30,
-    marginTop: 60,
-    width: 40,
-    height: 40,
     borderRadius: 5
   },
   categoryPet: {

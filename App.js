@@ -5,6 +5,7 @@ import {NativeBaseProvider} from 'native-base';
 import Navigation from './src/navigation/index';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { LogBox, Dimensions } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 export default function App() {
 
@@ -16,6 +17,10 @@ export default function App() {
     window: windowDimensions,
     screen: screenDimensions,
   });
+
+  React.useEffect(() => {
+    SplashScreen.hide();
+  }, [])
   
   React.useEffect(() => {
     const subscription = Dimensions.addEventListener(

@@ -1,5 +1,4 @@
-/* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable react/jsx-no-undef */
+/* eslint-disable no-unused-vars */
 import React, {createContext, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import { Alert } from 'react-native';
@@ -7,14 +6,11 @@ import { Alert } from 'react-native';
 export const UserContext = createContext();
 
 export const UserProvider = ({children}) => {
-  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   return (
     <UserContext.Provider
       value={{
-        user,
-        setUser,
         login: async (email, password) => {
           setIsLoading(true)
             if (( email, password !== '')){
@@ -49,6 +45,6 @@ export const UserProvider = ({children}) => {
         },
       }}>
       {children}
-    </UserContext.Provider>
+    </UserContext.Provider> 
   );
 };

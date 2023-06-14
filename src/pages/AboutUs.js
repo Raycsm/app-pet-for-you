@@ -16,18 +16,18 @@ export default function AboutUs({ navigation }) {
           <View alignItems="center" justifyContent="center" textAlign="center">
             <TextGrey
               style={{
-                marginX: 30,
-                fontSize: 18,
-                marginTop: 30
+                fontSize: 17,
+                marginTop: 30,
+                textAlign: 'center'
               }}>
               Somos acadêmicos do cursos de análise e desenvolvimento de sistemas da faculdade
               Insted.
             </TextGrey>
             <TextGrey
               style={{
-                marginX: 30,
-                fontSize: 18,
-                marginTop: 30
+                fontSize: 17,
+                marginTop: 30,
+                textAlign: 'center'
               }}>
               Como projeto integrador, idealizamos o desenvolvimento de um aplicativo de adoção de
               animais que funcionará como um intermediador entre o doador e adotante, facilitando a
@@ -39,7 +39,7 @@ export default function AboutUs({ navigation }) {
               marginTop: 30,
               flexDirection: 'column',
               justifyContent: 'center',
-              fontSize: 40
+              fontSize: 26
             }}>
             Integrantes
           </Title>
@@ -155,12 +155,12 @@ export default function AboutUs({ navigation }) {
               justifyContent="center"
               alignItems="center"
               textAlign="center">
-              <TextGrey style={{ marginTop: 30, fontSize: 20 }}>
+              <TextGrey style={{ marginTop: 30, fontSize: 18, textAlign: 'center' }}>
                 Para mais informações entre em contato.
               </TextGrey>
               <View flexDirection="row" justifyContent="center" marginTop={30}>
-                <IconMaterialCommunity name="gmail" size={24} color="red" />
-                <TextGrey style={{ fontSize: 18 }}>petForYou@outlook.com</TextGrey>
+                <IconMaterialCommunity name="gmail" size={24} color="red" marginRight={6} />
+                <TextGrey style={{ fontSize: 18 }}>petforyou@gmail.com</TextGrey>
               </View>
             </View>
           </View>
