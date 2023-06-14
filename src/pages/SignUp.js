@@ -18,6 +18,9 @@ import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import DialogTerms from '../components/DialogTerms';
+import { Checkbox } from 'react-native-paper';
+import DialogFilter from '../components/DialogFilter';
 
 export default function SignUp({navigation}) {
   const [show, setShow] = React.useState(false);
@@ -27,6 +30,9 @@ export default function SignUp({navigation}) {
   const [image, setImage] = React.useState(null);
   const [password, setPassword] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
+  const [visible, setVisible] = React.useState(false);
+
+  const [checkedTerms, setCheckedTerms] = React.useState(false);
 
   const choosePhoto = () =>{
     ImagePicker.openPicker({
@@ -97,6 +103,7 @@ const uploadImage = async () => {
 
   return (
     <VStack flex={1}>
+      <DialogTerms visible={visible} setVisible={setVisible}/>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView>
           <Center px={10}>
@@ -144,13 +151,22 @@ const uploadImage = async () => {
               onChangeText={setPassword}
               evalue={password}
             />
-
             <Input
               placeholder="Telefone"
               onChangeText={setPhone}
               value={phone}
             />
-
+            <Checkbox.Item
+            labelStyle={{fontSize:14, fontWeight:400, color:"#424242", marginLeft:-15}}
+                        color='#DB652F'
+                        label='Aceito os Termos e Condições'
+                        status={checkedTerms ? 'checked' : 'unchecked'}
+                        onPress={() =>
+                           {
+                            setCheckedTerms(!checkedTerms)
+                            setVisible(true)
+                           }}
+            /> 
             <SolidButton
               mt={3}
               title="Criar Conta"

@@ -37,12 +37,14 @@ export default function Home(navigation) {
         .onSnapshot(
           querySnapshot => {
             const petsData = []
-            querySnapshot.forEach((doc)=>{
-              petsData.push({
-                id: doc.id,
-                ...doc.data(),
-              })
-            })
+            if(querySnapshot)
+                querySnapshot.forEach((doc)=>{
+                  petsData.push({
+                    id: doc.id,
+                    ...doc.data(),
+                  })
+                })
+
             setPets(petsData)
           }
         )
