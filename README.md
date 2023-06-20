@@ -17,6 +17,14 @@ Projeto desenvolvido para a realização de um aplicativo de adoção de animais
 
 ![Visual Studio Code](https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
 
+# **Telas da Aplicação**
+
+![image](https://github.com/Raycsm/app-pet-for-you/assets/90047383/1b2cc5f7-26e0-4ad1-ac5b-a3751688d384)
+![image](https://github.com/Raycsm/app-pet-for-you/assets/90047383/ef9c9294-ba37-4978-b41c-c6ff1b360614)
+![image](https://github.com/Raycsm/app-pet-for-you/assets/90047383/665cd7cf-93d5-45f8-ba5e-a20ad1d5e0a5)
+
+
+
 ## **💛 Criadores**
 
 |                                                                                                                                             Author                                                                                                                                              |                                                                                                                                               Author                                                                                                                                               |                                                                                                                                               Author                                                                                                                                               |                                                                                                                                               Author                                                                                                                                                |
