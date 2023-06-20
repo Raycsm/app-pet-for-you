@@ -2,8 +2,6 @@
 
 Projeto desenvolvido para a realização de um aplicativo de adoção de animais para a cidade de Campo Grande, MS.
 
-[🔗 Clique aqui para acessar](https://github.com/Raycsm/Pet-For-You)
-
 ## **🛠 Tecnologias**
 
 ![Trello](https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white)
