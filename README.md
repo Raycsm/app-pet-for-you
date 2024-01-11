@@ -26,6 +26,9 @@ Projeto desenvolvido para a realização de um aplicativo de adoção de animais
 ![image](https://github.com/Raycsm/app-pet-for-you/assets/90047383/00d2e9f9-c2ad-43c2-96a5-162f8d52193b)
 ![image](https://github.com/Raycsm/app-pet-for-you/assets/90047383/3b610d38-69b3-4f0b-8b36-79b114e515d5)
 
+## **✨ Como executar**
+
+- [README-install](./README-install.md)
 
 ## **💛 Criadores**
 
